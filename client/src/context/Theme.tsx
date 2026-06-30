@@ -1,0 +1,1 @@
+//use local storage for theme part, like dark or light mode 

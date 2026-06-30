@@ -1,0 +1,384 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../model/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//// ENUMS ////
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MENTOR
+}
+
+enum Profession {
+  ENGINEER
+  DOCTOR
+  TEACHER
+  PROFESSOR
+  STUDENT
+}
+
+enum MentorLevel {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+}
+
+enum MentorExpertise {
+  BEGINNER
+  MEDIUM
+  EXPERT
+}
+
+enum Currency {
+  USD   // US Dollar
+  EUR   // Euro
+  GBP   // British Pound
+  INR   // Indian Rupee
+  JPY   // Japanese Yen
+  CNY   // Chinese Yuan
+  RUB   // Russian Ruble
+  AUD   // Australian Dollar
+  CAD   // Canadian Dollar
+  CHF   // Swiss Franc
+  HKD   // Hong Kong Dollar
+  SGD   // Singapore Dollar
+  NZD   // New Zealand Dollar
+  AED   // UAE Dirham
+  SAR   // Saudi Riyal
+  ZAR   // South African Rand
+  KRW   // South Korean Won
+  BRL   // Brazilian Real
+  MXN   // Mexican Peso
+  SEK   // Swedish Krona
+  NOK   // Norwegian Krone
+  DKK   // Danish Krone
+  PLN   // Polish Zloty
+  TRY   // Turkish Lira
+  THB   // Thai Baht
+  IDR   // Indonesian Rupiah
+  MYR   // Malaysian Ringgit
+}
+
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  UPI
+  CARD
+  NETBANKING
+  WALLET
+}
+
+enum ServiceStatus {
+  PENDING
+  SCHEDULED
+  CANCELED
+  DONE
+  ONGOING
+}
+
+enum CallType {
+  VIDEO
+  AUDIO
+}
+
+enum MessageStatus {
+  SENDING
+  SENT
+  FAILED
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  REJECTED
+}
+
+enum PaymentFor {
+  MEMBERSHIP
+  SERVICE
+}
+
+//// MODELS ////
+
+model Users {
+  id          BigInt @id @default(autoincrement())
+  image       String?
+  email       String   @unique
+  phone       String?  @unique
+  password    String
+  first_name  String
+  middle_name String?
+  last_name   String
+  dob         DateTime?
+  gender      Gender?
+  role        UserRole @default(USER)
+  profession  Profession @default(STUDENT)
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+
+  isactive    Boolean  @default(true)
+
+  feedbacks           Feedback[]
+  payments            Payments[]
+
+  mentor_services      Consultancy_service[] @relation("mentor")
+  user_services          Consultancy_service[] @relation("user")
+
+  sentMessages     Message[] @relation("sent")
+  receivedMessages Message[] @relation("received")
+
+  reportsCreated   Report[]  @relation("reportedBy")
+  reportsAgainst   Report[]  @relation("reportedUser")
+
+  chat1 Chat[] @relation("chatUser1")
+
+  chat2 Chat[] @relation("chatUser2")
+
+  adminActions AdminAction[]
+  documents Document[]
+  mentor Mentor?
+}
+
+model Mentor {
+  id                BigInt    @id 
+  user              Users     @relation(fields: [id], references: [id], onDelete: Cascade)
+  experience        Int
+  available_from    DateTime? @db.Time
+  available_to      DateTime? @db.Time
+  rating            Decimal   @db.Decimal(2, 1) @default(0)
+  verified          Boolean   @default(false)
+  expertise         MentorExpertise @default(BEGINNER)
+  level             MentorLevel?
+  no_of_consultancy Int       @default(0)
+  charge            Decimal?  @db.Decimal(10, 2) @default(0)
+  achievements      String?
+
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+}
+
+model Consultancy_service {
+  id             BigInt    @id @default(autoincrement())
+
+  mentor_id      BigInt
+  user_id        BigInt
+
+  duration       String
+  amount         Decimal   @db.Decimal(10, 2) @default(0)
+  currency       Currency  @default(INR)
+  scheduled_time DateTime
+  rating         Decimal?  @db.Decimal(2, 1)
+  status         ServiceStatus @default(PENDING)
+  opinion        String?
+
+  created_at     DateTime @default(now())
+
+  // mentorRef      Users   @relation(fields: [mentor_id], references: [id])
+  // userRef        Users  @relation(fields: [user_id], references: [id])
+  mentorRef   Users   @relation("mentor", fields: [mentor_id], references: [id])
+  userRef        Users   @relation("user", fields: [user_id], references: [id])
+  payments       Payments[]
+
+  reports Report[]
+}
+
+
+model Chat {
+  id        BigInt @id @default(autoincrement())
+
+  user1_id  BigInt
+  user2_id  BigInt
+
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  user1 Users @relation("chatUser1", fields: [user1_id], references: [id])
+  user2 Users @relation("chatUser2", fields: [user2_id], references: [id])
+
+  messages Message[]
+
+  @@unique([user1_id, user2_id])
+}
+
+
+model Message {
+  id          BigInt @id @default(autoincrement())
+
+  sender_id   BigInt
+  receiver_id BigInt
+  chat_id     BigInt
+  call_id     BigInt?
+
+  data      String?
+  media_url String?
+
+  status MessageStatus @default(SENDING)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  sender   Users @relation("sent",     fields: [sender_id],   references: [id])
+  receiver Users @relation("received", fields: [receiver_id], references: [id])
+
+  chat Chat @relation(fields: [chat_id], references: [id])
+  call Call? @relation(fields: [call_id], references: [id], onDelete: SetNull)
+  @@index([chat_id])
+  @@index([sender_id])
+  @@index([receiver_id])
+  @@index([call_id])
+}
+
+model Call {
+  id    BigInt @id @default(autoincrement())
+  type  CallType?
+  start DateTime @default(now())
+  end   DateTime?
+
+  messages Message[]
+}
+
+model Report {
+  id          BigInt @id @default(autoincrement())
+
+  user_id     BigInt
+  reported_by BigInt
+  service_id  BigInt?
+
+  content     String
+  proof_img   String?
+  proof_video String?
+
+  status ReportStatus @default(PENDING)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  userRef     Users @relation("reportedUser", fields: [user_id], references: [id])
+  reporterRef Users @relation("reportedBy",   fields: [reported_by], references: [id])
+
+  serviceRef Consultancy_service?  @relation(fields: [service_id], references: [id], onDelete: SetNull)
+}
+
+
+model Feedback {
+  id         BigInt   @id @default(autoincrement())
+  user_id    BigInt?//fk
+  image      String?
+  video      String?
+  content    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  userRef Users?      @relation(fields: [user_id], references: [id], onDelete: SetNull)
+}
+
+model Memberships {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  price      Decimal  @db.Decimal(10,2)
+  currency   Currency @default(INR)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  isactive   Boolean  @default(true)
+  payments Payments[]
+}
+
+model Payments {
+  id             BigInt @id @default(autoincrement())
+
+  user_id        BigInt //fk
+  membership_id  BigInt?//fk
+  service_id     BigInt?//fk
+
+  amount         Decimal  @db.Decimal(10, 2)
+  currency       Currency @default(INR)
+  status         PaymentStatus
+
+  international  Boolean
+  method         PaymentMethod
+  fee            Decimal  @db.Decimal(10, 2)
+  tax            Decimal  @db.Decimal(10, 2)
+  paymentfor     PaymentFor
+
+  transaction_id String @unique
+  created_at     DateTime @default(now())
+
+  userRef        Users  @relation(fields: [user_id], references: [id])
+  membershipRef Memberships? @relation(fields: [membership_id], references: [id], onDelete: SetNull)
+  serviceRef    Consultancy_service? @relation(fields: [service_id], references: [id], onDelete: SetNull)
+
+  // @@check(
+  //   (membership_id IS NOT NULL AND service_id IS NULL) OR   => I will manually add this logic
+  //   (membership_id IS NULL AND service_id IS NOT NULL)
+  // )
+}
+
+enum AdminActionType {
+ CREATE 
+ READ 
+ UPDATE 
+ DELETE
+}
+
+
+model AdminAction {
+  id         BigInt @id @default(autoincrement())
+
+  admin_id   BigInt
+  action     AdminActionType @default(UPDATE)
+
+  entity     String
+  entity_id  BigInt?
+
+  metadata   Json?
+
+  ip_address String?
+  user_agent String?
+
+  created_at DateTime @default(now())
+
+  admin Users @relation(fields: [admin_id], references: [id])
+
+  @@index([admin_id])
+  @@index([entity])
+  @@index([created_at])
+}
+
+
+model Document {
+  id        BigInt   @id @default(autoincrement())
+  url       String
+  title     String
+  userId    BigInt
+  isverified Boolean @default(false)
+  user      Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
