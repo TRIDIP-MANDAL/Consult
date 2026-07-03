@@ -73,6 +73,16 @@ export type AdminAction = $Result.DefaultSelection<Prisma.$AdminActionPayload>
  * 
  */
 export type Document = $Result.DefaultSelection<Prisma.$DocumentPayload>
+/**
+ * Model ContactUs
+ * 
+ */
+export type ContactUs = $Result.DefaultSelection<Prisma.$ContactUsPayload>
+/**
+ * Model Relationship
+ * 
+ */
+export type Relationship = $Result.DefaultSelection<Prisma.$RelationshipPayload>
 
 /**
  * Enums
@@ -210,6 +220,7 @@ export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
 
 export const ReportStatus: {
   PENDING: 'PENDING',
+  ONGOING: 'ONGOING',
   RESOLVED: 'RESOLVED',
   REJECTED: 'REJECTED'
 };
@@ -223,6 +234,24 @@ export const PaymentFor: {
 };
 
 export type PaymentFor = (typeof PaymentFor)[keyof typeof PaymentFor]
+
+
+export const ContactStatus: {
+  PENDING: 'PENDING',
+  ONGOING: 'ONGOING',
+  DONE: 'DONE'
+};
+
+export type ContactStatus = (typeof ContactStatus)[keyof typeof ContactStatus]
+
+
+export const Relation: {
+  FAVOURITE: 'FAVOURITE',
+  BLOCK: 'BLOCK',
+  FOLLOWS: 'FOLLOWS'
+};
+
+export type Relation = (typeof Relation)[keyof typeof Relation]
 
 
 export const AdminActionType: {
@@ -287,6 +316,14 @@ export const ReportStatus: typeof $Enums.ReportStatus
 export type PaymentFor = $Enums.PaymentFor
 
 export const PaymentFor: typeof $Enums.PaymentFor
+
+export type ContactStatus = $Enums.ContactStatus
+
+export const ContactStatus: typeof $Enums.ContactStatus
+
+export type Relation = $Enums.Relation
+
+export const Relation: typeof $Enums.Relation
 
 export type AdminActionType = $Enums.AdminActionType
 
@@ -528,6 +565,26 @@ export class PrismaClient<
     * ```
     */
   get document(): Prisma.DocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contactUs`: Exposes CRUD operations for the **ContactUs** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Contactuses
+    * const contactuses = await prisma.contactUs.findMany()
+    * ```
+    */
+  get contactUs(): Prisma.ContactUsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.relationship`: Exposes CRUD operations for the **Relationship** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Relationships
+    * const relationships = await prisma.relationship.findMany()
+    * ```
+    */
+  get relationship(): Prisma.RelationshipDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -973,7 +1030,9 @@ export namespace Prisma {
     Memberships: 'Memberships',
     Payments: 'Payments',
     AdminAction: 'AdminAction',
-    Document: 'Document'
+    Document: 'Document',
+    ContactUs: 'ContactUs',
+    Relationship: 'Relationship'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -989,7 +1048,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "users" | "mentor" | "consultancy_service" | "chat" | "message" | "call" | "report" | "feedback" | "memberships" | "payments" | "adminAction" | "document"
+      modelProps: "users" | "mentor" | "consultancy_service" | "chat" | "message" | "call" | "report" | "feedback" | "memberships" | "payments" | "adminAction" | "document" | "contactUs" | "relationship"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1881,6 +1940,154 @@ export namespace Prisma {
           }
         }
       }
+      ContactUs: {
+        payload: Prisma.$ContactUsPayload<ExtArgs>
+        fields: Prisma.ContactUsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContactUsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContactUsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          findFirst: {
+            args: Prisma.ContactUsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContactUsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          findMany: {
+            args: Prisma.ContactUsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>[]
+          }
+          create: {
+            args: Prisma.ContactUsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          createMany: {
+            args: Prisma.ContactUsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContactUsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>[]
+          }
+          delete: {
+            args: Prisma.ContactUsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          update: {
+            args: Prisma.ContactUsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContactUsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContactUsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContactUsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContactUsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactUsPayload>
+          }
+          aggregate: {
+            args: Prisma.ContactUsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContactUs>
+          }
+          groupBy: {
+            args: Prisma.ContactUsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContactUsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContactUsCountArgs<ExtArgs>
+            result: $Utils.Optional<ContactUsCountAggregateOutputType> | number
+          }
+        }
+      }
+      Relationship: {
+        payload: Prisma.$RelationshipPayload<ExtArgs>
+        fields: Prisma.RelationshipFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RelationshipFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RelationshipFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          findFirst: {
+            args: Prisma.RelationshipFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RelationshipFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          findMany: {
+            args: Prisma.RelationshipFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>[]
+          }
+          create: {
+            args: Prisma.RelationshipCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          createMany: {
+            args: Prisma.RelationshipCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RelationshipCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>[]
+          }
+          delete: {
+            args: Prisma.RelationshipDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          update: {
+            args: Prisma.RelationshipUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          deleteMany: {
+            args: Prisma.RelationshipDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RelationshipUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RelationshipUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>[]
+          }
+          upsert: {
+            args: Prisma.RelationshipUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationshipPayload>
+          }
+          aggregate: {
+            args: Prisma.RelationshipAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRelationship>
+          }
+          groupBy: {
+            args: Prisma.RelationshipGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RelationshipGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RelationshipCountArgs<ExtArgs>
+            result: $Utils.Optional<RelationshipCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2001,6 +2208,8 @@ export namespace Prisma {
     payments?: PaymentsOmit
     adminAction?: AdminActionOmit
     document?: DocumentOmit
+    contactUs?: ContactUsOmit
+    relationship?: RelationshipOmit
   }
 
   /* Types for Logging */
@@ -2093,6 +2302,8 @@ export namespace Prisma {
     chat2: number
     adminActions: number
     documents: number
+    user1: number
+    user2: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2108,6 +2319,8 @@ export namespace Prisma {
     chat2?: boolean | UsersCountOutputTypeCountChat2Args
     adminActions?: boolean | UsersCountOutputTypeCountAdminActionsArgs
     documents?: boolean | UsersCountOutputTypeCountDocumentsArgs
+    user1?: boolean | UsersCountOutputTypeCountUser1Args
+    user2?: boolean | UsersCountOutputTypeCountUser2Args
   }
 
   // Custom InputTypes
@@ -2203,6 +2416,20 @@ export namespace Prisma {
    */
   export type UsersCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountUser1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationshipWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountUser2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationshipWhereInput
   }
 
 
@@ -2642,6 +2869,8 @@ export namespace Prisma {
     adminActions?: boolean | Users$adminActionsArgs<ExtArgs>
     documents?: boolean | Users$documentsArgs<ExtArgs>
     mentor?: boolean | Users$mentorArgs<ExtArgs>
+    user1?: boolean | Users$user1Args<ExtArgs>
+    user2?: boolean | Users$user2Args<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
@@ -2717,6 +2946,8 @@ export namespace Prisma {
     adminActions?: boolean | Users$adminActionsArgs<ExtArgs>
     documents?: boolean | Users$documentsArgs<ExtArgs>
     mentor?: boolean | Users$mentorArgs<ExtArgs>
+    user1?: boolean | Users$user1Args<ExtArgs>
+    user2?: boolean | Users$user2Args<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2738,6 +2969,8 @@ export namespace Prisma {
       adminActions: Prisma.$AdminActionPayload<ExtArgs>[]
       documents: Prisma.$DocumentPayload<ExtArgs>[]
       mentor: Prisma.$MentorPayload<ExtArgs> | null
+      user1: Prisma.$RelationshipPayload<ExtArgs>[]
+      user2: Prisma.$RelationshipPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -3163,6 +3396,8 @@ export namespace Prisma {
     adminActions<T extends Users$adminActionsArgs<ExtArgs> = {}>(args?: Subset<T, Users$adminActionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminActionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends Users$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Users$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mentor<T extends Users$mentorArgs<ExtArgs> = {}>(args?: Subset<T, Users$mentorArgs<ExtArgs>>): Prisma__MentorClient<$Result.GetResult<Prisma.$MentorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user1<T extends Users$user1Args<ExtArgs> = {}>(args?: Subset<T, Users$user1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user2<T extends Users$user2Args<ExtArgs> = {}>(args?: Subset<T, Users$user2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3900,6 +4135,54 @@ export namespace Prisma {
      */
     include?: MentorInclude<ExtArgs> | null
     where?: MentorWhereInput
+  }
+
+  /**
+   * Users.user1
+   */
+  export type Users$user1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    where?: RelationshipWhereInput
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    cursor?: RelationshipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
+  }
+
+  /**
+   * Users.user2
+   */
+  export type Users$user2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    where?: RelationshipWhereInput
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    cursor?: RelationshipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
   }
 
   /**
@@ -16854,6 +17137,2156 @@ export namespace Prisma {
 
 
   /**
+   * Model ContactUs
+   */
+
+  export type AggregateContactUs = {
+    _count: ContactUsCountAggregateOutputType | null
+    _avg: ContactUsAvgAggregateOutputType | null
+    _sum: ContactUsSumAggregateOutputType | null
+    _min: ContactUsMinAggregateOutputType | null
+    _max: ContactUsMaxAggregateOutputType | null
+  }
+
+  export type ContactUsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ContactUsSumAggregateOutputType = {
+    id: bigint | null
+  }
+
+  export type ContactUsMinAggregateOutputType = {
+    id: bigint | null
+    email: string | null
+    message: string | null
+    name: string | null
+    status: $Enums.ContactStatus | null
+    created_at: Date | null
+  }
+
+  export type ContactUsMaxAggregateOutputType = {
+    id: bigint | null
+    email: string | null
+    message: string | null
+    name: string | null
+    status: $Enums.ContactStatus | null
+    created_at: Date | null
+  }
+
+  export type ContactUsCountAggregateOutputType = {
+    id: number
+    email: number
+    message: number
+    name: number
+    status: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type ContactUsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ContactUsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ContactUsMinAggregateInputType = {
+    id?: true
+    email?: true
+    message?: true
+    name?: true
+    status?: true
+    created_at?: true
+  }
+
+  export type ContactUsMaxAggregateInputType = {
+    id?: true
+    email?: true
+    message?: true
+    name?: true
+    status?: true
+    created_at?: true
+  }
+
+  export type ContactUsCountAggregateInputType = {
+    id?: true
+    email?: true
+    message?: true
+    name?: true
+    status?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type ContactUsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContactUs to aggregate.
+     */
+    where?: ContactUsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contactuses to fetch.
+     */
+    orderBy?: ContactUsOrderByWithRelationInput | ContactUsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContactUsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contactuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contactuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Contactuses
+    **/
+    _count?: true | ContactUsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ContactUsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ContactUsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContactUsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContactUsMaxAggregateInputType
+  }
+
+  export type GetContactUsAggregateType<T extends ContactUsAggregateArgs> = {
+        [P in keyof T & keyof AggregateContactUs]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContactUs[P]>
+      : GetScalarType<T[P], AggregateContactUs[P]>
+  }
+
+
+
+
+  export type ContactUsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContactUsWhereInput
+    orderBy?: ContactUsOrderByWithAggregationInput | ContactUsOrderByWithAggregationInput[]
+    by: ContactUsScalarFieldEnum[] | ContactUsScalarFieldEnum
+    having?: ContactUsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContactUsCountAggregateInputType | true
+    _avg?: ContactUsAvgAggregateInputType
+    _sum?: ContactUsSumAggregateInputType
+    _min?: ContactUsMinAggregateInputType
+    _max?: ContactUsMaxAggregateInputType
+  }
+
+  export type ContactUsGroupByOutputType = {
+    id: bigint
+    email: string
+    message: string
+    name: string
+    status: $Enums.ContactStatus
+    created_at: Date
+    _count: ContactUsCountAggregateOutputType | null
+    _avg: ContactUsAvgAggregateOutputType | null
+    _sum: ContactUsSumAggregateOutputType | null
+    _min: ContactUsMinAggregateOutputType | null
+    _max: ContactUsMaxAggregateOutputType | null
+  }
+
+  type GetContactUsGroupByPayload<T extends ContactUsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContactUsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContactUsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContactUsGroupByOutputType[P]>
+            : GetScalarType<T[P], ContactUsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContactUsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    message?: boolean
+    name?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["contactUs"]>
+
+  export type ContactUsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    message?: boolean
+    name?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["contactUs"]>
+
+  export type ContactUsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    message?: boolean
+    name?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["contactUs"]>
+
+  export type ContactUsSelectScalar = {
+    id?: boolean
+    email?: boolean
+    message?: boolean
+    name?: boolean
+    status?: boolean
+    created_at?: boolean
+  }
+
+  export type ContactUsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "message" | "name" | "status" | "created_at", ExtArgs["result"]["contactUs"]>
+
+  export type $ContactUsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ContactUs"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      email: string
+      message: string
+      name: string
+      status: $Enums.ContactStatus
+      created_at: Date
+    }, ExtArgs["result"]["contactUs"]>
+    composites: {}
+  }
+
+  type ContactUsGetPayload<S extends boolean | null | undefined | ContactUsDefaultArgs> = $Result.GetResult<Prisma.$ContactUsPayload, S>
+
+  type ContactUsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContactUsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContactUsCountAggregateInputType | true
+    }
+
+  export interface ContactUsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ContactUs'], meta: { name: 'ContactUs' } }
+    /**
+     * Find zero or one ContactUs that matches the filter.
+     * @param {ContactUsFindUniqueArgs} args - Arguments to find a ContactUs
+     * @example
+     * // Get one ContactUs
+     * const contactUs = await prisma.contactUs.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContactUsFindUniqueArgs>(args: SelectSubset<T, ContactUsFindUniqueArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ContactUs that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContactUsFindUniqueOrThrowArgs} args - Arguments to find a ContactUs
+     * @example
+     * // Get one ContactUs
+     * const contactUs = await prisma.contactUs.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContactUsFindUniqueOrThrowArgs>(args: SelectSubset<T, ContactUsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactUs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsFindFirstArgs} args - Arguments to find a ContactUs
+     * @example
+     * // Get one ContactUs
+     * const contactUs = await prisma.contactUs.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContactUsFindFirstArgs>(args?: SelectSubset<T, ContactUsFindFirstArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactUs that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsFindFirstOrThrowArgs} args - Arguments to find a ContactUs
+     * @example
+     * // Get one ContactUs
+     * const contactUs = await prisma.contactUs.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContactUsFindFirstOrThrowArgs>(args?: SelectSubset<T, ContactUsFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Contactuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Contactuses
+     * const contactuses = await prisma.contactUs.findMany()
+     * 
+     * // Get first 10 Contactuses
+     * const contactuses = await prisma.contactUs.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contactUsWithIdOnly = await prisma.contactUs.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ContactUsFindManyArgs>(args?: SelectSubset<T, ContactUsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ContactUs.
+     * @param {ContactUsCreateArgs} args - Arguments to create a ContactUs.
+     * @example
+     * // Create one ContactUs
+     * const ContactUs = await prisma.contactUs.create({
+     *   data: {
+     *     // ... data to create a ContactUs
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContactUsCreateArgs>(args: SelectSubset<T, ContactUsCreateArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Contactuses.
+     * @param {ContactUsCreateManyArgs} args - Arguments to create many Contactuses.
+     * @example
+     * // Create many Contactuses
+     * const contactUs = await prisma.contactUs.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContactUsCreateManyArgs>(args?: SelectSubset<T, ContactUsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Contactuses and returns the data saved in the database.
+     * @param {ContactUsCreateManyAndReturnArgs} args - Arguments to create many Contactuses.
+     * @example
+     * // Create many Contactuses
+     * const contactUs = await prisma.contactUs.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Contactuses and only return the `id`
+     * const contactUsWithIdOnly = await prisma.contactUs.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContactUsCreateManyAndReturnArgs>(args?: SelectSubset<T, ContactUsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ContactUs.
+     * @param {ContactUsDeleteArgs} args - Arguments to delete one ContactUs.
+     * @example
+     * // Delete one ContactUs
+     * const ContactUs = await prisma.contactUs.delete({
+     *   where: {
+     *     // ... filter to delete one ContactUs
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContactUsDeleteArgs>(args: SelectSubset<T, ContactUsDeleteArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ContactUs.
+     * @param {ContactUsUpdateArgs} args - Arguments to update one ContactUs.
+     * @example
+     * // Update one ContactUs
+     * const contactUs = await prisma.contactUs.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContactUsUpdateArgs>(args: SelectSubset<T, ContactUsUpdateArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Contactuses.
+     * @param {ContactUsDeleteManyArgs} args - Arguments to filter Contactuses to delete.
+     * @example
+     * // Delete a few Contactuses
+     * const { count } = await prisma.contactUs.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContactUsDeleteManyArgs>(args?: SelectSubset<T, ContactUsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contactuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Contactuses
+     * const contactUs = await prisma.contactUs.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContactUsUpdateManyArgs>(args: SelectSubset<T, ContactUsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contactuses and returns the data updated in the database.
+     * @param {ContactUsUpdateManyAndReturnArgs} args - Arguments to update many Contactuses.
+     * @example
+     * // Update many Contactuses
+     * const contactUs = await prisma.contactUs.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Contactuses and only return the `id`
+     * const contactUsWithIdOnly = await prisma.contactUs.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContactUsUpdateManyAndReturnArgs>(args: SelectSubset<T, ContactUsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ContactUs.
+     * @param {ContactUsUpsertArgs} args - Arguments to update or create a ContactUs.
+     * @example
+     * // Update or create a ContactUs
+     * const contactUs = await prisma.contactUs.upsert({
+     *   create: {
+     *     // ... data to create a ContactUs
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ContactUs we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContactUsUpsertArgs>(args: SelectSubset<T, ContactUsUpsertArgs<ExtArgs>>): Prisma__ContactUsClient<$Result.GetResult<Prisma.$ContactUsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Contactuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsCountArgs} args - Arguments to filter Contactuses to count.
+     * @example
+     * // Count the number of Contactuses
+     * const count = await prisma.contactUs.count({
+     *   where: {
+     *     // ... the filter for the Contactuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContactUsCountArgs>(
+      args?: Subset<T, ContactUsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContactUsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ContactUs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContactUsAggregateArgs>(args: Subset<T, ContactUsAggregateArgs>): Prisma.PrismaPromise<GetContactUsAggregateType<T>>
+
+    /**
+     * Group by ContactUs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactUsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContactUsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContactUsGroupByArgs['orderBy'] }
+        : { orderBy?: ContactUsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContactUsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContactUsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ContactUs model
+   */
+  readonly fields: ContactUsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ContactUs.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContactUsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ContactUs model
+   */
+  interface ContactUsFieldRefs {
+    readonly id: FieldRef<"ContactUs", 'BigInt'>
+    readonly email: FieldRef<"ContactUs", 'String'>
+    readonly message: FieldRef<"ContactUs", 'String'>
+    readonly name: FieldRef<"ContactUs", 'String'>
+    readonly status: FieldRef<"ContactUs", 'ContactStatus'>
+    readonly created_at: FieldRef<"ContactUs", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ContactUs findUnique
+   */
+  export type ContactUsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactUs to fetch.
+     */
+    where: ContactUsWhereUniqueInput
+  }
+
+  /**
+   * ContactUs findUniqueOrThrow
+   */
+  export type ContactUsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactUs to fetch.
+     */
+    where: ContactUsWhereUniqueInput
+  }
+
+  /**
+   * ContactUs findFirst
+   */
+  export type ContactUsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactUs to fetch.
+     */
+    where?: ContactUsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contactuses to fetch.
+     */
+    orderBy?: ContactUsOrderByWithRelationInput | ContactUsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contactuses.
+     */
+    cursor?: ContactUsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contactuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contactuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contactuses.
+     */
+    distinct?: ContactUsScalarFieldEnum | ContactUsScalarFieldEnum[]
+  }
+
+  /**
+   * ContactUs findFirstOrThrow
+   */
+  export type ContactUsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactUs to fetch.
+     */
+    where?: ContactUsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contactuses to fetch.
+     */
+    orderBy?: ContactUsOrderByWithRelationInput | ContactUsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contactuses.
+     */
+    cursor?: ContactUsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contactuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contactuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contactuses.
+     */
+    distinct?: ContactUsScalarFieldEnum | ContactUsScalarFieldEnum[]
+  }
+
+  /**
+   * ContactUs findMany
+   */
+  export type ContactUsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter, which Contactuses to fetch.
+     */
+    where?: ContactUsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contactuses to fetch.
+     */
+    orderBy?: ContactUsOrderByWithRelationInput | ContactUsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Contactuses.
+     */
+    cursor?: ContactUsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contactuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contactuses.
+     */
+    skip?: number
+    distinct?: ContactUsScalarFieldEnum | ContactUsScalarFieldEnum[]
+  }
+
+  /**
+   * ContactUs create
+   */
+  export type ContactUsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ContactUs.
+     */
+    data: XOR<ContactUsCreateInput, ContactUsUncheckedCreateInput>
+  }
+
+  /**
+   * ContactUs createMany
+   */
+  export type ContactUsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Contactuses.
+     */
+    data: ContactUsCreateManyInput | ContactUsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContactUs createManyAndReturn
+   */
+  export type ContactUsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * The data used to create many Contactuses.
+     */
+    data: ContactUsCreateManyInput | ContactUsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContactUs update
+   */
+  export type ContactUsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ContactUs.
+     */
+    data: XOR<ContactUsUpdateInput, ContactUsUncheckedUpdateInput>
+    /**
+     * Choose, which ContactUs to update.
+     */
+    where: ContactUsWhereUniqueInput
+  }
+
+  /**
+   * ContactUs updateMany
+   */
+  export type ContactUsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Contactuses.
+     */
+    data: XOR<ContactUsUpdateManyMutationInput, ContactUsUncheckedUpdateManyInput>
+    /**
+     * Filter which Contactuses to update
+     */
+    where?: ContactUsWhereInput
+    /**
+     * Limit how many Contactuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactUs updateManyAndReturn
+   */
+  export type ContactUsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * The data used to update Contactuses.
+     */
+    data: XOR<ContactUsUpdateManyMutationInput, ContactUsUncheckedUpdateManyInput>
+    /**
+     * Filter which Contactuses to update
+     */
+    where?: ContactUsWhereInput
+    /**
+     * Limit how many Contactuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactUs upsert
+   */
+  export type ContactUsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ContactUs to update in case it exists.
+     */
+    where: ContactUsWhereUniqueInput
+    /**
+     * In case the ContactUs found by the `where` argument doesn't exist, create a new ContactUs with this data.
+     */
+    create: XOR<ContactUsCreateInput, ContactUsUncheckedCreateInput>
+    /**
+     * In case the ContactUs was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContactUsUpdateInput, ContactUsUncheckedUpdateInput>
+  }
+
+  /**
+   * ContactUs delete
+   */
+  export type ContactUsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+    /**
+     * Filter which ContactUs to delete.
+     */
+    where: ContactUsWhereUniqueInput
+  }
+
+  /**
+   * ContactUs deleteMany
+   */
+  export type ContactUsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Contactuses to delete
+     */
+    where?: ContactUsWhereInput
+    /**
+     * Limit how many Contactuses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactUs without action
+   */
+  export type ContactUsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactUs
+     */
+    select?: ContactUsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactUs
+     */
+    omit?: ContactUsOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Relationship
+   */
+
+  export type AggregateRelationship = {
+    _count: RelationshipCountAggregateOutputType | null
+    _avg: RelationshipAvgAggregateOutputType | null
+    _sum: RelationshipSumAggregateOutputType | null
+    _min: RelationshipMinAggregateOutputType | null
+    _max: RelationshipMaxAggregateOutputType | null
+  }
+
+  export type RelationshipAvgAggregateOutputType = {
+    id: number | null
+    user1: number | null
+    user2: number | null
+  }
+
+  export type RelationshipSumAggregateOutputType = {
+    id: bigint | null
+    user1: bigint | null
+    user2: bigint | null
+  }
+
+  export type RelationshipMinAggregateOutputType = {
+    id: bigint | null
+    user1: bigint | null
+    user2: bigint | null
+    relation: $Enums.Relation | null
+    created_at: Date | null
+  }
+
+  export type RelationshipMaxAggregateOutputType = {
+    id: bigint | null
+    user1: bigint | null
+    user2: bigint | null
+    relation: $Enums.Relation | null
+    created_at: Date | null
+  }
+
+  export type RelationshipCountAggregateOutputType = {
+    id: number
+    user1: number
+    user2: number
+    relation: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type RelationshipAvgAggregateInputType = {
+    id?: true
+    user1?: true
+    user2?: true
+  }
+
+  export type RelationshipSumAggregateInputType = {
+    id?: true
+    user1?: true
+    user2?: true
+  }
+
+  export type RelationshipMinAggregateInputType = {
+    id?: true
+    user1?: true
+    user2?: true
+    relation?: true
+    created_at?: true
+  }
+
+  export type RelationshipMaxAggregateInputType = {
+    id?: true
+    user1?: true
+    user2?: true
+    relation?: true
+    created_at?: true
+  }
+
+  export type RelationshipCountAggregateInputType = {
+    id?: true
+    user1?: true
+    user2?: true
+    relation?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type RelationshipAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relationship to aggregate.
+     */
+    where?: RelationshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relationships to fetch.
+     */
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RelationshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relationships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relationships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Relationships
+    **/
+    _count?: true | RelationshipCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RelationshipAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RelationshipSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RelationshipMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RelationshipMaxAggregateInputType
+  }
+
+  export type GetRelationshipAggregateType<T extends RelationshipAggregateArgs> = {
+        [P in keyof T & keyof AggregateRelationship]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRelationship[P]>
+      : GetScalarType<T[P], AggregateRelationship[P]>
+  }
+
+
+
+
+  export type RelationshipGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationshipWhereInput
+    orderBy?: RelationshipOrderByWithAggregationInput | RelationshipOrderByWithAggregationInput[]
+    by: RelationshipScalarFieldEnum[] | RelationshipScalarFieldEnum
+    having?: RelationshipScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RelationshipCountAggregateInputType | true
+    _avg?: RelationshipAvgAggregateInputType
+    _sum?: RelationshipSumAggregateInputType
+    _min?: RelationshipMinAggregateInputType
+    _max?: RelationshipMaxAggregateInputType
+  }
+
+  export type RelationshipGroupByOutputType = {
+    id: bigint
+    user1: bigint
+    user2: bigint
+    relation: $Enums.Relation | null
+    created_at: Date
+    _count: RelationshipCountAggregateOutputType | null
+    _avg: RelationshipAvgAggregateOutputType | null
+    _sum: RelationshipSumAggregateOutputType | null
+    _min: RelationshipMinAggregateOutputType | null
+    _max: RelationshipMaxAggregateOutputType | null
+  }
+
+  type GetRelationshipGroupByPayload<T extends RelationshipGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RelationshipGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RelationshipGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RelationshipGroupByOutputType[P]>
+            : GetScalarType<T[P], RelationshipGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RelationshipSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1?: boolean
+    user2?: boolean
+    relation?: boolean
+    created_at?: boolean
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relationship"]>
+
+  export type RelationshipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1?: boolean
+    user2?: boolean
+    relation?: boolean
+    created_at?: boolean
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relationship"]>
+
+  export type RelationshipSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1?: boolean
+    user2?: boolean
+    relation?: boolean
+    created_at?: boolean
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relationship"]>
+
+  export type RelationshipSelectScalar = {
+    id?: boolean
+    user1?: boolean
+    user2?: boolean
+    relation?: boolean
+    created_at?: boolean
+  }
+
+  export type RelationshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user1" | "user2" | "relation" | "created_at", ExtArgs["result"]["relationship"]>
+  export type RelationshipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type RelationshipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type RelationshipIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1Ref?: boolean | UsersDefaultArgs<ExtArgs>
+    user2Ref?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+
+  export type $RelationshipPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Relationship"
+    objects: {
+      user1Ref: Prisma.$UsersPayload<ExtArgs>
+      user2Ref: Prisma.$UsersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      user1: bigint
+      user2: bigint
+      relation: $Enums.Relation | null
+      created_at: Date
+    }, ExtArgs["result"]["relationship"]>
+    composites: {}
+  }
+
+  type RelationshipGetPayload<S extends boolean | null | undefined | RelationshipDefaultArgs> = $Result.GetResult<Prisma.$RelationshipPayload, S>
+
+  type RelationshipCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RelationshipFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RelationshipCountAggregateInputType | true
+    }
+
+  export interface RelationshipDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Relationship'], meta: { name: 'Relationship' } }
+    /**
+     * Find zero or one Relationship that matches the filter.
+     * @param {RelationshipFindUniqueArgs} args - Arguments to find a Relationship
+     * @example
+     * // Get one Relationship
+     * const relationship = await prisma.relationship.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RelationshipFindUniqueArgs>(args: SelectSubset<T, RelationshipFindUniqueArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Relationship that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RelationshipFindUniqueOrThrowArgs} args - Arguments to find a Relationship
+     * @example
+     * // Get one Relationship
+     * const relationship = await prisma.relationship.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RelationshipFindUniqueOrThrowArgs>(args: SelectSubset<T, RelationshipFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relationship that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipFindFirstArgs} args - Arguments to find a Relationship
+     * @example
+     * // Get one Relationship
+     * const relationship = await prisma.relationship.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RelationshipFindFirstArgs>(args?: SelectSubset<T, RelationshipFindFirstArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relationship that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipFindFirstOrThrowArgs} args - Arguments to find a Relationship
+     * @example
+     * // Get one Relationship
+     * const relationship = await prisma.relationship.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RelationshipFindFirstOrThrowArgs>(args?: SelectSubset<T, RelationshipFindFirstOrThrowArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Relationships that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Relationships
+     * const relationships = await prisma.relationship.findMany()
+     * 
+     * // Get first 10 Relationships
+     * const relationships = await prisma.relationship.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const relationshipWithIdOnly = await prisma.relationship.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RelationshipFindManyArgs>(args?: SelectSubset<T, RelationshipFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Relationship.
+     * @param {RelationshipCreateArgs} args - Arguments to create a Relationship.
+     * @example
+     * // Create one Relationship
+     * const Relationship = await prisma.relationship.create({
+     *   data: {
+     *     // ... data to create a Relationship
+     *   }
+     * })
+     * 
+     */
+    create<T extends RelationshipCreateArgs>(args: SelectSubset<T, RelationshipCreateArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Relationships.
+     * @param {RelationshipCreateManyArgs} args - Arguments to create many Relationships.
+     * @example
+     * // Create many Relationships
+     * const relationship = await prisma.relationship.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RelationshipCreateManyArgs>(args?: SelectSubset<T, RelationshipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Relationships and returns the data saved in the database.
+     * @param {RelationshipCreateManyAndReturnArgs} args - Arguments to create many Relationships.
+     * @example
+     * // Create many Relationships
+     * const relationship = await prisma.relationship.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Relationships and only return the `id`
+     * const relationshipWithIdOnly = await prisma.relationship.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RelationshipCreateManyAndReturnArgs>(args?: SelectSubset<T, RelationshipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Relationship.
+     * @param {RelationshipDeleteArgs} args - Arguments to delete one Relationship.
+     * @example
+     * // Delete one Relationship
+     * const Relationship = await prisma.relationship.delete({
+     *   where: {
+     *     // ... filter to delete one Relationship
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RelationshipDeleteArgs>(args: SelectSubset<T, RelationshipDeleteArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Relationship.
+     * @param {RelationshipUpdateArgs} args - Arguments to update one Relationship.
+     * @example
+     * // Update one Relationship
+     * const relationship = await prisma.relationship.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RelationshipUpdateArgs>(args: SelectSubset<T, RelationshipUpdateArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Relationships.
+     * @param {RelationshipDeleteManyArgs} args - Arguments to filter Relationships to delete.
+     * @example
+     * // Delete a few Relationships
+     * const { count } = await prisma.relationship.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RelationshipDeleteManyArgs>(args?: SelectSubset<T, RelationshipDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relationships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Relationships
+     * const relationship = await prisma.relationship.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RelationshipUpdateManyArgs>(args: SelectSubset<T, RelationshipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relationships and returns the data updated in the database.
+     * @param {RelationshipUpdateManyAndReturnArgs} args - Arguments to update many Relationships.
+     * @example
+     * // Update many Relationships
+     * const relationship = await prisma.relationship.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Relationships and only return the `id`
+     * const relationshipWithIdOnly = await prisma.relationship.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RelationshipUpdateManyAndReturnArgs>(args: SelectSubset<T, RelationshipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Relationship.
+     * @param {RelationshipUpsertArgs} args - Arguments to update or create a Relationship.
+     * @example
+     * // Update or create a Relationship
+     * const relationship = await prisma.relationship.upsert({
+     *   create: {
+     *     // ... data to create a Relationship
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Relationship we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RelationshipUpsertArgs>(args: SelectSubset<T, RelationshipUpsertArgs<ExtArgs>>): Prisma__RelationshipClient<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Relationships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipCountArgs} args - Arguments to filter Relationships to count.
+     * @example
+     * // Count the number of Relationships
+     * const count = await prisma.relationship.count({
+     *   where: {
+     *     // ... the filter for the Relationships we want to count
+     *   }
+     * })
+    **/
+    count<T extends RelationshipCountArgs>(
+      args?: Subset<T, RelationshipCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RelationshipCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Relationship.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RelationshipAggregateArgs>(args: Subset<T, RelationshipAggregateArgs>): Prisma.PrismaPromise<GetRelationshipAggregateType<T>>
+
+    /**
+     * Group by Relationship.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationshipGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RelationshipGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RelationshipGroupByArgs['orderBy'] }
+        : { orderBy?: RelationshipGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RelationshipGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRelationshipGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Relationship model
+   */
+  readonly fields: RelationshipFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Relationship.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RelationshipClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user1Ref<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user2Ref<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Relationship model
+   */
+  interface RelationshipFieldRefs {
+    readonly id: FieldRef<"Relationship", 'BigInt'>
+    readonly user1: FieldRef<"Relationship", 'BigInt'>
+    readonly user2: FieldRef<"Relationship", 'BigInt'>
+    readonly relation: FieldRef<"Relationship", 'Relation'>
+    readonly created_at: FieldRef<"Relationship", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Relationship findUnique
+   */
+  export type RelationshipFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Relationship to fetch.
+     */
+    where: RelationshipWhereUniqueInput
+  }
+
+  /**
+   * Relationship findUniqueOrThrow
+   */
+  export type RelationshipFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Relationship to fetch.
+     */
+    where: RelationshipWhereUniqueInput
+  }
+
+  /**
+   * Relationship findFirst
+   */
+  export type RelationshipFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Relationship to fetch.
+     */
+    where?: RelationshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relationships to fetch.
+     */
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relationships.
+     */
+    cursor?: RelationshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relationships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relationships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relationships.
+     */
+    distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
+  }
+
+  /**
+   * Relationship findFirstOrThrow
+   */
+  export type RelationshipFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Relationship to fetch.
+     */
+    where?: RelationshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relationships to fetch.
+     */
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relationships.
+     */
+    cursor?: RelationshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relationships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relationships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relationships.
+     */
+    distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
+  }
+
+  /**
+   * Relationship findMany
+   */
+  export type RelationshipFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Relationships to fetch.
+     */
+    where?: RelationshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relationships to fetch.
+     */
+    orderBy?: RelationshipOrderByWithRelationInput | RelationshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Relationships.
+     */
+    cursor?: RelationshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relationships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relationships.
+     */
+    skip?: number
+    distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
+  }
+
+  /**
+   * Relationship create
+   */
+  export type RelationshipCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Relationship.
+     */
+    data: XOR<RelationshipCreateInput, RelationshipUncheckedCreateInput>
+  }
+
+  /**
+   * Relationship createMany
+   */
+  export type RelationshipCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Relationships.
+     */
+    data: RelationshipCreateManyInput | RelationshipCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Relationship createManyAndReturn
+   */
+  export type RelationshipCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * The data used to create many Relationships.
+     */
+    data: RelationshipCreateManyInput | RelationshipCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relationship update
+   */
+  export type RelationshipUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Relationship.
+     */
+    data: XOR<RelationshipUpdateInput, RelationshipUncheckedUpdateInput>
+    /**
+     * Choose, which Relationship to update.
+     */
+    where: RelationshipWhereUniqueInput
+  }
+
+  /**
+   * Relationship updateMany
+   */
+  export type RelationshipUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Relationships.
+     */
+    data: XOR<RelationshipUpdateManyMutationInput, RelationshipUncheckedUpdateManyInput>
+    /**
+     * Filter which Relationships to update
+     */
+    where?: RelationshipWhereInput
+    /**
+     * Limit how many Relationships to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relationship updateManyAndReturn
+   */
+  export type RelationshipUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * The data used to update Relationships.
+     */
+    data: XOR<RelationshipUpdateManyMutationInput, RelationshipUncheckedUpdateManyInput>
+    /**
+     * Filter which Relationships to update
+     */
+    where?: RelationshipWhereInput
+    /**
+     * Limit how many Relationships to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relationship upsert
+   */
+  export type RelationshipUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Relationship to update in case it exists.
+     */
+    where: RelationshipWhereUniqueInput
+    /**
+     * In case the Relationship found by the `where` argument doesn't exist, create a new Relationship with this data.
+     */
+    create: XOR<RelationshipCreateInput, RelationshipUncheckedCreateInput>
+    /**
+     * In case the Relationship was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RelationshipUpdateInput, RelationshipUncheckedUpdateInput>
+  }
+
+  /**
+   * Relationship delete
+   */
+  export type RelationshipDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+    /**
+     * Filter which Relationship to delete.
+     */
+    where: RelationshipWhereUniqueInput
+  }
+
+  /**
+   * Relationship deleteMany
+   */
+  export type RelationshipDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relationships to delete
+     */
+    where?: RelationshipWhereInput
+    /**
+     * Limit how many Relationships to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relationship without action
+   */
+  export type RelationshipDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relationship
+     */
+    select?: RelationshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relationship
+     */
+    omit?: RelationshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationshipInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -17049,6 +19482,29 @@ export namespace Prisma {
   };
 
   export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+
+
+  export const ContactUsScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    message: 'message',
+    name: 'name',
+    status: 'status',
+    created_at: 'created_at'
+  };
+
+  export type ContactUsScalarFieldEnum = (typeof ContactUsScalarFieldEnum)[keyof typeof ContactUsScalarFieldEnum]
+
+
+  export const RelationshipScalarFieldEnum: {
+    id: 'id',
+    user1: 'user1',
+    user2: 'user2',
+    relation: 'relation',
+    created_at: 'created_at'
+  };
+
+  export type RelationshipScalarFieldEnum = (typeof RelationshipScalarFieldEnum)[keyof typeof RelationshipScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17385,6 +19841,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ContactStatus'
+   */
+  export type EnumContactStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactStatus[]'
+   */
+  export type ListEnumContactStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Relation'
+   */
+  export type EnumRelationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Relation'>
+    
+
+
+  /**
+   * Reference to a field of type 'Relation[]'
+   */
+  export type ListEnumRelationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Relation[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -17434,6 +19918,8 @@ export namespace Prisma {
     adminActions?: AdminActionListRelationFilter
     documents?: DocumentListRelationFilter
     mentor?: XOR<MentorNullableScalarRelationFilter, MentorWhereInput> | null
+    user1?: RelationshipListRelationFilter
+    user2?: RelationshipListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -17466,6 +19952,8 @@ export namespace Prisma {
     adminActions?: AdminActionOrderByRelationAggregateInput
     documents?: DocumentOrderByRelationAggregateInput
     mentor?: MentorOrderByWithRelationInput
+    user1?: RelationshipOrderByRelationAggregateInput
+    user2?: RelationshipOrderByRelationAggregateInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -17501,6 +19989,8 @@ export namespace Prisma {
     adminActions?: AdminActionListRelationFilter
     documents?: DocumentListRelationFilter
     mentor?: XOR<MentorNullableScalarRelationFilter, MentorWhereInput> | null
+    user1?: RelationshipListRelationFilter
+    user2?: RelationshipListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UsersOrderByWithAggregationInput = {
@@ -18418,6 +20908,125 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
   }
 
+  export type ContactUsWhereInput = {
+    AND?: ContactUsWhereInput | ContactUsWhereInput[]
+    OR?: ContactUsWhereInput[]
+    NOT?: ContactUsWhereInput | ContactUsWhereInput[]
+    id?: BigIntFilter<"ContactUs"> | bigint | number
+    email?: StringFilter<"ContactUs"> | string
+    message?: StringFilter<"ContactUs"> | string
+    name?: StringFilter<"ContactUs"> | string
+    status?: EnumContactStatusFilter<"ContactUs"> | $Enums.ContactStatus
+    created_at?: DateTimeFilter<"ContactUs"> | Date | string
+  }
+
+  export type ContactUsOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    message?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ContactUsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: ContactUsWhereInput | ContactUsWhereInput[]
+    OR?: ContactUsWhereInput[]
+    NOT?: ContactUsWhereInput | ContactUsWhereInput[]
+    email?: StringFilter<"ContactUs"> | string
+    message?: StringFilter<"ContactUs"> | string
+    name?: StringFilter<"ContactUs"> | string
+    status?: EnumContactStatusFilter<"ContactUs"> | $Enums.ContactStatus
+    created_at?: DateTimeFilter<"ContactUs"> | Date | string
+  }, "id">
+
+  export type ContactUsOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    message?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    _count?: ContactUsCountOrderByAggregateInput
+    _avg?: ContactUsAvgOrderByAggregateInput
+    _max?: ContactUsMaxOrderByAggregateInput
+    _min?: ContactUsMinOrderByAggregateInput
+    _sum?: ContactUsSumOrderByAggregateInput
+  }
+
+  export type ContactUsScalarWhereWithAggregatesInput = {
+    AND?: ContactUsScalarWhereWithAggregatesInput | ContactUsScalarWhereWithAggregatesInput[]
+    OR?: ContactUsScalarWhereWithAggregatesInput[]
+    NOT?: ContactUsScalarWhereWithAggregatesInput | ContactUsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"ContactUs"> | bigint | number
+    email?: StringWithAggregatesFilter<"ContactUs"> | string
+    message?: StringWithAggregatesFilter<"ContactUs"> | string
+    name?: StringWithAggregatesFilter<"ContactUs"> | string
+    status?: EnumContactStatusWithAggregatesFilter<"ContactUs"> | $Enums.ContactStatus
+    created_at?: DateTimeWithAggregatesFilter<"ContactUs"> | Date | string
+  }
+
+  export type RelationshipWhereInput = {
+    AND?: RelationshipWhereInput | RelationshipWhereInput[]
+    OR?: RelationshipWhereInput[]
+    NOT?: RelationshipWhereInput | RelationshipWhereInput[]
+    id?: BigIntFilter<"Relationship"> | bigint | number
+    user1?: BigIntFilter<"Relationship"> | bigint | number
+    user2?: BigIntFilter<"Relationship"> | bigint | number
+    relation?: EnumRelationNullableFilter<"Relationship"> | $Enums.Relation | null
+    created_at?: DateTimeFilter<"Relationship"> | Date | string
+    user1Ref?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    user2Ref?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }
+
+  export type RelationshipOrderByWithRelationInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+    relation?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    user1Ref?: UsersOrderByWithRelationInput
+    user2Ref?: UsersOrderByWithRelationInput
+  }
+
+  export type RelationshipWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: RelationshipWhereInput | RelationshipWhereInput[]
+    OR?: RelationshipWhereInput[]
+    NOT?: RelationshipWhereInput | RelationshipWhereInput[]
+    user1?: BigIntFilter<"Relationship"> | bigint | number
+    user2?: BigIntFilter<"Relationship"> | bigint | number
+    relation?: EnumRelationNullableFilter<"Relationship"> | $Enums.Relation | null
+    created_at?: DateTimeFilter<"Relationship"> | Date | string
+    user1Ref?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    user2Ref?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }, "id">
+
+  export type RelationshipOrderByWithAggregationInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+    relation?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    _count?: RelationshipCountOrderByAggregateInput
+    _avg?: RelationshipAvgOrderByAggregateInput
+    _max?: RelationshipMaxOrderByAggregateInput
+    _min?: RelationshipMinOrderByAggregateInput
+    _sum?: RelationshipSumOrderByAggregateInput
+  }
+
+  export type RelationshipScalarWhereWithAggregatesInput = {
+    AND?: RelationshipScalarWhereWithAggregatesInput | RelationshipScalarWhereWithAggregatesInput[]
+    OR?: RelationshipScalarWhereWithAggregatesInput[]
+    NOT?: RelationshipScalarWhereWithAggregatesInput | RelationshipScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Relationship"> | bigint | number
+    user1?: BigIntWithAggregatesFilter<"Relationship"> | bigint | number
+    user2?: BigIntWithAggregatesFilter<"Relationship"> | bigint | number
+    relation?: EnumRelationNullableWithAggregatesFilter<"Relationship"> | $Enums.Relation | null
+    created_at?: DateTimeWithAggregatesFilter<"Relationship"> | Date | string
+  }
+
   export type UsersCreateInput = {
     id?: bigint | number
     image?: string | null
@@ -18448,6 +21057,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -18480,6 +21091,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUpdateInput = {
@@ -18512,6 +21125,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -18544,6 +21159,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -19508,6 +22125,123 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContactUsCreateInput = {
+    id?: bigint | number
+    email: string
+    message: string
+    name: string
+    status?: $Enums.ContactStatus
+    created_at?: Date | string
+  }
+
+  export type ContactUsUncheckedCreateInput = {
+    id?: bigint | number
+    email: string
+    message: string
+    name: string
+    status?: $Enums.ContactStatus
+    created_at?: Date | string
+  }
+
+  export type ContactUsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumContactStatusFieldUpdateOperationsInput | $Enums.ContactStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactUsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumContactStatusFieldUpdateOperationsInput | $Enums.ContactStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactUsCreateManyInput = {
+    id?: bigint | number
+    email: string
+    message: string
+    name: string
+    status?: $Enums.ContactStatus
+    created_at?: Date | string
+  }
+
+  export type ContactUsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumContactStatusFieldUpdateOperationsInput | $Enums.ContactStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactUsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumContactStatusFieldUpdateOperationsInput | $Enums.ContactStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipCreateInput = {
+    id?: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+    user1Ref: UsersCreateNestedOneWithoutUser1Input
+    user2Ref: UsersCreateNestedOneWithoutUser2Input
+  }
+
+  export type RelationshipUncheckedCreateInput = {
+    id?: bigint | number
+    user1: bigint | number
+    user2: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+  }
+
+  export type RelationshipUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1Ref?: UsersUpdateOneRequiredWithoutUser1NestedInput
+    user2Ref?: UsersUpdateOneRequiredWithoutUser2NestedInput
+  }
+
+  export type RelationshipUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user1?: BigIntFieldUpdateOperationsInput | bigint | number
+    user2?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipCreateManyInput = {
+    id?: bigint | number
+    user1: bigint | number
+    user2: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+  }
+
+  export type RelationshipUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user1?: BigIntFieldUpdateOperationsInput | bigint | number
+    user2?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -19650,6 +22384,12 @@ export namespace Prisma {
     isNot?: MentorWhereInput | null
   }
 
+  export type RelationshipListRelationFilter = {
+    every?: RelationshipWhereInput
+    some?: RelationshipWhereInput
+    none?: RelationshipWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -19684,6 +22424,10 @@ export namespace Prisma {
   }
 
   export type DocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RelationshipOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20778,6 +23522,111 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type EnumContactStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactStatus | EnumContactStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactStatusFilter<$PrismaModel> | $Enums.ContactStatus
+  }
+
+  export type ContactUsCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    message?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ContactUsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ContactUsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    message?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ContactUsMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    message?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ContactUsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type EnumContactStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactStatus | EnumContactStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactStatusFilter<$PrismaModel>
+  }
+
+  export type EnumRelationNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Relation | EnumRelationFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumRelationNullableFilter<$PrismaModel> | $Enums.Relation | null
+  }
+
+  export type RelationshipCountOrderByAggregateInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+    relation?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RelationshipAvgOrderByAggregateInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+  }
+
+  export type RelationshipMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+    relation?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RelationshipMinOrderByAggregateInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+    relation?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RelationshipSumOrderByAggregateInput = {
+    id?: SortOrder
+    user1?: SortOrder
+    user2?: SortOrder
+  }
+
+  export type EnumRelationNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Relation | EnumRelationFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumRelationNullableWithAggregatesFilter<$PrismaModel> | $Enums.Relation | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumRelationNullableFilter<$PrismaModel>
+    _max?: NestedEnumRelationNullableFilter<$PrismaModel>
+  }
+
   export type FeedbackCreateNestedManyWithoutUserRefInput = {
     create?: XOR<FeedbackCreateWithoutUserRefInput, FeedbackUncheckedCreateWithoutUserRefInput> | FeedbackCreateWithoutUserRefInput[] | FeedbackUncheckedCreateWithoutUserRefInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserRefInput | FeedbackCreateOrConnectWithoutUserRefInput[]
@@ -20868,6 +23717,20 @@ export namespace Prisma {
     connect?: MentorWhereUniqueInput
   }
 
+  export type RelationshipCreateNestedManyWithoutUser1RefInput = {
+    create?: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput> | RelationshipCreateWithoutUser1RefInput[] | RelationshipUncheckedCreateWithoutUser1RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser1RefInput | RelationshipCreateOrConnectWithoutUser1RefInput[]
+    createMany?: RelationshipCreateManyUser1RefInputEnvelope
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+  }
+
+  export type RelationshipCreateNestedManyWithoutUser2RefInput = {
+    create?: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput> | RelationshipCreateWithoutUser2RefInput[] | RelationshipUncheckedCreateWithoutUser2RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser2RefInput | RelationshipCreateOrConnectWithoutUser2RefInput[]
+    createMany?: RelationshipCreateManyUser2RefInputEnvelope
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+  }
+
   export type FeedbackUncheckedCreateNestedManyWithoutUserRefInput = {
     create?: XOR<FeedbackCreateWithoutUserRefInput, FeedbackUncheckedCreateWithoutUserRefInput> | FeedbackCreateWithoutUserRefInput[] | FeedbackUncheckedCreateWithoutUserRefInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserRefInput | FeedbackCreateOrConnectWithoutUserRefInput[]
@@ -20956,6 +23819,20 @@ export namespace Prisma {
     create?: XOR<MentorCreateWithoutUserInput, MentorUncheckedCreateWithoutUserInput>
     connectOrCreate?: MentorCreateOrConnectWithoutUserInput
     connect?: MentorWhereUniqueInput
+  }
+
+  export type RelationshipUncheckedCreateNestedManyWithoutUser1RefInput = {
+    create?: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput> | RelationshipCreateWithoutUser1RefInput[] | RelationshipUncheckedCreateWithoutUser1RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser1RefInput | RelationshipCreateOrConnectWithoutUser1RefInput[]
+    createMany?: RelationshipCreateManyUser1RefInputEnvelope
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+  }
+
+  export type RelationshipUncheckedCreateNestedManyWithoutUser2RefInput = {
+    create?: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput> | RelationshipCreateWithoutUser2RefInput[] | RelationshipUncheckedCreateWithoutUser2RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser2RefInput | RelationshipCreateOrConnectWithoutUser2RefInput[]
+    createMany?: RelationshipCreateManyUser2RefInputEnvelope
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
   }
 
   export type BigIntFieldUpdateOperationsInput = {
@@ -21176,6 +24053,34 @@ export namespace Prisma {
     update?: XOR<XOR<MentorUpdateToOneWithWhereWithoutUserInput, MentorUpdateWithoutUserInput>, MentorUncheckedUpdateWithoutUserInput>
   }
 
+  export type RelationshipUpdateManyWithoutUser1RefNestedInput = {
+    create?: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput> | RelationshipCreateWithoutUser1RefInput[] | RelationshipUncheckedCreateWithoutUser1RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser1RefInput | RelationshipCreateOrConnectWithoutUser1RefInput[]
+    upsert?: RelationshipUpsertWithWhereUniqueWithoutUser1RefInput | RelationshipUpsertWithWhereUniqueWithoutUser1RefInput[]
+    createMany?: RelationshipCreateManyUser1RefInputEnvelope
+    set?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    disconnect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    delete?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    update?: RelationshipUpdateWithWhereUniqueWithoutUser1RefInput | RelationshipUpdateWithWhereUniqueWithoutUser1RefInput[]
+    updateMany?: RelationshipUpdateManyWithWhereWithoutUser1RefInput | RelationshipUpdateManyWithWhereWithoutUser1RefInput[]
+    deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
+  }
+
+  export type RelationshipUpdateManyWithoutUser2RefNestedInput = {
+    create?: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput> | RelationshipCreateWithoutUser2RefInput[] | RelationshipUncheckedCreateWithoutUser2RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser2RefInput | RelationshipCreateOrConnectWithoutUser2RefInput[]
+    upsert?: RelationshipUpsertWithWhereUniqueWithoutUser2RefInput | RelationshipUpsertWithWhereUniqueWithoutUser2RefInput[]
+    createMany?: RelationshipCreateManyUser2RefInputEnvelope
+    set?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    disconnect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    delete?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    update?: RelationshipUpdateWithWhereUniqueWithoutUser2RefInput | RelationshipUpdateWithWhereUniqueWithoutUser2RefInput[]
+    updateMany?: RelationshipUpdateManyWithWhereWithoutUser2RefInput | RelationshipUpdateManyWithWhereWithoutUser2RefInput[]
+    deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
+  }
+
   export type FeedbackUncheckedUpdateManyWithoutUserRefNestedInput = {
     create?: XOR<FeedbackCreateWithoutUserRefInput, FeedbackUncheckedCreateWithoutUserRefInput> | FeedbackCreateWithoutUserRefInput[] | FeedbackUncheckedCreateWithoutUserRefInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserRefInput | FeedbackCreateOrConnectWithoutUserRefInput[]
@@ -21352,6 +24257,34 @@ export namespace Prisma {
     delete?: MentorWhereInput | boolean
     connect?: MentorWhereUniqueInput
     update?: XOR<XOR<MentorUpdateToOneWithWhereWithoutUserInput, MentorUpdateWithoutUserInput>, MentorUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput = {
+    create?: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput> | RelationshipCreateWithoutUser1RefInput[] | RelationshipUncheckedCreateWithoutUser1RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser1RefInput | RelationshipCreateOrConnectWithoutUser1RefInput[]
+    upsert?: RelationshipUpsertWithWhereUniqueWithoutUser1RefInput | RelationshipUpsertWithWhereUniqueWithoutUser1RefInput[]
+    createMany?: RelationshipCreateManyUser1RefInputEnvelope
+    set?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    disconnect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    delete?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    update?: RelationshipUpdateWithWhereUniqueWithoutUser1RefInput | RelationshipUpdateWithWhereUniqueWithoutUser1RefInput[]
+    updateMany?: RelationshipUpdateManyWithWhereWithoutUser1RefInput | RelationshipUpdateManyWithWhereWithoutUser1RefInput[]
+    deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
+  }
+
+  export type RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput = {
+    create?: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput> | RelationshipCreateWithoutUser2RefInput[] | RelationshipUncheckedCreateWithoutUser2RefInput[]
+    connectOrCreate?: RelationshipCreateOrConnectWithoutUser2RefInput | RelationshipCreateOrConnectWithoutUser2RefInput[]
+    upsert?: RelationshipUpsertWithWhereUniqueWithoutUser2RefInput | RelationshipUpsertWithWhereUniqueWithoutUser2RefInput[]
+    createMany?: RelationshipCreateManyUser2RefInputEnvelope
+    set?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    disconnect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    delete?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+    update?: RelationshipUpdateWithWhereUniqueWithoutUser2RefInput | RelationshipUpdateWithWhereUniqueWithoutUser2RefInput[]
+    updateMany?: RelationshipUpdateManyWithWhereWithoutUser2RefInput | RelationshipUpdateManyWithWhereWithoutUser2RefInput[]
+    deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
   }
 
   export type UsersCreateNestedOneWithoutMentorInput = {
@@ -21900,6 +24833,42 @@ export namespace Prisma {
     upsert?: UsersUpsertWithoutDocumentsInput
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutDocumentsInput, UsersUpdateWithoutDocumentsInput>, UsersUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type EnumContactStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ContactStatus
+  }
+
+  export type UsersCreateNestedOneWithoutUser1Input = {
+    create?: XOR<UsersCreateWithoutUser1Input, UsersUncheckedCreateWithoutUser1Input>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser1Input
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutUser2Input = {
+    create?: XOR<UsersCreateWithoutUser2Input, UsersUncheckedCreateWithoutUser2Input>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser2Input
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type NullableEnumRelationFieldUpdateOperationsInput = {
+    set?: $Enums.Relation | null
+  }
+
+  export type UsersUpdateOneRequiredWithoutUser1NestedInput = {
+    create?: XOR<UsersCreateWithoutUser1Input, UsersUncheckedCreateWithoutUser1Input>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser1Input
+    upsert?: UsersUpsertWithoutUser1Input
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUser1Input, UsersUpdateWithoutUser1Input>, UsersUncheckedUpdateWithoutUser1Input>
+  }
+
+  export type UsersUpdateOneRequiredWithoutUser2NestedInput = {
+    create?: XOR<UsersCreateWithoutUser2Input, UsersUncheckedCreateWithoutUser2Input>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser2Input
+    upsert?: UsersUpsertWithoutUser2Input
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUser2Input, UsersUpdateWithoutUser2Input>, UsersUncheckedUpdateWithoutUser2Input>
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {
@@ -22456,6 +25425,40 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumContactStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactStatus | EnumContactStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactStatusFilter<$PrismaModel> | $Enums.ContactStatus
+  }
+
+  export type NestedEnumContactStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactStatus | EnumContactStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactStatus[] | ListEnumContactStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRelationNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Relation | EnumRelationFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumRelationNullableFilter<$PrismaModel> | $Enums.Relation | null
+  }
+
+  export type NestedEnumRelationNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Relation | EnumRelationFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Relation[] | ListEnumRelationFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumRelationNullableWithAggregatesFilter<$PrismaModel> | $Enums.Relation | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumRelationNullableFilter<$PrismaModel>
+    _max?: NestedEnumRelationNullableFilter<$PrismaModel>
+  }
+
   export type FeedbackCreateWithoutUserRefInput = {
     id?: bigint | number
     image?: string | null
@@ -22887,6 +25890,54 @@ export namespace Prisma {
     create: XOR<MentorCreateWithoutUserInput, MentorUncheckedCreateWithoutUserInput>
   }
 
+  export type RelationshipCreateWithoutUser1RefInput = {
+    id?: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+    user2Ref: UsersCreateNestedOneWithoutUser2Input
+  }
+
+  export type RelationshipUncheckedCreateWithoutUser1RefInput = {
+    id?: bigint | number
+    user2: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+  }
+
+  export type RelationshipCreateOrConnectWithoutUser1RefInput = {
+    where: RelationshipWhereUniqueInput
+    create: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput>
+  }
+
+  export type RelationshipCreateManyUser1RefInputEnvelope = {
+    data: RelationshipCreateManyUser1RefInput | RelationshipCreateManyUser1RefInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RelationshipCreateWithoutUser2RefInput = {
+    id?: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+    user1Ref: UsersCreateNestedOneWithoutUser1Input
+  }
+
+  export type RelationshipUncheckedCreateWithoutUser2RefInput = {
+    id?: bigint | number
+    user1: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+  }
+
+  export type RelationshipCreateOrConnectWithoutUser2RefInput = {
+    where: RelationshipWhereUniqueInput
+    create: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput>
+  }
+
+  export type RelationshipCreateManyUser2RefInputEnvelope = {
+    data: RelationshipCreateManyUser2RefInput | RelationshipCreateManyUser2RefInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FeedbackUpsertWithWhereUniqueWithoutUserRefInput = {
     where: FeedbackWhereUniqueInput
     update: XOR<FeedbackUpdateWithoutUserRefInput, FeedbackUncheckedUpdateWithoutUserRefInput>
@@ -23240,6 +26291,49 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RelationshipUpsertWithWhereUniqueWithoutUser1RefInput = {
+    where: RelationshipWhereUniqueInput
+    update: XOR<RelationshipUpdateWithoutUser1RefInput, RelationshipUncheckedUpdateWithoutUser1RefInput>
+    create: XOR<RelationshipCreateWithoutUser1RefInput, RelationshipUncheckedCreateWithoutUser1RefInput>
+  }
+
+  export type RelationshipUpdateWithWhereUniqueWithoutUser1RefInput = {
+    where: RelationshipWhereUniqueInput
+    data: XOR<RelationshipUpdateWithoutUser1RefInput, RelationshipUncheckedUpdateWithoutUser1RefInput>
+  }
+
+  export type RelationshipUpdateManyWithWhereWithoutUser1RefInput = {
+    where: RelationshipScalarWhereInput
+    data: XOR<RelationshipUpdateManyMutationInput, RelationshipUncheckedUpdateManyWithoutUser1RefInput>
+  }
+
+  export type RelationshipScalarWhereInput = {
+    AND?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
+    OR?: RelationshipScalarWhereInput[]
+    NOT?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
+    id?: BigIntFilter<"Relationship"> | bigint | number
+    user1?: BigIntFilter<"Relationship"> | bigint | number
+    user2?: BigIntFilter<"Relationship"> | bigint | number
+    relation?: EnumRelationNullableFilter<"Relationship"> | $Enums.Relation | null
+    created_at?: DateTimeFilter<"Relationship"> | Date | string
+  }
+
+  export type RelationshipUpsertWithWhereUniqueWithoutUser2RefInput = {
+    where: RelationshipWhereUniqueInput
+    update: XOR<RelationshipUpdateWithoutUser2RefInput, RelationshipUncheckedUpdateWithoutUser2RefInput>
+    create: XOR<RelationshipCreateWithoutUser2RefInput, RelationshipUncheckedCreateWithoutUser2RefInput>
+  }
+
+  export type RelationshipUpdateWithWhereUniqueWithoutUser2RefInput = {
+    where: RelationshipWhereUniqueInput
+    data: XOR<RelationshipUpdateWithoutUser2RefInput, RelationshipUncheckedUpdateWithoutUser2RefInput>
+  }
+
+  export type RelationshipUpdateManyWithWhereWithoutUser2RefInput = {
+    where: RelationshipScalarWhereInput
+    data: XOR<RelationshipUpdateManyMutationInput, RelationshipUncheckedUpdateManyWithoutUser2RefInput>
+  }
+
   export type UsersCreateWithoutMentorInput = {
     id?: bigint | number
     image?: string | null
@@ -23269,6 +26363,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutMentorInput = {
@@ -23300,6 +26396,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutMentorInput = {
@@ -23347,6 +26445,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutMentorInput = {
@@ -23378,6 +26478,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersCreateWithoutMentor_servicesInput = {
@@ -23409,6 +26511,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutMentor_servicesInput = {
@@ -23440,6 +26544,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutMentor_servicesInput = {
@@ -23476,6 +26582,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutUser_servicesInput = {
@@ -23507,6 +26615,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutUser_servicesInput = {
@@ -23630,6 +26740,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutMentor_servicesInput = {
@@ -23661,6 +26773,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUpsertWithoutUser_servicesInput = {
@@ -23703,6 +26817,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutUser_servicesInput = {
@@ -23734,6 +26850,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type PaymentsUpsertWithWhereUniqueWithoutServiceRefInput = {
@@ -23797,6 +26915,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutChat1Input = {
@@ -23828,6 +26948,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutChat1Input = {
@@ -23864,6 +26986,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutChat2Input = {
@@ -23895,6 +27019,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutChat2Input = {
@@ -23976,6 +27102,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutChat1Input = {
@@ -24007,6 +27135,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUpsertWithoutChat2Input = {
@@ -24049,6 +27179,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutChat2Input = {
@@ -24080,6 +27212,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -24127,6 +27261,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutSentMessagesInput = {
@@ -24158,6 +27294,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutSentMessagesInput = {
@@ -24194,6 +27332,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutReceivedMessagesInput = {
@@ -24225,6 +27365,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutReceivedMessagesInput = {
@@ -24312,6 +27454,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutSentMessagesInput = {
@@ -24343,6 +27487,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUpsertWithoutReceivedMessagesInput = {
@@ -24385,6 +27531,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -24416,6 +27564,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type ChatUpsertWithoutMessagesInput = {
@@ -24549,6 +27699,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutReportsAgainstInput = {
@@ -24580,6 +27732,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutReportsAgainstInput = {
@@ -24616,6 +27770,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutReportsCreatedInput = {
@@ -24647,6 +27803,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutReportsCreatedInput = {
@@ -24729,6 +27887,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReportsAgainstInput = {
@@ -24760,6 +27920,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUpsertWithoutReportsCreatedInput = {
@@ -24802,6 +27964,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReportsCreatedInput = {
@@ -24833,6 +27997,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type Consultancy_serviceUpsertWithoutReportsInput = {
@@ -24905,6 +28071,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutFeedbacksInput = {
@@ -24936,6 +28104,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutFeedbacksInput = {
@@ -24983,6 +28153,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutFeedbacksInput = {
@@ -25014,6 +28186,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type PaymentsCreateWithoutMembershipRefInput = {
@@ -25103,6 +28277,8 @@ export namespace Prisma {
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutPaymentsInput = {
@@ -25134,6 +28310,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutPaymentsInput = {
@@ -25241,6 +28419,8 @@ export namespace Prisma {
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutPaymentsInput = {
@@ -25272,6 +28452,8 @@ export namespace Prisma {
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type MembershipsUpsertWithoutPaymentsInput = {
@@ -25375,6 +28557,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutAdminActionsInput = {
@@ -25406,6 +28590,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutAdminActionsInput = {
@@ -25453,6 +28639,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutAdminActionsInput = {
@@ -25484,6 +28672,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersCreateWithoutDocumentsInput = {
@@ -25515,6 +28705,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     adminActions?: AdminActionCreateNestedManyWithoutAdminInput
     mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersUncheckedCreateWithoutDocumentsInput = {
@@ -25546,6 +28738,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
   }
 
   export type UsersCreateOrConnectWithoutDocumentsInput = {
@@ -25593,6 +28787,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutDocumentsInput = {
@@ -25624,6 +28820,304 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+  }
+
+  export type UsersCreateWithoutUser1Input = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone?: string | null
+    password: string
+    first_name: string
+    middle_name?: string | null
+    last_name: string
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession?: $Enums.Profession
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    mentor?: MentorCreateNestedOneWithoutUserInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+  }
+
+  export type UsersUncheckedCreateWithoutUser1Input = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone?: string | null
+    password: string
+    first_name: string
+    middle_name?: string | null
+    last_name: string
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession?: $Enums.Profession
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+  }
+
+  export type UsersCreateOrConnectWithoutUser1Input = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutUser1Input, UsersUncheckedCreateWithoutUser1Input>
+  }
+
+  export type UsersCreateWithoutUser2Input = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone?: string | null
+    password: string
+    first_name: string
+    middle_name?: string | null
+    last_name: string
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession?: $Enums.Profession
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+  }
+
+  export type UsersUncheckedCreateWithoutUser2Input = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone?: string | null
+    password: string
+    first_name: string
+    middle_name?: string | null
+    last_name: string
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession?: $Enums.Profession
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+  }
+
+  export type UsersCreateOrConnectWithoutUser2Input = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutUser2Input, UsersUncheckedCreateWithoutUser2Input>
+  }
+
+  export type UsersUpsertWithoutUser1Input = {
+    update: XOR<UsersUpdateWithoutUser1Input, UsersUncheckedUpdateWithoutUser1Input>
+    create: XOR<UsersCreateWithoutUser1Input, UsersUncheckedCreateWithoutUser1Input>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutUser1Input = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutUser1Input, UsersUncheckedUpdateWithoutUser1Input>
+  }
+
+  export type UsersUpdateWithoutUser1Input = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: StringFieldUpdateOperationsInput | string
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    mentor?: MentorUpdateOneWithoutUserNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutUser1Input = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: StringFieldUpdateOperationsInput | string
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUncheckedUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUncheckedUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+  }
+
+  export type UsersUpsertWithoutUser2Input = {
+    update: XOR<UsersUpdateWithoutUser2Input, UsersUncheckedUpdateWithoutUser2Input>
+    create: XOR<UsersCreateWithoutUser2Input, UsersUncheckedCreateWithoutUser2Input>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutUser2Input = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutUser2Input, UsersUncheckedUpdateWithoutUser2Input>
+  }
+
+  export type UsersUpdateWithoutUser2Input = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: StringFieldUpdateOperationsInput | string
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutUser2Input = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: StringFieldUpdateOperationsInput | string
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUncheckedUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUncheckedUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
   }
 
   export type FeedbackCreateManyUserRefInput = {
@@ -25756,6 +29250,20 @@ export namespace Prisma {
     title: string
     isverified?: boolean
     createdAt?: Date | string
+  }
+
+  export type RelationshipCreateManyUser1RefInput = {
+    id?: bigint | number
+    user2: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
+  }
+
+  export type RelationshipCreateManyUser2RefInput = {
+    id?: bigint | number
+    user1: bigint | number
+    relation?: $Enums.Relation | null
+    created_at?: Date | string
   }
 
   export type FeedbackUpdateWithoutUserRefInput = {
@@ -26164,6 +29672,48 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     isverified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipUpdateWithoutUser1RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user2Ref?: UsersUpdateOneRequiredWithoutUser2NestedInput
+  }
+
+  export type RelationshipUncheckedUpdateWithoutUser1RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user2?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipUncheckedUpdateManyWithoutUser1RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user2?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipUpdateWithoutUser2RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1Ref?: UsersUpdateOneRequiredWithoutUser1NestedInput
+  }
+
+  export type RelationshipUncheckedUpdateWithoutUser2RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user1?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationshipUncheckedUpdateManyWithoutUser2RefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user1?: BigIntFieldUpdateOperationsInput | bigint | number
+    relation?: NullableEnumRelationFieldUpdateOperationsInput | $Enums.Relation | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentsCreateManyServiceRefInput = {

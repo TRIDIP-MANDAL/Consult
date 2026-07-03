@@ -114,6 +114,7 @@ enum MessageStatus {
 
 enum ReportStatus {
   PENDING
+  ONGOING
   RESOLVED
   REJECTED
 }
@@ -121,6 +122,18 @@ enum ReportStatus {
 enum PaymentFor {
   MEMBERSHIP
   SERVICE
+}
+
+enum ContactStatus {
+  PENDING
+  ONGOING
+  DONE
+}
+
+enum Relation {
+  FAVOURITE
+  BLOCK
+  FOLLOWS
 }
 
 //// MODELS ////
@@ -164,6 +177,9 @@ model Users {
   adminActions AdminAction[]
   documents    Document[]
   mentor       Mentor?
+
+  user1 Relationship[] @relation("user1")
+  user2 Relationship[] @relation("user2")
 }
 
 model Mentor {
@@ -311,7 +327,7 @@ model Memberships {
 model Payments {
   id BigInt @id @default(autoincrement())
 
-  user_id       BigInt //fk
+  user_id       BigInt
   membership_id BigInt? //fk
   service_id    BigInt? //fk
 
@@ -376,4 +392,24 @@ model Document {
   isverified Boolean  @default(false)
   user       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
+}
+
+model ContactUs {
+  id         BigInt        @id @default(autoincrement())
+  email      String
+  message    String
+  name       String
+  status     ContactStatus @default(PENDING)
+  created_at DateTime      @default(now())
+}
+
+model Relationship {
+  id         BigInt    @id @default(autoincrement())
+  user1      BigInt //fk 
+  user2      BigInt //fk 
+  relation   Relation?
+  created_at DateTime  @default(now())
+
+  user1Ref Users @relation("user1", fields: [user1], references: [id])
+  user2Ref Users @relation("user2", fields: [user2], references: [id])
 }

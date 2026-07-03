@@ -1,4 +1,42 @@
-import prisma from "../model/db"
-const contactus = async (req, res) =>{
-  
+import prisma from "../model/db.js"
+export const contactus = async (req, res) =>{
+  try{
+      const data = req.body
+      const result = await prisma.contactUs.create({
+        data
+      })
+      return res.status(201).json({message: "Message sent successfully, our team will soon contact you",result});
+  }catch(err){
+      console.log(err)
+      return res.status(500).json({message: "Internal server error",error: err.message})
+  }
+}
+
+export const getContacts = async (req, res)=>{
+  try{
+      
+  }catch(err){
+    
+  }
+}
+export const getContact = async (req, res)=>{
+  try{
+      
+  }catch(err){
+    
+  }
+}
+export const updateContact = async (req, res)=>{
+  try{
+      
+  }catch(err){
+    
+  }
+}
+export const deleteContact = async (req, res)=>{
+  try{
+      
+  }catch(err){
+    
+  }
 }

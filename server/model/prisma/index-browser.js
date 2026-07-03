@@ -268,6 +268,23 @@ exports.Prisma.DocumentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ContactUsScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  message: 'message',
+  name: 'name',
+  status: 'status',
+  created_at: 'created_at'
+};
+
+exports.Prisma.RelationshipScalarFieldEnum = {
+  id: 'id',
+  user1: 'user1',
+  user2: 'user2',
+  relation: 'relation',
+  created_at: 'created_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -378,6 +395,7 @@ exports.CallType = exports.$Enums.CallType = {
 
 exports.ReportStatus = exports.$Enums.ReportStatus = {
   PENDING: 'PENDING',
+  ONGOING: 'ONGOING',
   RESOLVED: 'RESOLVED',
   REJECTED: 'REJECTED'
 };
@@ -408,6 +426,18 @@ exports.AdminActionType = exports.$Enums.AdminActionType = {
   DELETE: 'DELETE'
 };
 
+exports.ContactStatus = exports.$Enums.ContactStatus = {
+  PENDING: 'PENDING',
+  ONGOING: 'ONGOING',
+  DONE: 'DONE'
+};
+
+exports.Relation = exports.$Enums.Relation = {
+  FAVOURITE: 'FAVOURITE',
+  BLOCK: 'BLOCK',
+  FOLLOWS: 'FOLLOWS'
+};
+
 exports.Prisma.ModelName = {
   Users: 'Users',
   Mentor: 'Mentor',
@@ -420,7 +450,9 @@ exports.Prisma.ModelName = {
   Memberships: 'Memberships',
   Payments: 'Payments',
   AdminAction: 'AdminAction',
-  Document: 'Document'
+  Document: 'Document',
+  ContactUs: 'ContactUs',
+  Relationship: 'Relationship'
 };
 
 /**
