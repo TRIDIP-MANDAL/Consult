@@ -135,21 +135,37 @@ enum Relation {
   BLOCK
   FOLLOWS
 }
+
+enum ProfessionCategories {
+  HEALTHCARE
+  EDUCATION
+  TECHNOLOGY
+  BUSINESS
+  LAW
+  ARTS
+  SPORTS
+  OTHER
+}
+
 //// MODELS ////
 
 model Users {
-  id          BigInt     @id @default(autoincrement())
-  image       String?
-  email       String     @unique
-  phone       String?    @unique
-  password    String
-  first_name  String
-  middle_name String?
-  last_name   String
-  dob         DateTime?
-  gender      Gender?
-  role        UserRole   @default(USER)
-  profession  Profession @default(STUDENT)
+  id                    BigInt                @id @default(autoincrement())
+  image                 String?
+  email                 String                @unique
+  phone                 String                @unique
+  password              String
+  first_name            String
+  middle_name           String?
+  last_name             String
+  dob                   DateTime?
+  gender                Gender?
+  role                  UserRole              @default(USER)
+  profession_categories ProfessionCategories?
+  profession            Profession?
+
+  country     String
+  postal_code String?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
@@ -185,6 +201,7 @@ model Mentor {
   id                BigInt          @id
   user              Users           @relation(fields: [id], references: [id], onDelete: Cascade)
   experience        Int
+  about             String?
   available_from    DateTime?       @db.Time
   available_to      DateTime?       @db.Time
   rating            Decimal         @default(0) @db.Decimal(2, 1)
@@ -215,12 +232,9 @@ model Consultancy_service {
 
   created_at DateTime @default(now())
 
-  // mentorRef      Users   @relation(fields: [mentor_id], references: [id])
-  // userRef        Users  @relation(fields: [user_id], references: [id])
   mentorRef Users      @relation("mentor", fields: [mentor_id], references: [id])
   userRef   Users      @relation("user", fields: [user_id], references: [id])
   payments  Payments[]
-
   reports Report[]
 }
 
@@ -302,9 +316,8 @@ model Report {
 
 model Feedback {
   id         BigInt   @id @default(autoincrement())
-  user_id    BigInt? //fk
+  user_id    BigInt
   image      String?
-  video      String?
   content    String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -394,22 +407,21 @@ model Document {
 }
 
 model ContactUs {
-  id BigInt @id @default(autoincrement())
-  email    String
-  message  String
-  name     String
-  status   ContactStatus @default(PENDING)
-  created_at DateTime @default(now())
+  id         BigInt        @id @default(autoincrement())
+  email      String
+  message    String
+  name       String
+  status     ContactStatus @default(PENDING)
+  created_at DateTime      @default(now())
 }
 
 model Relationship {
-  id           BigInt @id @default(autoincrement())
-  user1        BigInt //fk 
-  user2        BigInt //fk 
-  relation     Relation?
-  created_at   DateTime @default(now())
+  id         BigInt    @id @default(autoincrement())
+  user1      BigInt //fk 
+  user2      BigInt //fk 
+  relation   Relation?
+  created_at DateTime  @default(now())
 
   user1Ref Users @relation("user1", fields: [user1], references: [id])
   user2Ref Users @relation("user2", fields: [user2], references: [id])
 }
-

@@ -1,5 +1,11 @@
 import axios, { type AxiosRequestConfig, type Method } from 'axios';
 
+interface ApiResponse {
+    success: boolean;
+    message: string;
+    error?: boolean;
+}
+
 // 1. Create a centralized Axios instance
 const api = axios.create({
     // Adjust this to match your backend URL
@@ -42,7 +48,7 @@ api.interceptors.response.use(
 );
 
 // 4. A generalized wrapper function (Typed properly!)
-export const callApi = async <T>(
+export const callApi = async <T = ApiResponse>(
     url: string,
     method: Method,
     data?: any,

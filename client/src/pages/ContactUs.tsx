@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { callApi } from '../config/api.ts'
-import { isValidEmail } from '../config/others.ts';
+import { useOtpVerification } from '../hooks/otpHook.ts'
 
 interface FormInput {
     name: string,
@@ -8,28 +8,21 @@ interface FormInput {
     message: string
 }
 
-interface OtpData {
-    otp: string,
-    sent_otp: boolean,
-    verified: boolean
-}
-
 export const ContactUs: React.FC = () => {
-    const [otp, setOtp] = useState<OtpData>({
-        otp: "",
-        sent_otp: false,
-        verified: false
-    });
+    const { otp, sendOtp, verifyOtp, otpValueHandler, resetOtp } = useOtpVerification();
     const [formData, setFormData] = useState<FormInput>({
         name: "",
         email: "",
         message: ""
     })
     const [error, setError] = useState<string>("");
+    const [success, setSuccess] = useState<string>("");
+
     const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => { return { ...prev, [name]: value } })
-        console.log(" Form data changing ", formData)
+        if (success) setSuccess("");
+        if (error) setError("");
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,86 +33,33 @@ export const ContactUs: React.FC = () => {
         }
         const response = await callApi('contactus/create', 'POST', formData);
         console.log("response of sending data ", response);
-        // if(response.success){
-        //     setFormData({
-        //         name: "",
-        //         email: "",
-        //         message: ""
-        //     })
-        //     setOtp({
-        //         otp: "",
-        //         sent_otp: false,
-        //         verified: false
-        //     })
-        //     setError("");
-        //     return;
-        // }
-        // else{
-        //     setError(response.message);
-        //     return;
-        // }
-        if (response.error) {
-            setError(response.message);
-            return;
-        }
-        else {
+        if (response.success) {
+            resetOtp();
             setFormData({
                 name: "",
                 email: "",
                 message: ""
             })
-            setOtp({
-                otp: "",
-                sent_otp: false,
-                verified: false
-            })
             setError("");
-        }
-    }
-
-    const sendOtp = async () => { // this part might need to store in a different folder
-        console.log(" most updated form data ", formData)
-        const { email } = formData;
-        if (!email || !isValidEmail(email)) {
-            console.log("wrong email format ")
-            setError("Wrong email format or empty email")
-            return;
-        }
-        const response = await callApi("otp/sendOtp", "POST", { email })
-        console.log("response of sending otp ", response)
-        if (response.success) {
-            setError("");
-            setOtp((prev) => ({ ...prev, sent_otp: true }))
+            setSuccess(response.message);
         }
         else {
+            setSuccess("");
             setError(response.message);
-            return;
         }
     }
 
-    const verifyOtp = async () => {
-        console.log('Otp value ', otp)
-        if (otp.otp.length != 6) {
-            setError("Please enter 6 digit otp");
-            return;
-        }
-        const response = await callApi("otp/verifyOtp", "POST", { email: formData.email, otp: otp.otp })
-        console.log("response of verify otp ", response)
-        if (response.success) {
-            setError("");
-            console.log("Otp verified success ")
-            setOtp((prev) => ({ ...prev, verified: true }))
-        }
-        else {
-            setError(response.message);
-            return;
-        }
+    const handleSendOtp = async ():Promise<void>=>{
+        const result = await sendOtp(formData.email)
+        setSuccess(result.success);
+        setError(result.error);
     }
 
-    const otpValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOtp((prev) => ({ ...prev, otp: e.target.value }))
+    const handleVerifyOtp = async ():Promise<void>=>{
+        const result = await verifyOtp(formData.email)
+        setSuccess(result.success);
+        setError(result.error);
     }
-
     return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4 py-16">
             <div className="w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-800">
@@ -162,7 +102,7 @@ export const ContactUs: React.FC = () => {
                             {!otp.verified && (
                                 <button
                                     type="button"
-                                    onClick={sendOtp}
+                                    onClick={handleSendOtp}
                                     disabled={!formData.email}
                                     className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-lg transition whitespace-nowrap"
                                 >
@@ -193,7 +133,7 @@ export const ContactUs: React.FC = () => {
                                 />
                                 <button
                                     type="button"
-                                    onClick={verifyOtp}
+                                    onClick={handleVerifyOtp}
                                     disabled={!otp.otp}
                                     className="disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2.5 rounded-lg transition"
                                 >
@@ -225,7 +165,8 @@ export const ContactUs: React.FC = () => {
                         Send Message
                     </button>
                 </form>
-                <p className="text-red-500 text-sm mt-2">{error}</p>
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                {success && <p className="text-green-500 text-sm mt-2">{success}</p>}
             </div>
         </div>
     )

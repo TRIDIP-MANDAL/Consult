@@ -5,10 +5,10 @@ export const contactus = async (req, res) =>{
       const result = await prisma.contactUs.create({
         data
       })
-      return res.status(201).json({message: "Message sent successfully, our team will soon contact you",result});
+      return res.status(201).json({message: "Message sent successfully, our team will soon contact you", success: true, result});
   }catch(err){
       console.log(err)
-      return res.status(500).json({message: "Internal server error",error: err.message})
+      return res.status(500).json({message: "Internal server error", success: false, error: err.message})
   }
 }
 
