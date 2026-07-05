@@ -106,17 +106,6 @@ export const UserRole: {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const Profession: {
-  ENGINEER: 'ENGINEER',
-  DOCTOR: 'DOCTOR',
-  TEACHER: 'TEACHER',
-  PROFESSOR: 'PROFESSOR',
-  STUDENT: 'STUDENT'
-};
-
-export type Profession = (typeof Profession)[keyof typeof Profession]
-
-
 export const MentorLevel: {
   BRONZE: 'BRONZE',
   SILVER: 'SILVER',
@@ -138,13 +127,13 @@ export type MentorExpertise = (typeof MentorExpertise)[keyof typeof MentorExpert
 
 
 export const Currency: {
+  INR: 'INR',
+  RUB: 'RUB',
   USD: 'USD',
   EUR: 'EUR',
   GBP: 'GBP',
-  INR: 'INR',
   JPY: 'JPY',
   CNY: 'CNY',
-  RUB: 'RUB',
   AUD: 'AUD',
   CAD: 'CAD',
   CHF: 'CHF',
@@ -164,7 +153,10 @@ export const Currency: {
   TRY: 'TRY',
   THB: 'THB',
   IDR: 'IDR',
-  MYR: 'MYR'
+  MYR: 'MYR',
+  PHP: 'PHP',
+  CZK: 'CZK',
+  ILS: 'ILS'
 };
 
 export type Currency = (typeof Currency)[keyof typeof Currency]
@@ -254,6 +246,20 @@ export const Relation: {
 export type Relation = (typeof Relation)[keyof typeof Relation]
 
 
+export const ProfessionCategory: {
+  HEALTHCARE: 'HEALTHCARE',
+  EDUCATION: 'EDUCATION',
+  TECHNOLOGY: 'TECHNOLOGY',
+  BUSINESS: 'BUSINESS',
+  LAW: 'LAW',
+  ARTS: 'ARTS',
+  SPORTS: 'SPORTS',
+  OTHER: 'OTHER'
+};
+
+export type ProfessionCategory = (typeof ProfessionCategory)[keyof typeof ProfessionCategory]
+
+
 export const AdminActionType: {
   CREATE: 'CREATE',
   READ: 'READ',
@@ -272,10 +278,6 @@ export const Gender: typeof $Enums.Gender
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
-
-export type Profession = $Enums.Profession
-
-export const Profession: typeof $Enums.Profession
 
 export type MentorLevel = $Enums.MentorLevel
 
@@ -324,6 +326,10 @@ export const ContactStatus: typeof $Enums.ContactStatus
 export type Relation = $Enums.Relation
 
 export const Relation: typeof $Enums.Relation
+
+export type ProfessionCategory = $Enums.ProfessionCategory
+
+export const ProfessionCategory: typeof $Enums.ProfessionCategory
 
 export type AdminActionType = $Enums.AdminActionType
 
@@ -2602,7 +2608,10 @@ export namespace Prisma {
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole | null
-    profession: $Enums.Profession | null
+    profession_category: $Enums.ProfessionCategory | null
+    profession: string | null
+    country: string | null
+    postal_code: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -2621,7 +2630,10 @@ export namespace Prisma {
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole | null
-    profession: $Enums.Profession | null
+    profession_category: $Enums.ProfessionCategory | null
+    profession: string | null
+    country: string | null
+    postal_code: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -2640,7 +2652,10 @@ export namespace Prisma {
     dob: number
     gender: number
     role: number
+    profession_category: number
     profession: number
+    country: number
+    postal_code: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -2669,7 +2684,10 @@ export namespace Prisma {
     dob?: true
     gender?: true
     role?: true
+    profession_category?: true
     profession?: true
+    country?: true
+    postal_code?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -2688,7 +2706,10 @@ export namespace Prisma {
     dob?: true
     gender?: true
     role?: true
+    profession_category?: true
     profession?: true
+    country?: true
+    postal_code?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -2707,7 +2728,10 @@ export namespace Prisma {
     dob?: true
     gender?: true
     role?: true
+    profession_category?: true
     profession?: true
+    country?: true
+    postal_code?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -2805,7 +2829,7 @@ export namespace Prisma {
     id: bigint
     image: string | null
     email: string
-    phone: string | null
+    phone: string
     password: string
     first_name: string
     middle_name: string | null
@@ -2813,7 +2837,10 @@ export namespace Prisma {
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole
-    profession: $Enums.Profession
+    profession_category: $Enums.ProfessionCategory | null
+    profession: string | null
+    country: string
+    postal_code: string | null
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
@@ -2851,7 +2878,10 @@ export namespace Prisma {
     dob?: boolean
     gender?: boolean
     role?: boolean
+    profession_category?: boolean
     profession?: boolean
+    country?: boolean
+    postal_code?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -2886,7 +2916,10 @@ export namespace Prisma {
     dob?: boolean
     gender?: boolean
     role?: boolean
+    profession_category?: boolean
     profession?: boolean
+    country?: boolean
+    postal_code?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -2905,7 +2938,10 @@ export namespace Prisma {
     dob?: boolean
     gender?: boolean
     role?: boolean
+    profession_category?: boolean
     profession?: boolean
+    country?: boolean
+    postal_code?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -2924,14 +2960,17 @@ export namespace Prisma {
     dob?: boolean
     gender?: boolean
     role?: boolean
+    profession_category?: boolean
     profession?: boolean
+    country?: boolean
+    postal_code?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     isactive?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "email" | "phone" | "password" | "first_name" | "middle_name" | "last_name" | "dob" | "gender" | "role" | "profession" | "created_at" | "updated_at" | "deleted_at" | "isactive", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "email" | "phone" | "password" | "first_name" | "middle_name" | "last_name" | "dob" | "gender" | "role" | "profession_category" | "profession" | "country" | "postal_code" | "created_at" | "updated_at" | "deleted_at" | "isactive", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
     payments?: boolean | Users$paymentsArgs<ExtArgs>
@@ -2976,7 +3015,7 @@ export namespace Prisma {
       id: bigint
       image: string | null
       email: string
-      phone: string | null
+      phone: string
       password: string
       first_name: string
       middle_name: string | null
@@ -2984,7 +3023,10 @@ export namespace Prisma {
       dob: Date | null
       gender: $Enums.Gender | null
       role: $Enums.UserRole
-      profession: $Enums.Profession
+      profession_category: $Enums.ProfessionCategory | null
+      profession: string | null
+      country: string
+      postal_code: string | null
       created_at: Date
       updated_at: Date
       deleted_at: Date | null
@@ -3438,7 +3480,10 @@ export namespace Prisma {
     readonly dob: FieldRef<"Users", 'DateTime'>
     readonly gender: FieldRef<"Users", 'Gender'>
     readonly role: FieldRef<"Users", 'UserRole'>
-    readonly profession: FieldRef<"Users", 'Profession'>
+    readonly profession_category: FieldRef<"Users", 'ProfessionCategory'>
+    readonly profession: FieldRef<"Users", 'String'>
+    readonly country: FieldRef<"Users", 'String'>
+    readonly postal_code: FieldRef<"Users", 'String'>
     readonly created_at: FieldRef<"Users", 'DateTime'>
     readonly updated_at: FieldRef<"Users", 'DateTime'>
     readonly deleted_at: FieldRef<"Users", 'DateTime'>
@@ -4235,6 +4280,7 @@ export namespace Prisma {
   export type MentorMinAggregateOutputType = {
     id: bigint | null
     experience: number | null
+    about: string | null
     available_from: Date | null
     available_to: Date | null
     rating: Decimal | null
@@ -4243,6 +4289,7 @@ export namespace Prisma {
     level: $Enums.MentorLevel | null
     no_of_consultancy: number | null
     charge: Decimal | null
+    currency: $Enums.Currency | null
     achievements: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -4251,6 +4298,7 @@ export namespace Prisma {
   export type MentorMaxAggregateOutputType = {
     id: bigint | null
     experience: number | null
+    about: string | null
     available_from: Date | null
     available_to: Date | null
     rating: Decimal | null
@@ -4259,6 +4307,7 @@ export namespace Prisma {
     level: $Enums.MentorLevel | null
     no_of_consultancy: number | null
     charge: Decimal | null
+    currency: $Enums.Currency | null
     achievements: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -4267,6 +4316,7 @@ export namespace Prisma {
   export type MentorCountAggregateOutputType = {
     id: number
     experience: number
+    about: number
     available_from: number
     available_to: number
     rating: number
@@ -4275,6 +4325,7 @@ export namespace Prisma {
     level: number
     no_of_consultancy: number
     charge: number
+    currency: number
     achievements: number
     created_at: number
     updated_at: number
@@ -4301,6 +4352,7 @@ export namespace Prisma {
   export type MentorMinAggregateInputType = {
     id?: true
     experience?: true
+    about?: true
     available_from?: true
     available_to?: true
     rating?: true
@@ -4309,6 +4361,7 @@ export namespace Prisma {
     level?: true
     no_of_consultancy?: true
     charge?: true
+    currency?: true
     achievements?: true
     created_at?: true
     updated_at?: true
@@ -4317,6 +4370,7 @@ export namespace Prisma {
   export type MentorMaxAggregateInputType = {
     id?: true
     experience?: true
+    about?: true
     available_from?: true
     available_to?: true
     rating?: true
@@ -4325,6 +4379,7 @@ export namespace Prisma {
     level?: true
     no_of_consultancy?: true
     charge?: true
+    currency?: true
     achievements?: true
     created_at?: true
     updated_at?: true
@@ -4333,6 +4388,7 @@ export namespace Prisma {
   export type MentorCountAggregateInputType = {
     id?: true
     experience?: true
+    about?: true
     available_from?: true
     available_to?: true
     rating?: true
@@ -4341,6 +4397,7 @@ export namespace Prisma {
     level?: true
     no_of_consultancy?: true
     charge?: true
+    currency?: true
     achievements?: true
     created_at?: true
     updated_at?: true
@@ -4436,6 +4493,7 @@ export namespace Prisma {
   export type MentorGroupByOutputType = {
     id: bigint
     experience: number
+    about: string | null
     available_from: Date | null
     available_to: Date | null
     rating: Decimal
@@ -4444,6 +4502,7 @@ export namespace Prisma {
     level: $Enums.MentorLevel | null
     no_of_consultancy: number
     charge: Decimal | null
+    currency: $Enums.Currency | null
     achievements: string | null
     created_at: Date
     updated_at: Date
@@ -4471,6 +4530,7 @@ export namespace Prisma {
   export type MentorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     experience?: boolean
+    about?: boolean
     available_from?: boolean
     available_to?: boolean
     rating?: boolean
@@ -4479,6 +4539,7 @@ export namespace Prisma {
     level?: boolean
     no_of_consultancy?: boolean
     charge?: boolean
+    currency?: boolean
     achievements?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -4488,6 +4549,7 @@ export namespace Prisma {
   export type MentorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     experience?: boolean
+    about?: boolean
     available_from?: boolean
     available_to?: boolean
     rating?: boolean
@@ -4496,6 +4558,7 @@ export namespace Prisma {
     level?: boolean
     no_of_consultancy?: boolean
     charge?: boolean
+    currency?: boolean
     achievements?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -4505,6 +4568,7 @@ export namespace Prisma {
   export type MentorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     experience?: boolean
+    about?: boolean
     available_from?: boolean
     available_to?: boolean
     rating?: boolean
@@ -4513,6 +4577,7 @@ export namespace Prisma {
     level?: boolean
     no_of_consultancy?: boolean
     charge?: boolean
+    currency?: boolean
     achievements?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -4522,6 +4587,7 @@ export namespace Prisma {
   export type MentorSelectScalar = {
     id?: boolean
     experience?: boolean
+    about?: boolean
     available_from?: boolean
     available_to?: boolean
     rating?: boolean
@@ -4530,12 +4596,13 @@ export namespace Prisma {
     level?: boolean
     no_of_consultancy?: boolean
     charge?: boolean
+    currency?: boolean
     achievements?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type MentorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experience" | "available_from" | "available_to" | "rating" | "verified" | "expertise" | "level" | "no_of_consultancy" | "charge" | "achievements" | "created_at" | "updated_at", ExtArgs["result"]["mentor"]>
+  export type MentorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experience" | "about" | "available_from" | "available_to" | "rating" | "verified" | "expertise" | "level" | "no_of_consultancy" | "charge" | "currency" | "achievements" | "created_at" | "updated_at", ExtArgs["result"]["mentor"]>
   export type MentorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }
@@ -4554,6 +4621,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       experience: number
+      about: string | null
       available_from: Date | null
       available_to: Date | null
       rating: Prisma.Decimal
@@ -4562,6 +4630,7 @@ export namespace Prisma {
       level: $Enums.MentorLevel | null
       no_of_consultancy: number
       charge: Prisma.Decimal | null
+      currency: $Enums.Currency | null
       achievements: string | null
       created_at: Date
       updated_at: Date
@@ -4991,6 +5060,7 @@ export namespace Prisma {
   interface MentorFieldRefs {
     readonly id: FieldRef<"Mentor", 'BigInt'>
     readonly experience: FieldRef<"Mentor", 'Int'>
+    readonly about: FieldRef<"Mentor", 'String'>
     readonly available_from: FieldRef<"Mentor", 'DateTime'>
     readonly available_to: FieldRef<"Mentor", 'DateTime'>
     readonly rating: FieldRef<"Mentor", 'Decimal'>
@@ -4999,6 +5069,7 @@ export namespace Prisma {
     readonly level: FieldRef<"Mentor", 'MentorLevel'>
     readonly no_of_consultancy: FieldRef<"Mentor", 'Int'>
     readonly charge: FieldRef<"Mentor", 'Decimal'>
+    readonly currency: FieldRef<"Mentor", 'Currency'>
     readonly achievements: FieldRef<"Mentor", 'String'>
     readonly created_at: FieldRef<"Mentor", 'DateTime'>
     readonly updated_at: FieldRef<"Mentor", 'DateTime'>
@@ -11343,7 +11414,6 @@ export namespace Prisma {
     id: bigint | null
     user_id: bigint | null
     image: string | null
-    video: string | null
     content: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -11353,7 +11423,6 @@ export namespace Prisma {
     id: bigint | null
     user_id: bigint | null
     image: string | null
-    video: string | null
     content: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -11363,7 +11432,6 @@ export namespace Prisma {
     id: number
     user_id: number
     image: number
-    video: number
     content: number
     created_at: number
     updated_at: number
@@ -11385,7 +11453,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     image?: true
-    video?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11395,7 +11462,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     image?: true
-    video?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11405,7 +11471,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     image?: true
-    video?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11500,9 +11565,8 @@ export namespace Prisma {
 
   export type FeedbackGroupByOutputType = {
     id: bigint
-    user_id: bigint | null
+    user_id: bigint
     image: string | null
-    video: string | null
     content: string | null
     created_at: Date
     updated_at: Date
@@ -11531,7 +11595,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     image?: boolean
-    video?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11542,7 +11605,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     image?: boolean
-    video?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11553,7 +11615,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     image?: boolean
-    video?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11564,13 +11625,12 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     image?: boolean
-    video?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "image" | "video" | "content" | "created_at" | "updated_at", ExtArgs["result"]["feedback"]>
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "image" | "content" | "created_at" | "updated_at", ExtArgs["result"]["feedback"]>
   export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userRef?: boolean | Feedback$userRefArgs<ExtArgs>
   }
@@ -11588,9 +11648,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      user_id: bigint | null
+      user_id: bigint
       image: string | null
-      video: string | null
       content: string | null
       created_at: Date
       updated_at: Date
@@ -12021,7 +12080,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Feedback", 'BigInt'>
     readonly user_id: FieldRef<"Feedback", 'BigInt'>
     readonly image: FieldRef<"Feedback", 'String'>
-    readonly video: FieldRef<"Feedback", 'String'>
     readonly content: FieldRef<"Feedback", 'String'>
     readonly created_at: FieldRef<"Feedback", 'DateTime'>
     readonly updated_at: FieldRef<"Feedback", 'DateTime'>
@@ -19312,7 +19370,10 @@ export namespace Prisma {
     dob: 'dob',
     gender: 'gender',
     role: 'role',
+    profession_category: 'profession_category',
     profession: 'profession',
+    country: 'country',
+    postal_code: 'postal_code',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
@@ -19325,6 +19386,7 @@ export namespace Prisma {
   export const MentorScalarFieldEnum: {
     id: 'id',
     experience: 'experience',
+    about: 'about',
     available_from: 'available_from',
     available_to: 'available_to',
     rating: 'rating',
@@ -19333,6 +19395,7 @@ export namespace Prisma {
     level: 'level',
     no_of_consultancy: 'no_of_consultancy',
     charge: 'charge',
+    currency: 'currency',
     achievements: 'achievements',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -19415,7 +19478,6 @@ export namespace Prisma {
     id: 'id',
     user_id: 'user_id',
     image: 'image',
-    video: 'video',
     content: 'content',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -19624,16 +19686,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Profession'
+   * Reference to a field of type 'ProfessionCategory'
    */
-  export type EnumProfessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Profession'>
+  export type EnumProfessionCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfessionCategory'>
     
 
 
   /**
-   * Reference to a field of type 'Profession[]'
+   * Reference to a field of type 'ProfessionCategory[]'
    */
-  export type ListEnumProfessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Profession[]'>
+  export type ListEnumProfessionCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfessionCategory[]'>
     
 
 
@@ -19892,7 +19954,7 @@ export namespace Prisma {
     id?: BigIntFilter<"Users"> | bigint | number
     image?: StringNullableFilter<"Users"> | string | null
     email?: StringFilter<"Users"> | string
-    phone?: StringNullableFilter<"Users"> | string | null
+    phone?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     first_name?: StringFilter<"Users"> | string
     middle_name?: StringNullableFilter<"Users"> | string | null
@@ -19900,7 +19962,10 @@ export namespace Prisma {
     dob?: DateTimeNullableFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleFilter<"Users"> | $Enums.UserRole
-    profession?: EnumProfessionFilter<"Users"> | $Enums.Profession
+    profession_category?: EnumProfessionCategoryNullableFilter<"Users"> | $Enums.ProfessionCategory | null
+    profession?: StringNullableFilter<"Users"> | string | null
+    country?: StringFilter<"Users"> | string
+    postal_code?: StringNullableFilter<"Users"> | string | null
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
     deleted_at?: DateTimeNullableFilter<"Users"> | Date | string | null
@@ -19926,7 +19991,7 @@ export namespace Prisma {
     id?: SortOrder
     image?: SortOrderInput | SortOrder
     email?: SortOrder
-    phone?: SortOrderInput | SortOrder
+    phone?: SortOrder
     password?: SortOrder
     first_name?: SortOrder
     middle_name?: SortOrderInput | SortOrder
@@ -19934,7 +19999,10 @@ export namespace Prisma {
     dob?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     role?: SortOrder
-    profession?: SortOrder
+    profession_category?: SortOrderInput | SortOrder
+    profession?: SortOrderInput | SortOrder
+    country?: SortOrder
+    postal_code?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -19971,7 +20039,10 @@ export namespace Prisma {
     dob?: DateTimeNullableFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleFilter<"Users"> | $Enums.UserRole
-    profession?: EnumProfessionFilter<"Users"> | $Enums.Profession
+    profession_category?: EnumProfessionCategoryNullableFilter<"Users"> | $Enums.ProfessionCategory | null
+    profession?: StringNullableFilter<"Users"> | string | null
+    country?: StringFilter<"Users"> | string
+    postal_code?: StringNullableFilter<"Users"> | string | null
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
     deleted_at?: DateTimeNullableFilter<"Users"> | Date | string | null
@@ -19997,7 +20068,7 @@ export namespace Prisma {
     id?: SortOrder
     image?: SortOrderInput | SortOrder
     email?: SortOrder
-    phone?: SortOrderInput | SortOrder
+    phone?: SortOrder
     password?: SortOrder
     first_name?: SortOrder
     middle_name?: SortOrderInput | SortOrder
@@ -20005,7 +20076,10 @@ export namespace Prisma {
     dob?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     role?: SortOrder
-    profession?: SortOrder
+    profession_category?: SortOrderInput | SortOrder
+    profession?: SortOrderInput | SortOrder
+    country?: SortOrder
+    postal_code?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -20024,7 +20098,7 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"Users"> | bigint | number
     image?: StringNullableWithAggregatesFilter<"Users"> | string | null
     email?: StringWithAggregatesFilter<"Users"> | string
-    phone?: StringNullableWithAggregatesFilter<"Users"> | string | null
+    phone?: StringWithAggregatesFilter<"Users"> | string
     password?: StringWithAggregatesFilter<"Users"> | string
     first_name?: StringWithAggregatesFilter<"Users"> | string
     middle_name?: StringNullableWithAggregatesFilter<"Users"> | string | null
@@ -20032,7 +20106,10 @@ export namespace Prisma {
     dob?: DateTimeNullableWithAggregatesFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableWithAggregatesFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleWithAggregatesFilter<"Users"> | $Enums.UserRole
-    profession?: EnumProfessionWithAggregatesFilter<"Users"> | $Enums.Profession
+    profession_category?: EnumProfessionCategoryNullableWithAggregatesFilter<"Users"> | $Enums.ProfessionCategory | null
+    profession?: StringNullableWithAggregatesFilter<"Users"> | string | null
+    country?: StringWithAggregatesFilter<"Users"> | string
+    postal_code?: StringNullableWithAggregatesFilter<"Users"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     deleted_at?: DateTimeNullableWithAggregatesFilter<"Users"> | Date | string | null
@@ -20045,6 +20122,7 @@ export namespace Prisma {
     NOT?: MentorWhereInput | MentorWhereInput[]
     id?: BigIntFilter<"Mentor"> | bigint | number
     experience?: IntFilter<"Mentor"> | number
+    about?: StringNullableFilter<"Mentor"> | string | null
     available_from?: DateTimeNullableFilter<"Mentor"> | Date | string | null
     available_to?: DateTimeNullableFilter<"Mentor"> | Date | string | null
     rating?: DecimalFilter<"Mentor"> | Decimal | DecimalJsLike | number | string
@@ -20053,6 +20131,7 @@ export namespace Prisma {
     level?: EnumMentorLevelNullableFilter<"Mentor"> | $Enums.MentorLevel | null
     no_of_consultancy?: IntFilter<"Mentor"> | number
     charge?: DecimalNullableFilter<"Mentor"> | Decimal | DecimalJsLike | number | string | null
+    currency?: EnumCurrencyNullableFilter<"Mentor"> | $Enums.Currency | null
     achievements?: StringNullableFilter<"Mentor"> | string | null
     created_at?: DateTimeFilter<"Mentor"> | Date | string
     updated_at?: DateTimeFilter<"Mentor"> | Date | string
@@ -20062,6 +20141,7 @@ export namespace Prisma {
   export type MentorOrderByWithRelationInput = {
     id?: SortOrder
     experience?: SortOrder
+    about?: SortOrderInput | SortOrder
     available_from?: SortOrderInput | SortOrder
     available_to?: SortOrderInput | SortOrder
     rating?: SortOrder
@@ -20070,6 +20150,7 @@ export namespace Prisma {
     level?: SortOrderInput | SortOrder
     no_of_consultancy?: SortOrder
     charge?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
     achievements?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -20082,6 +20163,7 @@ export namespace Prisma {
     OR?: MentorWhereInput[]
     NOT?: MentorWhereInput | MentorWhereInput[]
     experience?: IntFilter<"Mentor"> | number
+    about?: StringNullableFilter<"Mentor"> | string | null
     available_from?: DateTimeNullableFilter<"Mentor"> | Date | string | null
     available_to?: DateTimeNullableFilter<"Mentor"> | Date | string | null
     rating?: DecimalFilter<"Mentor"> | Decimal | DecimalJsLike | number | string
@@ -20090,6 +20172,7 @@ export namespace Prisma {
     level?: EnumMentorLevelNullableFilter<"Mentor"> | $Enums.MentorLevel | null
     no_of_consultancy?: IntFilter<"Mentor"> | number
     charge?: DecimalNullableFilter<"Mentor"> | Decimal | DecimalJsLike | number | string | null
+    currency?: EnumCurrencyNullableFilter<"Mentor"> | $Enums.Currency | null
     achievements?: StringNullableFilter<"Mentor"> | string | null
     created_at?: DateTimeFilter<"Mentor"> | Date | string
     updated_at?: DateTimeFilter<"Mentor"> | Date | string
@@ -20099,6 +20182,7 @@ export namespace Prisma {
   export type MentorOrderByWithAggregationInput = {
     id?: SortOrder
     experience?: SortOrder
+    about?: SortOrderInput | SortOrder
     available_from?: SortOrderInput | SortOrder
     available_to?: SortOrderInput | SortOrder
     rating?: SortOrder
@@ -20107,6 +20191,7 @@ export namespace Prisma {
     level?: SortOrderInput | SortOrder
     no_of_consultancy?: SortOrder
     charge?: SortOrderInput | SortOrder
+    currency?: SortOrderInput | SortOrder
     achievements?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -20123,6 +20208,7 @@ export namespace Prisma {
     NOT?: MentorScalarWhereWithAggregatesInput | MentorScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Mentor"> | bigint | number
     experience?: IntWithAggregatesFilter<"Mentor"> | number
+    about?: StringNullableWithAggregatesFilter<"Mentor"> | string | null
     available_from?: DateTimeNullableWithAggregatesFilter<"Mentor"> | Date | string | null
     available_to?: DateTimeNullableWithAggregatesFilter<"Mentor"> | Date | string | null
     rating?: DecimalWithAggregatesFilter<"Mentor"> | Decimal | DecimalJsLike | number | string
@@ -20131,6 +20217,7 @@ export namespace Prisma {
     level?: EnumMentorLevelNullableWithAggregatesFilter<"Mentor"> | $Enums.MentorLevel | null
     no_of_consultancy?: IntWithAggregatesFilter<"Mentor"> | number
     charge?: DecimalNullableWithAggregatesFilter<"Mentor"> | Decimal | DecimalJsLike | number | string | null
+    currency?: EnumCurrencyNullableWithAggregatesFilter<"Mentor"> | $Enums.Currency | null
     achievements?: StringNullableWithAggregatesFilter<"Mentor"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Mentor"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Mentor"> | Date | string
@@ -20532,9 +20619,8 @@ export namespace Prisma {
     OR?: FeedbackWhereInput[]
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
     id?: BigIntFilter<"Feedback"> | bigint | number
-    user_id?: BigIntNullableFilter<"Feedback"> | bigint | number | null
+    user_id?: BigIntFilter<"Feedback"> | bigint | number
     image?: StringNullableFilter<"Feedback"> | string | null
-    video?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
@@ -20543,9 +20629,8 @@ export namespace Prisma {
 
   export type FeedbackOrderByWithRelationInput = {
     id?: SortOrder
-    user_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
     image?: SortOrderInput | SortOrder
-    video?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -20557,9 +20642,8 @@ export namespace Prisma {
     AND?: FeedbackWhereInput | FeedbackWhereInput[]
     OR?: FeedbackWhereInput[]
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
-    user_id?: BigIntNullableFilter<"Feedback"> | bigint | number | null
+    user_id?: BigIntFilter<"Feedback"> | bigint | number
     image?: StringNullableFilter<"Feedback"> | string | null
-    video?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
@@ -20568,9 +20652,8 @@ export namespace Prisma {
 
   export type FeedbackOrderByWithAggregationInput = {
     id?: SortOrder
-    user_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
     image?: SortOrderInput | SortOrder
-    video?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -20586,9 +20669,8 @@ export namespace Prisma {
     OR?: FeedbackScalarWhereWithAggregatesInput[]
     NOT?: FeedbackScalarWhereWithAggregatesInput | FeedbackScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Feedback"> | bigint | number
-    user_id?: BigIntNullableWithAggregatesFilter<"Feedback"> | bigint | number | null
+    user_id?: BigIntWithAggregatesFilter<"Feedback"> | bigint | number
     image?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
-    video?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     content?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
@@ -21031,7 +21113,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -21039,7 +21121,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -21065,7 +21150,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -21073,7 +21158,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -21099,7 +21187,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21107,7 +21195,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21133,7 +21224,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21141,7 +21232,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21167,7 +21261,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -21175,7 +21269,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -21186,7 +21283,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21194,7 +21291,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21205,7 +21305,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21213,7 +21313,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21222,6 +21325,7 @@ export namespace Prisma {
 
   export type MentorCreateInput = {
     experience: number
+    about?: string | null
     available_from?: Date | string | null
     available_to?: Date | string | null
     rating?: Decimal | DecimalJsLike | number | string
@@ -21230,6 +21334,7 @@ export namespace Prisma {
     level?: $Enums.MentorLevel | null
     no_of_consultancy?: number
     charge?: Decimal | DecimalJsLike | number | string | null
+    currency?: $Enums.Currency | null
     achievements?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21239,6 +21344,7 @@ export namespace Prisma {
   export type MentorUncheckedCreateInput = {
     id: bigint | number
     experience: number
+    about?: string | null
     available_from?: Date | string | null
     available_to?: Date | string | null
     rating?: Decimal | DecimalJsLike | number | string
@@ -21247,6 +21353,7 @@ export namespace Prisma {
     level?: $Enums.MentorLevel | null
     no_of_consultancy?: number
     charge?: Decimal | DecimalJsLike | number | string | null
+    currency?: $Enums.Currency | null
     achievements?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21254,6 +21361,7 @@ export namespace Prisma {
 
   export type MentorUpdateInput = {
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -21262,6 +21370,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21271,6 +21380,7 @@ export namespace Prisma {
   export type MentorUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -21279,6 +21389,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21287,6 +21398,7 @@ export namespace Prisma {
   export type MentorCreateManyInput = {
     id: bigint | number
     experience: number
+    about?: string | null
     available_from?: Date | string | null
     available_to?: Date | string | null
     rating?: Decimal | DecimalJsLike | number | string
@@ -21295,6 +21407,7 @@ export namespace Prisma {
     level?: $Enums.MentorLevel | null
     no_of_consultancy?: number
     charge?: Decimal | DecimalJsLike | number | string | null
+    currency?: $Enums.Currency | null
     achievements?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21302,6 +21415,7 @@ export namespace Prisma {
 
   export type MentorUpdateManyMutationInput = {
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -21310,6 +21424,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21318,6 +21433,7 @@ export namespace Prisma {
   export type MentorUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -21326,6 +21442,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21724,7 +21841,6 @@ export namespace Prisma {
   export type FeedbackCreateInput = {
     id?: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21733,9 +21849,8 @@ export namespace Prisma {
 
   export type FeedbackUncheckedCreateInput = {
     id?: bigint | number
-    user_id?: bigint | number | null
+    user_id: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21744,7 +21859,6 @@ export namespace Prisma {
   export type FeedbackUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21753,9 +21867,8 @@ export namespace Prisma {
 
   export type FeedbackUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21763,9 +21876,8 @@ export namespace Prisma {
 
   export type FeedbackCreateManyInput = {
     id?: bigint | number
-    user_id?: bigint | number | null
+    user_id: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -21774,7 +21886,6 @@ export namespace Prisma {
   export type FeedbackUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21782,9 +21893,8 @@ export namespace Prisma {
 
   export type FeedbackUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22308,11 +22418,11 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type EnumProfessionFilter<$PrismaModel = never> = {
-    equals?: $Enums.Profession | EnumProfessionFieldRefInput<$PrismaModel>
-    in?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    not?: NestedEnumProfessionFilter<$PrismaModel> | $Enums.Profession
+  export type EnumProfessionCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfessionCategory | EnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel> | $Enums.ProfessionCategory | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -22443,7 +22553,10 @@ export namespace Prisma {
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
+    profession_category?: SortOrder
     profession?: SortOrder
+    country?: SortOrder
+    postal_code?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -22466,7 +22579,10 @@ export namespace Prisma {
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
+    profession_category?: SortOrder
     profession?: SortOrder
+    country?: SortOrder
+    postal_code?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -22485,7 +22601,10 @@ export namespace Prisma {
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
+    profession_category?: SortOrder
     profession?: SortOrder
+    country?: SortOrder
+    postal_code?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -22582,14 +22701,14 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type EnumProfessionWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Profession | EnumProfessionFieldRefInput<$PrismaModel>
-    in?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    not?: NestedEnumProfessionWithAggregatesFilter<$PrismaModel> | $Enums.Profession
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProfessionFilter<$PrismaModel>
-    _max?: NestedEnumProfessionFilter<$PrismaModel>
+  export type EnumProfessionCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfessionCategory | EnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProfessionCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProfessionCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -22661,6 +22780,13 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type EnumCurrencyNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCurrencyNullableFilter<$PrismaModel> | $Enums.Currency | null
+  }
+
   export type UsersScalarRelationFilter = {
     is?: UsersWhereInput
     isNot?: UsersWhereInput
@@ -22669,6 +22795,7 @@ export namespace Prisma {
   export type MentorCountOrderByAggregateInput = {
     id?: SortOrder
     experience?: SortOrder
+    about?: SortOrder
     available_from?: SortOrder
     available_to?: SortOrder
     rating?: SortOrder
@@ -22677,6 +22804,7 @@ export namespace Prisma {
     level?: SortOrder
     no_of_consultancy?: SortOrder
     charge?: SortOrder
+    currency?: SortOrder
     achievements?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22693,6 +22821,7 @@ export namespace Prisma {
   export type MentorMaxOrderByAggregateInput = {
     id?: SortOrder
     experience?: SortOrder
+    about?: SortOrder
     available_from?: SortOrder
     available_to?: SortOrder
     rating?: SortOrder
@@ -22701,6 +22830,7 @@ export namespace Prisma {
     level?: SortOrder
     no_of_consultancy?: SortOrder
     charge?: SortOrder
+    currency?: SortOrder
     achievements?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22709,6 +22839,7 @@ export namespace Prisma {
   export type MentorMinOrderByAggregateInput = {
     id?: SortOrder
     experience?: SortOrder
+    about?: SortOrder
     available_from?: SortOrder
     available_to?: SortOrder
     rating?: SortOrder
@@ -22717,6 +22848,7 @@ export namespace Prisma {
     level?: SortOrder
     no_of_consultancy?: SortOrder
     charge?: SortOrder
+    currency?: SortOrder
     achievements?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22796,6 +22928,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumCurrencyNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCurrencyNullableWithAggregatesFilter<$PrismaModel> | $Enums.Currency | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCurrencyNullableFilter<$PrismaModel>
+    _max?: NestedEnumCurrencyNullableFilter<$PrismaModel>
   }
 
   export type EnumCurrencyFilter<$PrismaModel = never> = {
@@ -23170,7 +23312,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     image?: SortOrder
-    video?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23185,7 +23326,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     image?: SortOrder
-    video?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23195,7 +23335,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     image?: SortOrder
-    video?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23863,8 +24002,8 @@ export namespace Prisma {
     set?: $Enums.UserRole
   }
 
-  export type EnumProfessionFieldUpdateOperationsInput = {
-    set?: $Enums.Profession
+  export type NullableEnumProfessionCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.ProfessionCategory | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -24323,6 +24462,10 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type NullableEnumCurrencyFieldUpdateOperationsInput = {
+    set?: $Enums.Currency | null
   }
 
   export type UsersUpdateOneRequiredWithoutMentorNestedInput = {
@@ -24935,11 +25078,11 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type NestedEnumProfessionFilter<$PrismaModel = never> = {
-    equals?: $Enums.Profession | EnumProfessionFieldRefInput<$PrismaModel>
-    in?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    not?: NestedEnumProfessionFilter<$PrismaModel> | $Enums.Profession
+  export type NestedEnumProfessionCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfessionCategory | EnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel> | $Enums.ProfessionCategory | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -25075,14 +25218,14 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type NestedEnumProfessionWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Profession | EnumProfessionFieldRefInput<$PrismaModel>
-    in?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Profession[] | ListEnumProfessionFieldRefInput<$PrismaModel>
-    not?: NestedEnumProfessionWithAggregatesFilter<$PrismaModel> | $Enums.Profession
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProfessionFilter<$PrismaModel>
-    _max?: NestedEnumProfessionFilter<$PrismaModel>
+  export type NestedEnumProfessionCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfessionCategory | EnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProfessionCategory[] | ListEnumProfessionCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProfessionCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProfessionCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumProfessionCategoryNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -25141,6 +25284,13 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedEnumCurrencyNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCurrencyNullableFilter<$PrismaModel> | $Enums.Currency | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -25209,6 +25359,16 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCurrencyNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumCurrencyNullableWithAggregatesFilter<$PrismaModel> | $Enums.Currency | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumCurrencyNullableFilter<$PrismaModel>
+    _max?: NestedEnumCurrencyNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCurrencyFilter<$PrismaModel = never> = {
@@ -25462,7 +25622,6 @@ export namespace Prisma {
   export type FeedbackCreateWithoutUserRefInput = {
     id?: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -25471,7 +25630,6 @@ export namespace Prisma {
   export type FeedbackUncheckedCreateWithoutUserRefInput = {
     id?: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -25857,6 +26015,7 @@ export namespace Prisma {
 
   export type MentorCreateWithoutUserInput = {
     experience: number
+    about?: string | null
     available_from?: Date | string | null
     available_to?: Date | string | null
     rating?: Decimal | DecimalJsLike | number | string
@@ -25865,6 +26024,7 @@ export namespace Prisma {
     level?: $Enums.MentorLevel | null
     no_of_consultancy?: number
     charge?: Decimal | DecimalJsLike | number | string | null
+    currency?: $Enums.Currency | null
     achievements?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -25872,6 +26032,7 @@ export namespace Prisma {
 
   export type MentorUncheckedCreateWithoutUserInput = {
     experience: number
+    about?: string | null
     available_from?: Date | string | null
     available_to?: Date | string | null
     rating?: Decimal | DecimalJsLike | number | string
@@ -25880,6 +26041,7 @@ export namespace Prisma {
     level?: $Enums.MentorLevel | null
     no_of_consultancy?: number
     charge?: Decimal | DecimalJsLike | number | string | null
+    currency?: $Enums.Currency | null
     achievements?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -25959,9 +26121,8 @@ export namespace Prisma {
     OR?: FeedbackScalarWhereInput[]
     NOT?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
     id?: BigIntFilter<"Feedback"> | bigint | number
-    user_id?: BigIntNullableFilter<"Feedback"> | bigint | number | null
+    user_id?: BigIntFilter<"Feedback"> | bigint | number
     image?: StringNullableFilter<"Feedback"> | string | null
-    video?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
@@ -26263,6 +26424,7 @@ export namespace Prisma {
 
   export type MentorUpdateWithoutUserInput = {
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26271,6 +26433,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26278,6 +26441,7 @@ export namespace Prisma {
 
   export type MentorUncheckedUpdateWithoutUserInput = {
     experience?: IntFieldUpdateOperationsInput | number
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     available_from?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available_to?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -26286,6 +26450,7 @@ export namespace Prisma {
     level?: NullableEnumMentorLevelFieldUpdateOperationsInput | $Enums.MentorLevel | null
     no_of_consultancy?: IntFieldUpdateOperationsInput | number
     charge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
     achievements?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26338,7 +26503,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26346,7 +26511,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26371,7 +26539,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26379,7 +26547,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26420,7 +26591,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26428,7 +26599,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26453,7 +26627,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26461,7 +26635,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26486,7 +26663,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26494,7 +26671,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26519,7 +26699,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26527,7 +26707,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26557,7 +26740,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26565,7 +26748,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26590,7 +26776,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26598,7 +26784,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26715,7 +26904,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26723,7 +26912,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26748,7 +26940,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26756,7 +26948,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26792,7 +26987,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26800,7 +26995,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26825,7 +27023,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26833,7 +27031,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26890,7 +27091,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26898,7 +27099,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26923,7 +27127,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26931,7 +27135,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26961,7 +27168,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -26969,7 +27176,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -26994,7 +27204,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27002,7 +27212,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27077,7 +27290,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27085,7 +27298,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27110,7 +27326,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27118,7 +27334,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27154,7 +27373,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27162,7 +27381,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27187,7 +27409,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27195,7 +27417,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27236,7 +27461,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27244,7 +27469,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27269,7 +27497,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27277,7 +27505,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27307,7 +27538,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27315,7 +27546,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27340,7 +27574,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27348,7 +27582,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27429,7 +27666,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27437,7 +27674,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27462,7 +27702,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27470,7 +27710,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27506,7 +27749,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27514,7 +27757,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27539,7 +27785,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27547,7 +27793,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27674,7 +27923,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27682,7 +27931,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27707,7 +27959,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27715,7 +27967,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27745,7 +28000,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27753,7 +28008,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27778,7 +28036,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -27786,7 +28044,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -27862,7 +28123,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27870,7 +28131,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27895,7 +28159,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27903,7 +28167,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27939,7 +28206,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27947,7 +28214,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27972,7 +28242,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27980,7 +28250,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28046,7 +28319,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28054,7 +28327,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28079,7 +28355,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28087,7 +28363,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28128,7 +28407,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28136,7 +28415,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28161,7 +28443,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28169,7 +28451,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28252,7 +28537,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28260,7 +28545,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28285,7 +28573,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28293,7 +28581,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28394,7 +28685,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28402,7 +28693,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28427,7 +28721,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28435,7 +28729,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28532,7 +28829,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28540,7 +28837,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28565,7 +28865,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28573,7 +28873,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28614,7 +28917,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28622,7 +28925,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28647,7 +28953,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28655,7 +28961,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28680,7 +28989,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28688,7 +28997,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28713,7 +29025,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28721,7 +29033,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28762,7 +29077,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28770,7 +29085,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28795,7 +29113,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28803,7 +29121,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28828,7 +29149,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28836,7 +29157,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28861,7 +29185,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28869,7 +29193,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28899,7 +29226,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28907,7 +29234,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28932,7 +29262,7 @@ export namespace Prisma {
     id?: bigint | number
     image?: string | null
     email: string
-    phone?: string | null
+    phone: string
     password: string
     first_name: string
     middle_name?: string | null
@@ -28940,7 +29270,10 @@ export namespace Prisma {
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
-    profession?: $Enums.Profession
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -28981,7 +29314,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28989,7 +29322,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29014,7 +29350,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29022,7 +29358,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29058,7 +29397,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29066,7 +29405,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29091,7 +29433,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     middle_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29099,7 +29441,10 @@ export namespace Prisma {
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession?: EnumProfessionFieldUpdateOperationsInput | $Enums.Profession
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29123,7 +29468,6 @@ export namespace Prisma {
   export type FeedbackCreateManyUserRefInput = {
     id?: bigint | number
     image?: string | null
-    video?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -29269,7 +29613,6 @@ export namespace Prisma {
   export type FeedbackUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29278,7 +29621,6 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29287,7 +29629,6 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateManyWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    video?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

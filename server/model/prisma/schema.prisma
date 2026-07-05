@@ -27,14 +27,6 @@ enum UserRole {
   MENTOR
 }
 
-enum Profession {
-  ENGINEER
-  DOCTOR
-  TEACHER
-  PROFESSOR
-  STUDENT
-}
-
 enum MentorLevel {
   BRONZE
   SILVER
@@ -50,33 +42,36 @@ enum MentorExpertise {
 }
 
 enum Currency {
-  USD // US Dollar
-  EUR // Euro
-  GBP // British Pound
-  INR // Indian Rupee
-  JPY // Japanese Yen
-  CNY // Chinese Yuan
-  RUB // Russian Ruble
-  AUD // Australian Dollar
-  CAD // Canadian Dollar
-  CHF // Swiss Franc
-  HKD // Hong Kong Dollar
-  SGD // Singapore Dollar
-  NZD // New Zealand Dollar
-  AED // UAE Dirham
-  SAR // Saudi Riyal
-  ZAR // South African Rand
-  KRW // South Korean Won
-  BRL // Brazilian Real
-  MXN // Mexican Peso
-  SEK // Swedish Krona
-  NOK // Norwegian Krone
-  DKK // Danish Krone
-  PLN // Polish Zloty
-  TRY // Turkish Lira
-  THB // Thai Baht
-  IDR // Indonesian Rupiah
-  MYR // Malaysian Ringgit
+  INR
+  RUB
+  USD
+  EUR
+  GBP
+  JPY
+  CNY
+  AUD
+  CAD
+  CHF
+  HKD
+  SGD
+  NZD
+  AED
+  SAR
+  ZAR
+  KRW
+  BRL
+  MXN
+  SEK
+  NOK
+  DKK
+  PLN
+  TRY
+  THB
+  IDR
+  MYR
+  PHP
+  CZK
+  ILS
 }
 
 enum PaymentStatus {
@@ -136,21 +131,36 @@ enum Relation {
   FOLLOWS
 }
 
+enum ProfessionCategory {
+  HEALTHCARE
+  EDUCATION
+  TECHNOLOGY
+  BUSINESS
+  LAW
+  ARTS
+  SPORTS
+  OTHER
+}
+
 //// MODELS ////
 
 model Users {
-  id          BigInt     @id @default(autoincrement())
-  image       String?
-  email       String     @unique
-  phone       String?    @unique
-  password    String
-  first_name  String
-  middle_name String?
-  last_name   String
-  dob         DateTime?
-  gender      Gender?
-  role        UserRole   @default(USER)
-  profession  Profession @default(STUDENT)
+  id                  BigInt              @id @default(autoincrement())
+  image               String?
+  email               String              @unique
+  phone               String              @unique
+  password            String
+  first_name          String
+  middle_name         String?
+  last_name           String
+  dob                 DateTime?
+  gender              Gender?
+  role                UserRole            @default(USER)
+  profession_category ProfessionCategory?
+  profession          String?
+
+  country     String
+  postal_code String?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
@@ -186,6 +196,7 @@ model Mentor {
   id                BigInt          @id
   user              Users           @relation(fields: [id], references: [id], onDelete: Cascade)
   experience        Int
+  about             String?
   available_from    DateTime?       @db.Time
   available_to      DateTime?       @db.Time
   rating            Decimal         @default(0) @db.Decimal(2, 1)
@@ -194,6 +205,7 @@ model Mentor {
   level             MentorLevel?
   no_of_consultancy Int             @default(0)
   charge            Decimal?        @default(0) @db.Decimal(10, 2)
+  currency          Currency?       @default(INR)
   achievements      String?
 
   created_at DateTime @default(now())
@@ -216,13 +228,10 @@ model Consultancy_service {
 
   created_at DateTime @default(now())
 
-  // mentorRef      Users   @relation(fields: [mentor_id], references: [id])
-  // userRef        Users  @relation(fields: [user_id], references: [id])
   mentorRef Users      @relation("mentor", fields: [mentor_id], references: [id])
   userRef   Users      @relation("user", fields: [user_id], references: [id])
   payments  Payments[]
-
-  reports Report[]
+  reports   Report[]
 }
 
 model Chat {
@@ -303,9 +312,8 @@ model Report {
 
 model Feedback {
   id         BigInt   @id @default(autoincrement())
-  user_id    BigInt? //fk
+  user_id    BigInt
   image      String?
-  video      String?
   content    String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

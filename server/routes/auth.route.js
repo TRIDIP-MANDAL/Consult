@@ -2,9 +2,10 @@ import express from 'express';
 import { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile } from '../controller/auth.controller.js';
 import { userRoute, protect } from '../middleware/protectRoute.js'
 import { restrictAuth } from '../middleware/restrictAuth.js'
+import { isVerified } from '../middleware/otpVerified.js'
 export const authentication = express.Router();
 
-authentication.post('/signup', restrictAuth, signup);
+authentication.post('/signup', isVerified, restrictAuth, signup);
 authentication.post('/login', restrictAuth, login);
 authentication.get('/profile/:id', protect, userRoute, loadProfile);// done
 authentication.patch('/editprofile/:id', protect, userRoute, updateProfile); //done

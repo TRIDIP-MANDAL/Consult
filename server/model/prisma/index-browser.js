@@ -132,7 +132,10 @@ exports.Prisma.UsersScalarFieldEnum = {
   dob: 'dob',
   gender: 'gender',
   role: 'role',
+  profession_category: 'profession_category',
   profession: 'profession',
+  country: 'country',
+  postal_code: 'postal_code',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -142,6 +145,7 @@ exports.Prisma.UsersScalarFieldEnum = {
 exports.Prisma.MentorScalarFieldEnum = {
   id: 'id',
   experience: 'experience',
+  about: 'about',
   available_from: 'available_from',
   available_to: 'available_to',
   rating: 'rating',
@@ -150,6 +154,7 @@ exports.Prisma.MentorScalarFieldEnum = {
   level: 'level',
   no_of_consultancy: 'no_of_consultancy',
   charge: 'charge',
+  currency: 'currency',
   achievements: 'achievements',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -214,7 +219,6 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   image: 'image',
-  video: 'video',
   content: 'content',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -322,12 +326,15 @@ exports.UserRole = exports.$Enums.UserRole = {
   MENTOR: 'MENTOR'
 };
 
-exports.Profession = exports.$Enums.Profession = {
-  ENGINEER: 'ENGINEER',
-  DOCTOR: 'DOCTOR',
-  TEACHER: 'TEACHER',
-  PROFESSOR: 'PROFESSOR',
-  STUDENT: 'STUDENT'
+exports.ProfessionCategory = exports.$Enums.ProfessionCategory = {
+  HEALTHCARE: 'HEALTHCARE',
+  EDUCATION: 'EDUCATION',
+  TECHNOLOGY: 'TECHNOLOGY',
+  BUSINESS: 'BUSINESS',
+  LAW: 'LAW',
+  ARTS: 'ARTS',
+  SPORTS: 'SPORTS',
+  OTHER: 'OTHER'
 };
 
 exports.MentorExpertise = exports.$Enums.MentorExpertise = {
@@ -345,13 +352,13 @@ exports.MentorLevel = exports.$Enums.MentorLevel = {
 };
 
 exports.Currency = exports.$Enums.Currency = {
+  INR: 'INR',
+  RUB: 'RUB',
   USD: 'USD',
   EUR: 'EUR',
   GBP: 'GBP',
-  INR: 'INR',
   JPY: 'JPY',
   CNY: 'CNY',
-  RUB: 'RUB',
   AUD: 'AUD',
   CAD: 'CAD',
   CHF: 'CHF',
@@ -371,7 +378,10 @@ exports.Currency = exports.$Enums.Currency = {
   TRY: 'TRY',
   THB: 'THB',
   IDR: 'IDR',
-  MYR: 'MYR'
+  MYR: 'MYR',
+  PHP: 'PHP',
+  CZK: 'CZK',
+  ILS: 'ILS'
 };
 
 exports.ServiceStatus = exports.$Enums.ServiceStatus = {

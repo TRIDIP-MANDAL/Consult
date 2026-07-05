@@ -13,11 +13,25 @@ export const signup = async (req, res) => {
     //during signup mobile no and email both are mendatory, both need to be verified
     const user = req.body.user;
     const mentor = req.body.mentor || null;
-
+    if (mentor) {  // these details can never be decided by mentor or user
+      delete mentor.rating;
+      delete mentor.verified;
+      delete mentor.expertise;
+      delete mentor.level;
+      delete mentor.no_of_consultancy;
+    }
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User data is required" });
+    }
     if (!user.country || !countryList.getName(user.country)) {
       return res.status(400).json({ success: false, message: "Invalid or missing country code" });
     }
-
+    if (mentor && mentor.charge && !mentor.currency) {
+      return res.status(400).json({ success: false, message: "Please provide charge and currency" });
+    }
+    if (user.profession_category && !user.profession) {
+      return res.status(400).json({ success: false, message: "Please provide profession" });
+    }
     const alreadyExists = await prisma.users.findFirst({
       where: {
         OR: [
@@ -27,25 +41,64 @@ export const signup = async (req, res) => {
       }
     });
 
-    if (alreadyExists) return res.status(409).json({ success: false, message: "Account with this mail or ph no already exists. Either login or continue with different email!" });
-    user.password = await bcrypt.hash(user.password, parseInt(process.env.SALT_ROUNDS) || 10)
+    if (alreadyExists) {
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "Account with this mail or ph no already exists. Either login or continue with different email!"
+        });
+    }
     console.log("req body ", req.body);
-    const createdUser = await prisma.users.create({
-      data: user
-    })
-    // add admin creation logic by checking that admin creation is done by admin or not
-    if (user.role === 'MENTOR' && mentor) {
-      const createdMentor = await prisma.mentor.create({
+    if (user.role === 'MENTOR' && !mentor) {
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "Trying to create Mentor profile, but mentor field data is empty "
+        });
+    }
+    if (user.dob) user.dob = new Date(user.dob).toISOString();
+    
+    if (mentor) {
+      if (mentor.experience) mentor.experience = parseInt(mentor.experience, 10);
+      if (mentor.available_from) mentor.available_from = new Date(`1970-01-01T${mentor.available_from}:00Z`).toISOString();
+      if (mentor.available_to) mentor.available_to = new Date(`1970-01-01T${mentor.available_to}:00Z`).toISOString();
+      if (mentor.charge === "") {
+        delete mentor.charge;
+      } else if (mentor.charge) {
+        mentor.charge = parseFloat(mentor.charge);
+      }
+    }
+
+    const [createdUser, createdMentor] = await prisma.$transaction(async (trnsctn) => {
+      const createdUser = await trnsctn.users.create({
         data: {
-          ...mentor,
-          user: {
-            connect: { id: BigInt(createdUser.id) }
-          }
+          ...user,
+          password: await bcrypt.hash(user.password, parseInt(process.env.SALT_ROUNDS) || 10)
         }
       })
-      console.log("mentor created ", createdMentor)
-    }
-    return res.status(201).json({ success: true, message: "Sign up successful!" });
+      if (user.role === 'MENTOR' && mentor) {
+        const createdMentor = await trnsctn.mentor.create({
+          data: {
+            ...mentor,
+            user: { connect: { id: BigInt(createdUser.id) } }
+          }
+        })
+
+        return [createdUser, createdMentor];
+      }
+      return [createdUser, null];
+    })
+
+    console.log("created user ", createdUser, "created mentor ", createdMentor)
+
+    return res.
+      status(201).
+      json({
+        success: true,
+        message: "Sign up successful!"
+      });
   }
   catch (error) {
     return res.status(500).json({ success: false, message: "Some Error occured during signup. Please try again later!", error: error.message })
