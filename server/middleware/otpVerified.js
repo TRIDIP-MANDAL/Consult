@@ -1,7 +1,10 @@
 import redis from "../lib/redis.js";
 
 export const isVerified = async (req, res, next)=>{
-    const { email } = req.body;
+    let { email } = req.body;
+    if(!email){
+       email = req.body?.user?.email;
+    }
     if (await redis.get(`otp:${email}:verified`)) {
        return next();
     }

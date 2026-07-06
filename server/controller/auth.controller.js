@@ -2,6 +2,7 @@ import prisma from "../model/db.js";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../lib/authHelper.js";
 import countryList from "country-list";
+import { purifyObject } from "../lib/others.js"
 // If you want a practical production bar, I would require at least these before deploy:
 // Remove the hardcoded JWT fallback and add token expiry.
 // Add production cookie settings and make logout clear with the same options.
@@ -13,6 +14,7 @@ export const signup = async (req, res) => {
     //during signup mobile no and email both are mendatory, both need to be verified
     const user = req.body.user;
     const mentor = req.body.mentor || null;
+    console.log("Reached data ", req.body)
     if (mentor) {  // these details can never be decided by mentor or user
       delete mentor.rating;
       delete mentor.verified;
@@ -58,19 +60,19 @@ export const signup = async (req, res) => {
           message: "Trying to create Mentor profile, but mentor field data is empty "
         });
     }
-    if (user.dob) user.dob = new Date(user.dob).toISOString();
-    
+    purifyObject(user);
+    if (user.dob) {
+      user.dob = new Date(user.dob).toISOString();
+    }
     if (mentor) {
+      purifyObject(mentor);
       if (mentor.experience) mentor.experience = parseInt(mentor.experience, 10);
       if (mentor.available_from) mentor.available_from = new Date(`1970-01-01T${mentor.available_from}:00Z`).toISOString();
       if (mentor.available_to) mentor.available_to = new Date(`1970-01-01T${mentor.available_to}:00Z`).toISOString();
-      if (mentor.charge === "") {
-        delete mentor.charge;
-      } else if (mentor.charge) {
-        mentor.charge = parseFloat(mentor.charge);
-      }
+      if (mentor.charge) mentor.charge = parseFloat(mentor.charge);
     }
 
+    console.log("Reached data before DB query  ", { user, mentor })
     const [createdUser, createdMentor] = await prisma.$transaction(async (trnsctn) => {
       const createdUser = await trnsctn.users.create({
         data: {
