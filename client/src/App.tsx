@@ -11,7 +11,7 @@ import { Profile }     from "./pages/Profile"
 import { BookSession } from "./pages/BookSession"
 import { Membership }  from "./pages/Membership"
 import { AboutUs}       from "./pages/static/AboutUs"
-
+import ResetPassword   from "./pages/auth/ResetPassword"
 // import { OtpVerification } from "./component/cards/OtpVerification"
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <Route path="/feedbacks"    element={<Feedbacks />} />
           <Route path="/login"        element={<Login />} />
           <Route path="/signup"       element={<Signup />} />
-          {/* <Route path="/signup"       element={<OtpVerification email="bokachoda7384@gmail.com"/>} /> */}
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           <Route path="/profile"      element={<Profile />} />
           <Route path="/book-session" element={<BookSession />} />

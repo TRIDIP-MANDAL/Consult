@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { callApi } from '../config/api.ts'
-import OtpVerification from '../component/cards/OtpVerification.tsx'
+import OtpVerification from '../component/cards/EmailOtpVerification.tsx'
 
 interface FormInput {
     name: string,

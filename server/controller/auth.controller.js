@@ -1,5 +1,6 @@
 import prisma from "../model/db.js";
 import bcrypt from 'bcryptjs';
+import redis from "../lib/redis.js";
 import { generateToken } from "../lib/authHelper.js";
 import countryList from "country-list";
 import { purifyObject } from "../lib/others.js"
@@ -9,7 +10,7 @@ import { purifyObject } from "../lib/others.js"
 // Add input validation for signup/login.
 // Add email/phone verification before allowing full account use.
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
   try {
     //during signup mobile no and email both are mendatory, both need to be verified
     const user = req.body.user;
@@ -92,7 +93,8 @@ export const signup = async (req, res) => {
       }
       return [createdUser, null];
     })
-
+    await redis.del(`otp:${req.body.email}:verified`);
+    await redis.del(`otp:${req.body.phone}:verified`);
     console.log("created user ", createdUser, "created mentor ", createdMentor)
 
     return res.
@@ -107,25 +109,29 @@ export const signup = async (req, res) => {
   }
 }
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
   try {
-    // verify username & pass
+    console.log("req body for login ",req.body)
     // here we will also verify is suer logging in as mentor or user or admin
-    const user = await prisma.users.findFirst({
-      where: {
+    const filter = {
         OR: [
           { email: req.body.email },
           { phone: req.body.phone }
         ],
-        role: req.body.role
+      };
+      if(req.body.role==='MENTOR' || req.body.role ==='ADMIN'){
+        filter.role = req.body.role;
       }
+
+    const user = await prisma.users.findFirst({
+      where: filter
     });
     if (!user) return res.status(401).json({ success: false, message: "User not found, please create account" })
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) return res.status(401).json({ success: false, message: "Invalid Credentials" })
     const data = {
       id: user.id.toString(),
-      name: user.first_name + " " + user.last_name,
+      name: user.first_name + (user.middle_name ? ` ${user.middle_name} ` : " ") + user.last_name,
       role: user.role
     }
     const token = generateToken(data);
@@ -143,7 +149,7 @@ export const login = async (req, res) => {
   }
 }
 
-export const loadProfile = async (req, res) => {
+const loadProfile = async (req, res) => {
   try {
     console.log("request params ", req.params)
     const user = await prisma.users.findFirst({
@@ -163,7 +169,7 @@ export const loadProfile = async (req, res) => {
   }
 }
 //not done
-export const updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   // add functionality, cannot update both mobile no and email at time
   try {
     console.log("request params ", req.params)
@@ -194,7 +200,7 @@ export const updateProfile = async (req, res) => {
   }
 }
 
-export const logout = (req, res) => {
+const logout = (req, res) => {
   try {
     return res.status(200).clearCookie(process.env.COOKIE_KEY).json({ success: true, message: "Logged out " })
   }
@@ -203,7 +209,7 @@ export const logout = (req, res) => {
   }
 }
 
-export const changePassword = async (req, res) => {
+const changePassword = async (req, res) => {
   try {
     // forgot password logic required here
     // first enter new password, then reenter new password, and that logic will be handled from frontend, if success then only the API hit will be done
@@ -220,7 +226,7 @@ export const changePassword = async (req, res) => {
   }
 }
 
-export const deActivateProfile = async (req, res) => {
+const deActivateProfile = async (req, res) => {
   try {
     // just deactivate the account, verify both email and no before deactivating the account
     const deactivatedUser = await prisma.users.update({
@@ -233,3 +239,31 @@ export const deActivateProfile = async (req, res) => {
     return res.status(500).json({ success: false, message: "Unknown error occurred, try again later", error: error })
   }
 }
+
+const resetPassword = async (req, res) => {
+  try {
+    const user = await prisma.users.findFirst({
+      where: {
+        AND: [
+          { email: req.body.email },
+          { phone: req.body.phone }
+        ]
+      }
+    });
+    if (!user) return res.status(404).json({ success: false, message: "User not found" })
+    const updatedUser = await prisma.users.update({
+      where: { id: BigInt(user.id) },
+      data: { password: await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUNDS || 10)) }
+    });
+    await redis.del(`otp:${req.body.email}:verified`);
+    await redis.del(`otp:${req.body.phone}:verified`);
+    console.log("updated user ", updatedUser);
+    return res.status(200).json({ success: true, message: "Password reset successfully " })
+  }
+  catch (error) {
+    console.error("Error in resetPassword: ", error);
+    return res.status(500).json({ success: false, message: "Unable to reset password", error: error?.message || "Unknown error" })
+  }
+}
+
+export { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword };

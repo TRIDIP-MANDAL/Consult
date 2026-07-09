@@ -17,7 +17,7 @@ const api = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    validateStatus: (status) => status < 500
+    validateStatus: (status) => status < 600
 });
 
 // 2. (Optional Request Interceptor)

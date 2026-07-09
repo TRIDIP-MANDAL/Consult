@@ -17,18 +17,20 @@ const isValidEmail = (email: string): boolean => {
  * @param num - The phone number string to validate
  * @returns `true` if it's a valid phone number, `false` otherwise
  */
-const isValidMobileNo = (num: string, cntryCode:CountryCode): boolean => { 
+const isValidMobileNo = (num: string, cntryCode: CountryCode): boolean => { 
+    console.log("num ", num, "cntrycode ", cntryCode)
    try {
-       return isValidPhoneNumber(num, cntryCode);
+       return isValidPhoneNumber(num.trim(), cntryCode);
    } catch (error) {
+    console.log("error in otp mobile ", error)
        return false;
    }
 }
 
 
-const formatMobileNo = (num: string, cntryCode:CountryCode):string =>{
+const formatMobileNo = (num: string, cntryCode: CountryCode):string =>{
     try{
-       return parsePhoneNumberFromString(num,cntryCode)?.format('E.164')||"";
+       return parsePhoneNumberFromString(num,cntryCode).format('E.164')||"";
     }
     catch(error){
       return "";

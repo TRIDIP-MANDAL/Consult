@@ -3,9 +3,9 @@ import countryList from "country-list";
 import { useNavigate } from "react-router-dom";
 import { professionCategories } from "../../assets/data/profession.json";
 import { currencies } from "../../assets/data/currency.json";
-import OtpVerification from "../../component/cards/OtpVerification.tsx";
+import OtpVerification from "../../component/cards/EmailOtpVerification.tsx";
 import { callApi } from "../../config/api.ts";
-import {isValidMobileNo, formatMobileNo, isStrongPassword, type CountryCode} from "../../config/others.ts"
+import { isValidMobileNo, formatMobileNo, isStrongPassword, type CountryCode } from "../../config/others.ts"
 
 interface UserForm {
     first_name: string;
@@ -69,6 +69,7 @@ export const Signup: React.FC = () => {
     const [prfsn, setPrfsn] = useState<string>("");
     const [otpVerified, setOtpVerified] = useState<boolean>(false);
     const [professions, setProfessions] = useState<Array<string>>([]);
+    const [showPassword, setShowPassword] = useState(false);
     const isMentor = userForm.role === "MENTOR";
     const navigate = useNavigate();
 
@@ -95,11 +96,11 @@ export const Signup: React.FC = () => {
             setError("Please select currency to accept credit");
             return;
         }
-        if(!isValidMobileNo(userForm.phone, userForm.country as CountryCode)){
+        if (!isValidMobileNo(userForm.phone, userForm.country as CountryCode)) {
             setError("Please enter a valid phone number");
             return;
         }
-        if(!isStrongPassword(userForm.password)){
+        if (!isStrongPassword(userForm.password)) {
             setError("Password must be at least 6 characters and include a capital letter, a small letter, a number, and a special character.");
             return;
         }
@@ -119,7 +120,7 @@ export const Signup: React.FC = () => {
             setError("");
             setSuccess(result.message);
             setTimeout(() => {
-              navigate('/login');
+                navigate('/login');
             }, 5000);
         } else {
             setSuccess("");
@@ -134,9 +135,9 @@ export const Signup: React.FC = () => {
                     <h1 className="text-3xl font-bold text-white">Sign Up</h1>
                     <p className="text-gray-400 mt-2 text-sm">Join our platform and start connecting.</p>
                 </div>
-                
+
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    
+
                     {/* ── ROLE TOGGLE ── */}
                     <div className="flex flex-col gap-3">
                         <label className="text-sm font-medium text-gray-300">I am signing up as:</label>
@@ -169,7 +170,7 @@ export const Signup: React.FC = () => {
                     {/* ── BASIC INFO ── */}
                     <fieldset className="border border-gray-800 rounded-xl p-6 flex flex-col gap-5">
                         <legend className="text-lg font-semibold text-white px-2">Personal Information</legend>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-sm font-medium text-gray-300">First Name *</label>
@@ -206,17 +207,17 @@ export const Signup: React.FC = () => {
                     {/* ── CONTACT & AUTH ── */}
                     <fieldset className="border border-gray-800 rounded-xl p-6 flex flex-col gap-5">
                         <legend className="text-lg font-semibold text-white px-2">Account Details</legend>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-1.5 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-300">Email *</label>
                                 <input type="email" name="email" value={userForm.email} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
                             </div>
-                            
+
                             <div className="md:col-span-2">
                                 <OtpVerification email={userForm.email} onVerified={setOtpVerified} />
                             </div>
-                            
+
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-sm font-medium text-gray-300">Phone *</label>
                                 <input type="tel" name="phone" value={userForm.phone} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
@@ -224,7 +225,20 @@ export const Signup: React.FC = () => {
 
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-sm font-medium text-gray-300">Password *</label>
-                                <input type="password" name="password" value={userForm.password} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                                <div className="relative">
+                                    <input type={showPassword ? "text" : "password"} name="password" value={userForm.password} onChange={handleUserChange} required className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-200"
+                                    >
+                                        {showPassword ? (
+                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                        ) : (
+                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                                        )}
+                                    </button>
+                                </div>
                                 {!isStrongPassword(userForm.password) && userForm.password.length > 0 && (
                                     <span className="text-red-400 text-xs mt-1">Must be more than 6 chars with uppercase, lowercase, number & symbol.</span>
                                 )}
@@ -284,7 +298,7 @@ export const Signup: React.FC = () => {
                     {isMentor && (
                         <fieldset className="border border-blue-900 bg-blue-950/20 rounded-xl p-6 flex flex-col gap-5">
                             <legend className="text-lg font-semibold text-blue-400 px-2">Mentor Details</legend>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-sm font-medium text-gray-300">Experience (years) *</label>

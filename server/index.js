@@ -5,6 +5,7 @@ import { authentication } from './routes/auth.route.js';
 import { feedback } from './routes/feedback.route.js';
 import { otpverification } from './routes/otpVerify.route.js'
 import { contact_us } from './routes/contactus.route.js';
+import {mobOtpRouter} from './routes/mobOtp.route.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 // Patch for BigInt serialization in JSON (Prisma BigInt support)
@@ -35,6 +36,7 @@ if (NODE_ENV === "production") {
 app.use('/auth', authentication);
 app.use('/feedback', feedback);
 app.use('/otp', otpverification);
+app.use('/otp-mob',mobOtpRouter);
 app.use('/contactus', contact_us);
 
 app.listen(PORT, (err) => {
