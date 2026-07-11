@@ -313,6 +313,7 @@ model Report {
 model Feedback {
   id         BigInt   @id @default(autoincrement())
   user_id    BigInt
+  rating     Int
   image      String?
   content    String?
   created_at DateTime @default(now())

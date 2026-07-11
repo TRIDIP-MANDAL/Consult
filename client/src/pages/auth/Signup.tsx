@@ -3,9 +3,11 @@ import countryList from "country-list";
 import { useNavigate } from "react-router-dom";
 import { professionCategories } from "../../assets/data/profession.json";
 import { currencies } from "../../assets/data/currency.json";
+import { countries } from "../../assets/data/country_dialCode.json";
 import OtpVerification from "../../component/cards/EmailOtpVerification.tsx";
+import MobOtpVerification from "../../component/cards/MobileOtpVerification.tsx";
 import { callApi } from "../../config/api.ts";
-import { isValidMobileNo, formatMobileNo, isStrongPassword, type CountryCode } from "../../config/others.ts"
+import { isStrongPassword, type CountryCode } from "../../config/others.ts"
 
 interface UserForm {
     first_name: string;
@@ -13,6 +15,8 @@ interface UserForm {
     last_name: string;
     email: string;
     phone: string;
+    cntryCode: string;
+    cntry_dial_code: string;
     password: string;
     dob: string;
     gender: string;
@@ -45,6 +49,8 @@ export const Signup: React.FC = () => {
         last_name: "",
         email: "",
         phone: "",
+        cntryCode: "",
+        cntry_dial_code: "",
         password: "",
         dob: "",
         gender: "",
@@ -68,6 +74,7 @@ export const Signup: React.FC = () => {
     const [success, setSuccess] = useState<string>("");
     const [prfsn, setPrfsn] = useState<string>("");
     const [otpVerified, setOtpVerified] = useState<boolean>(false);
+    const [mobileVerified, setMobileVerified] = useState<boolean>(false);
     const [professions, setProfessions] = useState<Array<string>>([]);
     const [showPassword, setShowPassword] = useState(false);
     const isMentor = userForm.role === "MENTOR";
@@ -75,6 +82,13 @@ export const Signup: React.FC = () => {
 
     const handleUserChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        if (name === "cntry_dial_code") {
+            const country = countries.find(v => value === v.code);
+            if (country) {
+                setUserForm(prev => ({ ...prev, cntryCode: country.code, cntry_dial_code: country.dial_code }));
+            }
+            return;
+        }
         setUserForm((prev) => ({ ...prev, [name]: value }));
         if (name === "profession_category") {
             setProfessions(professionCategories[value]);
@@ -88,16 +102,12 @@ export const Signup: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!otpVerified) {
-            setError("Please verify your email");
+        if (!otpVerified || !mobileVerified) {
+            setError("Please verify both your email and phone number");
             return;
         }
         if (isMentor && mentorForm.charge && !mentorForm.currency) {
             setError("Please select currency to accept credit");
-            return;
-        }
-        if (!isValidMobileNo(userForm.phone, userForm.country as CountryCode)) {
-            setError("Please enter a valid phone number");
             return;
         }
         if (!isStrongPassword(userForm.password)) {
@@ -107,9 +117,11 @@ export const Signup: React.FC = () => {
 
         const userPayload = {
             ...userForm,
-            phone: formatMobileNo(userForm.phone, userForm.country as CountryCode),
+            phone: userForm.cntry_dial_code + userForm.phone,
             profession: userForm.profession === "Other" ? prfsn : userForm.profession,
         };
+        delete (userPayload as any).cntryCode;
+        delete (userPayload as any).cntry_dial_code;
 
         const body: CombinedForm = { user: userPayload };
         if (isMentor) body.mentor = mentorForm;
@@ -218,9 +230,27 @@ export const Signup: React.FC = () => {
                                 <OtpVerification email={userForm.email} onVerified={setOtpVerified} />
                             </div>
 
-                            <div className="flex flex-col gap-1.5">
+                            <div className="flex flex-col gap-1.5 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-300">Phone *</label>
-                                <input type="tel" name="phone" value={userForm.phone} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                                <div className="flex gap-2">
+                                    <select
+                                        name="cntry_dial_code"
+                                        value={userForm.cntryCode}
+                                        onChange={handleUserChange}
+                                        required
+                                        className="w-1/3 bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition cursor-pointer"
+                                    >
+                                        <option value="" disabled>Code</option>
+                                        {countries.map((country) => (
+                                            <option key={country.code} value={country.code}>{country.code} ({country.dial_code})</option>
+                                        ))}
+                                    </select>
+                                    <input type="tel" name="phone" value={userForm.phone} onChange={handleUserChange} placeholder="Phone number" required className="w-2/3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                                </div>
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <MobOtpVerification phone={userForm.cntry_dial_code + userForm.phone} cntryCode={userForm.cntryCode as CountryCode} onVerified={setMobileVerified} />
                             </div>
 
                             <div className="flex flex-col gap-1.5">
@@ -339,7 +369,7 @@ export const Signup: React.FC = () => {
                         </fieldset>
                     )}
 
-                    <button type="submit" disabled={!otpVerified} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-lg transition text-base mt-2 shadow-lg shadow-blue-500/20">
+                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-lg transition text-base mt-2 shadow-lg shadow-blue-500/20">
                         {isMentor ? "Sign Up as Mentor" : "Sign Up"}
                     </button>
                     {error && <p className="text-red-400 text-sm text-center font-medium bg-red-900/30 py-2 rounded border border-red-800">{error}</p>}

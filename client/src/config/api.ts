@@ -4,6 +4,7 @@ interface ApiResponse {
     success: boolean;
     message: string;
     error?: boolean;
+    data?:any;
 }
 
 // 1. Create a centralized Axios instance

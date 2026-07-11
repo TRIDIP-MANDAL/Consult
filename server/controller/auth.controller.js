@@ -3,11 +3,10 @@ import bcrypt from 'bcryptjs';
 import redis from "../lib/redis.js";
 import { generateToken } from "../lib/authHelper.js";
 import countryList from "country-list";
-import { purifyObject } from "../lib/others.js"
+import { purifyObject, sendMail, sendSMS } from "../lib/others.js"
 // If you want a practical production bar, I would require at least these before deploy:
 // Remove the hardcoded JWT fallback and add token expiry.
 // Add production cookie settings and make logout clear with the same options.
-// Add input validation for signup/login.
 // Add email/phone verification before allowing full account use.
 
 const signup = async (req, res) => {
@@ -111,17 +110,15 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log("req body for login ",req.body)
-    // here we will also verify is suer logging in as mentor or user or admin
     const filter = {
-        OR: [
-          { email: req.body.email },
-          { phone: req.body.phone }
-        ],
-      };
-      if(req.body.role==='MENTOR' || req.body.role ==='ADMIN'){
-        filter.role = req.body.role;
-      }
+      OR: [
+        { email: req.body.email },
+        { phone: req.body.phone }
+      ],
+    };
+    if (req.body.role === 'MENTOR' || req.body.role === 'ADMIN') {
+      filter.role = req.body.role;
+    }
 
     const user = await prisma.users.findFirst({
       where: filter
@@ -135,6 +132,8 @@ const login = async (req, res) => {
       role: user.role
     }
     const token = generateToken(data);
+    data.image = user.image;
+    data.gender = user.gender;
     return res.status(200).cookie(process.env.COOKIE_KEY, token, {
       signed: true,
       httpOnly: true,
@@ -142,7 +141,7 @@ const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000, // or check if required to add expiresIN 
       // some othere thing also need to be added here as production purpose
       sameSite: 'strict'  // Protects against CSRF attacks, but how ??, difference with sameSite: lax
-    }).json({ success: true, message: "Login Successful ", data: data })
+    }).json({ success: true, message: "Login Successful", data: data })
   }
   catch (error) {
     return res.status(500).json({ success: false, message: "Login Failed", error: error.message })
@@ -161,42 +160,146 @@ const loadProfile = async (req, res) => {
     if (!user || !user?.isactive) return res.status(404).json({ success: false, message: "No user found" })
     // return if user is mentor or admin, that details also need to fbe fetched and returned
     delete user.password;
-    return res.status(200).json({ success: true, message: "Profile fetched successfully", data: { ...user, id: user.id.toString() } })
+    let data = { ...user };
+    if (user.role === 'MENTOR') {
+      const mentor = await prisma.mentor.findFirst({
+        where: {
+          user: { id: BigInt(req.params.id) }
+        }
+      });
+      data = { ...data, ...mentor };
+    }
+    return res.status(200).json({ success: true, message: "Profile fetched successfully", data: data });
   }
   catch (error) {
     console.error("Error in loadProfile:", error.message);
     return res.status(500).json({ success: false, message: "Please try again later ", error: error.message })
   }
 }
-//not done
 const updateProfile = async (req, res) => {
-  // add functionality, cannot update both mobile no and email at time
   try {
     console.log("request params ", req.params)
     console.log("request body ", req.body)
     const user = await prisma.users.findFirst({
-      where: {
-        id: BigInt(req.params.id)
-      }
+      where: { id: BigInt(req.params.id) }
     });
-    if (!user) return res.status(404).json({ success: false, message: "No user found" })
-    let updatedMentor = null;
-    if (user.role === "MENTOR" && req.body.mentor) {
-      updatedMentor = await prisma.mentor.update({
-        where: { id: BigInt(req.params.id) },
-        data: req.body?.mentor
-      })
+    if (!user) return res.status(404).json({ success: false, message: "No user found" });
+    // in this update profile, user can update role as mentor -> usre or vice versa, need to maintain mentor table accordingly
+    // only allow user to update email or phone if old email or phone is verified
+    // for normal updates dont need to check anything 
+    // need to perform cleanup operations to these 2 objects
+    const userData = req.body.user;
+    const mentorData = req.body?.mentor || null;
+
+    if (userData) { // user shd never update these things
+      delete userData.password;
+      delete userData.id;
+      delete userData.isactive;
+      delete userData.created_at;
+      delete userData.updated_at;
+      delete userData.deleted_at;
     }
-    if (req.body?.user) delete req.body.user.password;
-    const updatedUser = await prisma.users.update({
-      where: { id: BigInt(req.params.id) },
-      data: req.body?.user // might need to be cross verified or might contain bug
+
+    const isEmailChanged = userData.email && user.email !== userData.email;
+    const isPhoneChanged = userData.phone && user.phone !== userData.phone;
+
+    if (isEmailChanged && isPhoneChanged) {
+      return res.status(400).json({ success: false, message: "Cannot update both email and phone number at the same time" });
+    }
+
+    if (isEmailChanged) {
+      const emailVerified = await redis.get(`otp:${userData.email}:verified`);
+      if (!emailVerified) {
+        return res.status(400).json({ success: false, message: "New email must be verified via OTP before updating" });
+      }
+    }
+
+    if (isPhoneChanged) {
+      const phoneVerified = await redis.get(`otp:${userData.phone}:verified`);
+      if (!phoneVerified) {
+        return res.status(400).json({ success: false, message: "New phone number must be verified via OTP before updating" });
+      }
+    }
+
+    purifyObject(userData);
+    if (userData.dob) {
+      userData.dob = new Date(userData.dob).toISOString();
+    }
+    if (userData.country && !countryList.getName(userData.country)) {
+      return res.status(400).json({ success: false, message: "Invalid country code" });
+    }
+
+    if (mentorData) {
+      delete mentorData.rating;
+      delete mentorData.verified;
+      delete mentorData.expertise;
+      delete mentorData.level;
+      delete mentorData.no_of_consultancy;
+      purifyObject(mentorData);
+      if (mentorData.experience) mentorData.experience = parseInt(mentorData.experience, 10);
+      if (mentorData.available_from) mentorData.available_from = new Date(`1970-01-01T${mentorData.available_from}:00Z`).toISOString();
+      if (mentorData.available_to) mentorData.available_to = new Date(`1970-01-01T${mentorData.available_to}:00Z`).toISOString();
+      if (mentorData.charge) mentorData.charge = parseFloat(mentorData.charge);
+    }
+
+    // ── Detect role change ──
+    const oldRole = user.role;
+    const newRole = userData.role || oldRole;
+    const switchingToMentor = oldRole !== 'MENTOR' && newRole === 'MENTOR';
+    // const switchingFromMentor = oldRole === 'MENTOR' && newRole !== 'MENTOR';
+
+    if (switchingToMentor && !mentorData) {
+      return res.status(400).json({ success: false, message: "Mentor details are required when switching to Mentor role" });
+    }
+
+    const [updatedUser, updatedMentor] = await prisma.$transaction(async (tx) => {
+      const updatedUser = await tx.users.update({
+        where: { id: BigInt(req.params.id) },
+        data: userData
+      });
+
+      let updatedMentor = null;
+
+      if (switchingToMentor) {
+        // USER -> MENTOR: create new mentor row
+        updatedMentor = await tx.mentor.create({
+          data: {
+            ...mentorData,
+            user: { connect: { id: BigInt(req.params.id) } }
+          }
+        });
+      } 
+      // else if (switchingFromMentor) {
+      //   // MENTOR -> USER: delete the mentor row
+      //   await tx.mentor.delete({
+      //     where: { id: BigInt(req.params.id) }
+      //   });
+      // } 
+      else if (newRole === 'MENTOR' && mentorData) {
+        // Still a MENTOR: update mentor data
+        updatedMentor = await tx.mentor.update({
+          where: { id: BigInt(req.params.id) },
+          data: mentorData
+        });
+      }
+
+      return [updatedUser, updatedMentor];
     });
-    console.log(updatedUser)
-    return res.status(200).json({ success: true, message: "User profile updated successfully ", data: { user: { ...updatedUser, id: updatedUser.id.toString() }, mentor: { ...updatedMentor, id: updatedMentor?.id.toString() } } })
+
+    // Clean OTP verification flags after successful update
+    if (isEmailChanged) {
+      await redis.del(`otp:${userData.email}:verified`);
+      await sendSMS(user.phone, `Your Vriddhi account email was updated to ${userData.email}. If you did not make this change, contact support.`);
+    }
+    if (isPhoneChanged) {
+      await redis.del(`otp:${userData.phone}:verified`);
+      await sendMail(user.email, "Vriddhi - Mobile Number Updated", `Your account mobile number was updated to ${userData.phone}. If you did not make this change, contact support.`);
+    }
+
+    return res.status(200).json({ success: true, message: "Profile updated successfully", data: { user: { ...updatedUser }, mentor: updatedMentor ? { ...updatedMentor } : null } });
   }
   catch (error) {
-    return res.status(500).json({ success: false, message: "Please try again later ", error: error.message })
+    return res.status(500).json({ success: false, message: "Failed to update, please try again later", error: error.message });
   }
 }
 
