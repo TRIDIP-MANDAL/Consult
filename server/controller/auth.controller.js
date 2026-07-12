@@ -184,10 +184,7 @@ const updateProfile = async (req, res) => {
       where: { id: BigInt(req.params.id) }
     });
     if (!user) return res.status(404).json({ success: false, message: "No user found" });
-    // in this update profile, user can update role as mentor -> usre or vice versa, need to maintain mentor table accordingly
     // only allow user to update email or phone if old email or phone is verified
-    // for normal updates dont need to check anything 
-    // need to perform cleanup operations to these 2 objects
     const userData = req.body.user;
     const mentorData = req.body?.mentor || null;
 
@@ -242,7 +239,6 @@ const updateProfile = async (req, res) => {
       if (mentorData.charge) mentorData.charge = parseFloat(mentorData.charge);
     }
 
-    // ── Detect role change ──
     const oldRole = user.role;
     const newRole = userData.role || oldRole;
     const switchingToMentor = oldRole !== 'MENTOR' && newRole === 'MENTOR';
@@ -268,13 +264,7 @@ const updateProfile = async (req, res) => {
             user: { connect: { id: BigInt(req.params.id) } }
           }
         });
-      } 
-      // else if (switchingFromMentor) {
-      //   // MENTOR -> USER: delete the mentor row
-      //   await tx.mentor.delete({
-      //     where: { id: BigInt(req.params.id) }
-      //   });
-      // } 
+      }  
       else if (newRole === 'MENTOR' && mentorData) {
         // Still a MENTOR: update mentor data
         updatedMentor = await tx.mentor.update({
@@ -289,11 +279,11 @@ const updateProfile = async (req, res) => {
     // Clean OTP verification flags after successful update
     if (isEmailChanged) {
       await redis.del(`otp:${userData.email}:verified`);
-      await sendSMS(user.phone, `Your Vriddhi account email was updated to ${userData.email}. If you did not make this change, contact support.`);
+      await sendSMS(user.phone, `Your Vriddhi account email was updated to ${userData.email}. If you did not make this change, contact support. at ${process.env.SUPPORT_MAIL}`);
     }
     if (isPhoneChanged) {
       await redis.del(`otp:${userData.phone}:verified`);
-      await sendMail(user.email, "Vriddhi - Mobile Number Updated", `Your account mobile number was updated to ${userData.phone}. If you did not make this change, contact support.`);
+      await sendMail(user.email, "Vriddhi - Mobile Number Updated", `Your account mobile number was updated to ${userData.phone}. If you did not make this change, contact support. at ${process.env.SUPPORT_MAIL}`);
     }
 
     return res.status(200).json({ success: true, message: "Profile updated successfully", data: { user: { ...updatedUser }, mentor: updatedMentor ? { ...updatedMentor } : null } });

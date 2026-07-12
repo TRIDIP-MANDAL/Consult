@@ -207,7 +207,7 @@ model Mentor {
   charge            Decimal?        @default(0) @db.Decimal(10, 2)
   currency          Currency?       @default(INR)
   achievements      String?
-
+  active_mentor     Boolean         @default(true) // in case if someone changes profile from mentor to user
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

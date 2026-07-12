@@ -1,9 +1,6 @@
 import nodemailer from "nodemailer";
 import twilio from "twilio";
 
-// during update if mail is changed , sms will be sent to mobile
-// if mobile is changed sms will be sent to email, a logic need to be impemented for both
-
 const accountSid = process.env.TWILIO_ACNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = twilio(accountSid, authToken);
@@ -24,6 +21,7 @@ const sendMail = async (to, subject, text) => {
             subject,
             text
         });
+        console.log("mail sent ", text)
         return { success: true, info };
     } catch (error) {
         console.error("Error sending mail:", error);
@@ -38,6 +36,7 @@ const sendSMS = async (to, body) => {
             from: process.env.TWILIO_SENDER_PH_NO,
             to
         });
+        console.log("sms sent ", body)
         
         if (!sms.sid) {
             return { success: false, message: "Unable to send SMS" };
@@ -55,8 +54,4 @@ const purifyObject = (obj) => {
    })
 }
 
-const cleanObject = (obj) => {
-
-}
-
-export { purifyObject, cleanObject, sendMail, sendSMS };
+export { purifyObject, sendMail, sendSMS };
