@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import twilio from "twilio";
+import prisma from "../model/db";
 
 const accountSid = process.env.TWILIO_ACNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -54,4 +55,35 @@ const purifyObject = (obj) => {
    })
 }
 
-export { purifyObject, sendMail, sendSMS };
+const createAuditLog = async ({ 
+    table_name,
+    record_id,
+    action, // 'CREATE', 'UPDATE', 'DELETE'
+    previous_data = null,
+    updated_data = null,
+    user_id = null,
+    role = null,
+    ip_address = null,
+    device = null
+}) => {
+    try {
+        // If we are in a transaction, we use tx. If not, we use prisma.
+        await prisma.auditLog.create({
+            data: {
+                table_name,
+                record_id: BigInt(record_id),
+                action,
+                previous_data,
+                updated_data,
+                user_id: user_id ? BigInt(user_id) : null,
+                role,
+                ip_address,
+                device
+            }
+        });
+    } catch (err) {
+        console.error("Error while creating audit log", err.message);
+    }
+}
+
+export { purifyObject, sendMail, sendSMS, createAuditLog};

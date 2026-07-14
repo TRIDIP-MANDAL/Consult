@@ -142,6 +142,30 @@ enum ProfessionCategory {
   OTHER
 }
 
+enum TableName {
+  Users
+  Mentor
+  Consultancy_service
+  Chat
+  Message
+  Call
+  Report
+  Feedback
+  Memberships
+  Payments
+  AdminAction
+  Document
+  ContactUs
+  Relationship
+  AuditLog
+}
+
+enum ActionType {
+  CREATE
+  UPDATE
+  DELETE
+}
+
 //// MODELS ////
 
 model Users {
@@ -207,9 +231,9 @@ model Mentor {
   charge            Decimal?        @default(0) @db.Decimal(10, 2)
   currency          Currency?       @default(INR)
   achievements      String?
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  active_mentor     Boolean         @default(true) // in case if someone changes profile from mentor to user
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
 }
 
 model Consultancy_service {
@@ -313,6 +337,7 @@ model Report {
 model Feedback {
   id         BigInt   @id @default(autoincrement())
   user_id    BigInt
+  rating     Int
   image      String?
   content    String?
   created_at DateTime @default(now())
@@ -420,4 +445,24 @@ model Relationship {
 
   user1Ref Users @relation("user1", fields: [user1], references: [id])
   user2Ref Users @relation("user2", fields: [user2], references: [id])
+}
+
+model AuditLog {
+  id BigInt @id @default(autoincrement())
+
+  table_name TableName
+  record_id  BigInt // The ID of the row that was changed
+  action     ActionType // enum: CREATE, UPDATE, DELETE
+
+  previous_data Json? // Null on CREATE
+  updated_data  Json? // Null on DELETE
+
+  user_id    BigInt? // The person making the change
+  role       UserRole?
+  ip_address String?
+  device     String?
+  browser    String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt // Added specifically to catch tampering as requested
 }

@@ -156,6 +156,7 @@ exports.Prisma.MentorScalarFieldEnum = {
   charge: 'charge',
   currency: 'currency',
   achievements: 'achievements',
+  active_mentor: 'active_mentor',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -218,6 +219,7 @@ exports.Prisma.ReportScalarFieldEnum = {
 exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
+  rating: 'rating',
   image: 'image',
   content: 'content',
   created_at: 'created_at',
@@ -287,6 +289,22 @@ exports.Prisma.RelationshipScalarFieldEnum = {
   user2: 'user2',
   relation: 'relation',
   created_at: 'created_at'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  table_name: 'table_name',
+  record_id: 'record_id',
+  action: 'action',
+  previous_data: 'previous_data',
+  updated_data: 'updated_data',
+  user_id: 'user_id',
+  role: 'role',
+  ip_address: 'ip_address',
+  device: 'device',
+  browser: 'browser',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -448,6 +466,30 @@ exports.Relation = exports.$Enums.Relation = {
   FOLLOWS: 'FOLLOWS'
 };
 
+exports.TableName = exports.$Enums.TableName = {
+  Users: 'Users',
+  Mentor: 'Mentor',
+  Consultancy_service: 'Consultancy_service',
+  Chat: 'Chat',
+  Message: 'Message',
+  Call: 'Call',
+  Report: 'Report',
+  Feedback: 'Feedback',
+  Memberships: 'Memberships',
+  Payments: 'Payments',
+  AdminAction: 'AdminAction',
+  Document: 'Document',
+  ContactUs: 'ContactUs',
+  Relationship: 'Relationship',
+  AuditLog: 'AuditLog'
+};
+
+exports.ActionType = exports.$Enums.ActionType = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE'
+};
+
 exports.Prisma.ModelName = {
   Users: 'Users',
   Mentor: 'Mentor',
@@ -462,7 +504,8 @@ exports.Prisma.ModelName = {
   AdminAction: 'AdminAction',
   Document: 'Document',
   ContactUs: 'ContactUs',
-  Relationship: 'Relationship'
+  Relationship: 'Relationship',
+  AuditLog: 'AuditLog'
 };
 
 /**
