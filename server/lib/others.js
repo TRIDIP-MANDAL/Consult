@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import twilio from "twilio";
-import prisma from "../model/db";
+import prisma from "../model/db.js";
 
 const accountSid = process.env.TWILIO_ACNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;

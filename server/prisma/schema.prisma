@@ -461,7 +461,6 @@ model AuditLog {
   role          UserRole? 
   ip_address    String?
   device        String?
-  browser       String?
   
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt // Added specifically to catch tampering as requested

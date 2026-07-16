@@ -8,8 +8,8 @@ export const authentication = express.Router();
 authentication.post('/signup', restrictAuth, isVerified, signup);
 authentication.post('/login', restrictAuth, login);
 authentication.get('/profile/:id', protect, userRoute, loadProfile);
-authentication.patch('/editprofile/:id', protect, userRoute, updateProfile); //done
-// authentication.patch('/editprofile/:id', protect, userRoute, isVerified, updateProfile); //done
+authentication.patch('/editprofile/:id', protect, userRoute, updateProfile);
+// authentication.patch('/editprofile/:id', protect, userRoute, isVerified, updateProfile);
 authentication.get('/logout', protect, userRoute, logout); //done
 authentication.patch('/changepasswd/:id', protect, userRoute, changePassword);//done
 authentication.delete('/deleteprofile/:id', protect, userRoute, deActivateProfile); //done 

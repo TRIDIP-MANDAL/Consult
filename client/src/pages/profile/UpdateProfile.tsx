@@ -35,7 +35,15 @@ export const UpdateProfile: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { profileData } = location.state || {};
-    const userStore = useUser();
+    const userId = useUser((state) => state.id);
+    const setLogin = useUser((state) => state.setLogin);
+
+    const initialCategory = profileData?.profession_category || "";
+    const initialProfessions = initialCategory ? (professionCategories as Record<string, string[]>)[initialCategory] || [] : [];
+    
+    // Check if the user's saved profession is standard or custom
+    const savedProfession = profileData?.profession || "";
+    const isCustomProfession = savedProfession && !initialProfessions.includes(savedProfession);
 
     const [userData, setUserData] = useState<UserForm>({
         first_name: profileData?.first_name || "",
@@ -46,8 +54,8 @@ export const UpdateProfile: React.FC = () => {
         dob: profileData?.dob ? profileData.dob.split("T")[0] : "",
         gender: profileData?.gender || "",
         role: profileData?.role || "USER",
-        profession: profileData?.profession || "",
-        profession_category: profileData?.profession_category || "",
+        profession: isCustomProfession ? "Other" : savedProfession,
+        profession_category: initialCategory,
         country: profileData?.country || "",
         postal_code: profileData?.postal_code || "",
     });
@@ -65,10 +73,9 @@ export const UpdateProfile: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
-    const [prfsn, setPrfsn] = useState<string>("");
-    const [professions, setProfessions] = useState<Array<string>>(
-        profileData?.profession_category ? (professionCategories as Record<string, string[]>)[profileData.profession_category] || [] : []
-    );
+    
+    const [prfsn, setPrfsn] = useState<string>(isCustomProfession ? savedProfession : "");
+    const [professions, setProfessions] = useState<Array<string>>(initialProfessions);
 
     const isMentor = userData.role === "MENTOR";
 
@@ -106,19 +113,28 @@ export const UpdateProfile: React.FC = () => {
         if (isMentor) payload.mentor = mentorData;
 
         console.log("Update payload ", payload);
-        // const response = await callApi(`/auth/editprofile/${userStore.id}`, "PATCH", payload);
-        // console.log("Update response ", response);
-// 
-        // if (response.success) {
-        //     setError("");
-        //     setSuccess(response.message);
-        //     setTimeout(() => {
-        //         navigate("/profile");
-        //     }, 2000);
-        // } else {
-        //     setSuccess("");
-        //     setError(response.message);
-        // }
+        const response = await callApi(`/auth/editprofile/${userId}`, "PATCH", payload);
+        console.log("Update response ", response);
+
+        if (response.success) {
+            const updatedUser = response.data.user;
+            setLogin({
+                isloggedin: true,
+                name: `${updatedUser.first_name}${updatedUser.middle_name ? " " + updatedUser.middle_name : ""} ${updatedUser.last_name}`,
+                role: updatedUser.role,
+                image: updatedUser.image || "",
+                id: updatedUser.id.toString(),
+            });
+            
+            setError("");
+            setSuccess(response.message);
+            setTimeout(() => {
+                navigate("/profile");
+            }, 2000);
+        } else {
+            setSuccess("");
+            setError(response.message);
+        }
         setLoading(false);
     };
 

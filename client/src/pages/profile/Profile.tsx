@@ -33,7 +33,8 @@ interface ProfileData {
 }
 
 export const Profile: React.FC = () => {
-    const userStore = useUser();
+    const userId = useUser((state) => state.id);
+    const setLogin = useUser((state) => state.setLogin);
     const [error, setError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
@@ -41,12 +42,19 @@ export const Profile: React.FC = () => {
     useEffect(() => {
         async function fetchUserProfile() {
             try {
-                const result = await callApi(`/auth/profile/${userStore.id}`, "GET");
+                const result = await callApi(`/auth/profile/${userId}`, "GET");
                 if (!result?.success) {
                     throw new Error(result?.message);
                 }
                 console.log("Profile data ", result.data)
                 setProfileData(result.data);
+                setLogin({
+                    isloggedin: true,
+                    name: `${result.data.first_name}${result.data.middle_name ? " " + result.data.middle_name : ""} ${result.data.last_name}`,
+                    role: result.data.role,
+                    image: result.data.image || "",
+                    id: result.data.id.toString(),
+                });
             } catch (error: any) {
                 setError(error.message || "An unexpected error occurred");
             } finally {
@@ -54,13 +62,13 @@ export const Profile: React.FC = () => {
             }
         }
 
-        if (userStore.id) {
+        if (userId) {
             fetchUserProfile();
         } else {
             setLoading(false);
             setError("User not authenticated.");
         }
-    }, [userStore.id]);
+    }, [userId]);
 
     if (loading) {
         return (

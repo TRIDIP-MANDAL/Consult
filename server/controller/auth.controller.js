@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import redis from "../lib/redis.js";
 import { generateToken } from "../lib/authHelper.js";
 import countryList from "country-list";
-import { purifyObject, sendMail, sendSMS } from "../lib/others.js"
+import { purifyObject, sendMail, sendSMS, createAuditLog } from "../lib/others.js"
 // If you want a practical production bar, I would require at least these before deploy:
 // Remove the hardcoded JWT fallback and add token expiry.
 // Add production cookie settings and make logout clear with the same options.
@@ -138,7 +138,7 @@ const login = async (req, res) => {
       signed: true,
       httpOnly: true,
       // secure: true,       // Ensures cookie is only sent over HTTPS
-      maxAge: 24 * 60 * 60 * 1000, // or check if required to add expiresIN 
+      // maxAge: 24 * 60 * 60 * 1000, removed to create a Session Cookie (expires on window close)
       // some othere thing also need to be added here as production purpose
       sameSite: 'strict'  // Protects against CSRF attacks, but how ??, difference with sameSite: lax
     }).json({ success: true, message: "Login Successful", data: data })
@@ -187,6 +187,9 @@ const updateProfile = async (req, res) => {
     // only allow user to update email or phone if old email or phone is verified
     const userData = req.body.user;
     const mentorData = req.body?.mentor || null;
+    const audit = req.body.audit;
+    const ip = req.ip || req.headers['x-forwarded-for'] || "Unknown";
+    const device = req.headers['user-agent'] || "Unknown";
 
     if (userData) { // user shd never update these things
       delete userData.password;
@@ -258,13 +261,25 @@ const updateProfile = async (req, res) => {
 
       if (switchingToMentor) {
         // USER -> MENTOR: create new mentor row
-        updatedMentor = await tx.mentor.create({
-          data: {
+        console.log("Insie update mentor update tnxtcn ")
+        updatedMentor = await tx.mentor.upsert({ // I need to know it well 
+          where:{id: BigInt(updatedUser.id)},
+          update: {
+            ...mentorData
+          },
+          create:{
             ...mentorData,
             user: { connect: { id: BigInt(req.params.id) } }
           }
-        });
-      }  
+        })
+        // updatedMentor = await tx.mentor.create({
+        //   data: {
+        //     ...mentorData,
+        //     user: { connect: { id: BigInt(req.params.id) } }
+        //   }
+        // });
+        console.log("Updated mentor inside transaction ", updatedMentor)
+      }
       else if (newRole === 'MENTOR' && mentorData) {
         // Still a MENTOR: update mentor data
         updatedMentor = await tx.mentor.update({
@@ -284,6 +299,35 @@ const updateProfile = async (req, res) => {
     if (isPhoneChanged) {
       await redis.del(`otp:${userData.phone}:verified`);
       await sendMail(user.email, "Vriddhi - Mobile Number Updated", `Your account mobile number was updated to ${userData.phone}. If you did not make this change, contact support. at ${process.env.SUPPORT_MAIL}`);
+    }
+
+    createAuditLog({
+      table_name: "Users",
+      record_id: updatedUser.id,
+      action: "UPDATE",
+      previous_data: user,
+      updated_data: updatedUser,
+      user_id: BigInt(audit.user_id),
+      role: audit.role,
+      ip_address: ip,
+      device: device,
+    });
+
+    if (newRole === 'MENTOR' && mentorData) {
+      const mentor = await prisma.mentor.findUnique({
+        where: { id: BigInt(updatedMentor.id) }
+      });
+      createAuditLog({
+        table_name: "Mentor",
+        record_id: updatedMentor.id,
+        action: "UPDATE",
+        previous_data: mentor,
+        updated_data: updatedMentor,
+        user_id: BigInt(audit.user_id),
+        role: audit.role,
+        ip_address: ip,
+        device: device,
+      });
     }
 
     return res.status(200).json({ success: true, message: "Profile updated successfully", data: { user: { ...updatedUser }, mentor: updatedMentor ? { ...updatedMentor } : null } });
