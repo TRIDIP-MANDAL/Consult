@@ -38,6 +38,19 @@ export const Profile: React.FC = () => {
     const [error, setError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (showDeleteModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showDeleteModal]);
 
     useEffect(() => {
         async function fetchUserProfile() {
@@ -69,7 +82,29 @@ export const Profile: React.FC = () => {
             setError("User not authenticated.");
         }
     }, [userId]);
-
+    
+    const handleDeleteProfile = async () => {
+        try {
+            const result = await callApi(`/auth/deleteprofile/${userId}`, "DELETE");
+            if (!result?.success) {
+                throw new Error(result?.message);
+            }
+            setProfileData(null);
+            setLogin({
+                isloggedin: false,
+                name: "",
+                role: "",
+                image: "",
+                id: "",
+            });
+            setShowDeleteModal(false);
+            setError("");
+        } catch (error: any) {
+            setError(error.message || "An unexpected error occurred");
+        } finally {
+            setLoading(false);
+        }
+    }
     if (loading) {
         return (
             <div className="min-h-[calc(100vh-4rem)] bg-gray-950 flex items-center justify-center">
@@ -130,11 +165,17 @@ export const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="md:ml-auto flex gap-3 w-full md:w-auto mt-4 md:mt-0">
+                        <div className="md:ml-auto flex flex-col gap-3 w-full md:w-auto mt-4 md:mt-0">
                             <button className="flex-1 md:flex-none px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors border border-gray-700 shadow-sm cursor-pointer">
-                                <Link to="edit-profile" state={{ profileData }} className="no-underline text-white">
+                                <Link to="edit-profile" state={{ profileData }} className="no-underline text-white block">
                                     Edit Profile
                                 </Link>
+                            </button>
+                            <button
+                                onClick={() => setShowDeleteModal(true)}
+                                className="flex-1 md:flex-none px-6 py-2.5 bg-red-900/40 hover:bg-red-800/60 text-red-400 hover:text-red-300 rounded-lg text-sm font-medium transition-colors border border-red-900/50 shadow-sm cursor-pointer"
+                            >
+                                Delete Profile
                             </button>
                         </div>
                     </div>
@@ -272,6 +313,41 @@ export const Profile: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Delete Profile Modal */}
+            {showDeleteModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                    <div className="bg-gray-900 border border-red-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl relative z-50">
+                        <div className="flex items-center gap-3 mb-4 text-red-500">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            <h3 className="text-xl font-bold">Delete Profile</h3>
+                        </div>
+                        <p className="text-gray-300 mb-6">
+                            Do you want to delete your profile ??
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer"
+                            >
+                                No
+                            </button>
+                            <button
+                                // onClick={async () => {
+
+                                    // Handle delete logic here
+                                //     console.log("Profile deleted");
+                                //     setShowDeleteModal(false);
+                                // }}
+                                onClick={handleDeleteProfile}
+                                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-red-500/20 cursor-pointer"
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

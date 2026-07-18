@@ -203,9 +203,11 @@ const updateProfile = async (req, res) => {
     const isEmailChanged = userData.email && user.email !== userData.email;
     const isPhoneChanged = userData.phone && user.phone !== userData.phone;
 
-    if (isEmailChanged && isPhoneChanged) {
-      return res.status(400).json({ success: false, message: "Cannot update both email and phone number at the same time" });
+    //for now block user from changing mobile or email , this feature will be implemented later
+    if (isEmailChanged || isPhoneChanged) {  //LATER
+      return res.status(400).json({ success: false, message: "Cannot update email or phone number, this feature will be implemented later" });
     }
+
 
     if (isEmailChanged) {
       const emailVerified = await redis.get(`otp:${userData.email}:verified`);
@@ -246,7 +248,9 @@ const updateProfile = async (req, res) => {
     const newRole = userData.role || oldRole;
     const switchingToMentor = oldRole !== 'MENTOR' && newRole === 'MENTOR';
     // const switchingFromMentor = oldRole === 'MENTOR' && newRole !== 'MENTOR';
-
+    if((oldRole === 'MENTOR' || newRole === 'MENTOR') && mentorData) {
+      mentorData.verified = false;
+    }
     if (switchingToMentor && !mentorData) {
       return res.status(400).json({ success: false, message: "Mentor details are required when switching to Mentor role" });
     }
@@ -258,8 +262,7 @@ const updateProfile = async (req, res) => {
       });
 
       let updatedMentor = null;
-
-      if (switchingToMentor) {
+      if (newRole === 'MENTOR' && mentorData) {
         // USER -> MENTOR: create new mentor row
         console.log("Insie update mentor update tnxtcn ")
         updatedMentor = await tx.mentor.upsert({ // I need to know it well 
@@ -272,21 +275,8 @@ const updateProfile = async (req, res) => {
             user: { connect: { id: BigInt(req.params.id) } }
           }
         })
-        // updatedMentor = await tx.mentor.create({
-        //   data: {
-        //     ...mentorData,
-        //     user: { connect: { id: BigInt(req.params.id) } }
-        //   }
-        // });
         console.log("Updated mentor inside transaction ", updatedMentor)
-      }
-      else if (newRole === 'MENTOR' && mentorData) {
-        // Still a MENTOR: update mentor data
-        updatedMentor = await tx.mentor.update({
-          where: { id: BigInt(req.params.id) },
-          data: mentorData
-        });
-      }
+       }
 
       return [updatedUser, updatedMentor];
     });

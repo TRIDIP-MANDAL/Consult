@@ -36,6 +36,7 @@ export const UpdateProfile: React.FC = () => {
     const navigate = useNavigate();
     const { profileData } = location.state || {};
     const userId = useUser((state) => state.id);
+    const loggedInUserRole = useUser((state)=>state.role)
     const setLogin = useUser((state) => state.setLogin);
 
     const initialCategory = profileData?.profession_category || "";
@@ -113,7 +114,11 @@ export const UpdateProfile: React.FC = () => {
         if (isMentor) payload.mentor = mentorData;
 
         console.log("Update payload ", payload);
-        const response = await callApi(`/auth/editprofile/${userId}`, "PATCH", payload);
+        const sendData = {...payload, audit:{
+            user_id: userId,
+            role: loggedInUserRole
+        }}
+        const response = await callApi(`/auth/editprofile/${userId}`, "PATCH", sendData);
         console.log("Update response ", response);
 
         if (response.success) {
