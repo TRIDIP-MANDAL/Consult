@@ -115,6 +115,7 @@ const login = async (req, res) => {
         { email: req.body.email },
         { phone: req.body.phone }
       ],
+      isactive: true
     };
     if (req.body.role === 'MENTOR' || req.body.role === 'ADMIN') {
       filter.role = req.body.role;
@@ -358,9 +359,9 @@ const deActivateProfile = async (req, res) => {
     // just deactivate the account, verify both email and no before deactivating the account
     const deactivatedUser = await prisma.users.update({
       where: { id: BigInt(req.params.id) },
-      data: { isactive: false }
+      data: { isactive: false } // here also fill profile with dummy data after deactivating the profile
     })
-    return res.status(200).json({ success: !deactivatedUser.isactive, message: deactivatedUser.isactive ? "Unable to deactivate the profile" : "Profile is deleted successfully " });
+    return res.clearCookie(process.env.COOKIE_KEY).status(200).json({ success: !deactivatedUser.isactive, message: deactivatedUser.isactive ? "Unable to deactivate the profile" : "Profile is deleted successfully " });
   }
   catch (error) {
     return res.status(500).json({ success: false, message: "Unknown error occurred, try again later", error: error })

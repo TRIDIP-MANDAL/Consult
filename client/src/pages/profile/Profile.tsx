@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useUser from "../../lib/UserState";
 import { callApi } from "../../config/api";
 import { Link } from "react-router-dom";
+import { ConfirmationModal } from "../../component/ConfirmationModal";
 
 interface ProfileData {
     id: string;
@@ -35,22 +37,12 @@ interface ProfileData {
 export const Profile: React.FC = () => {
     const userId = useUser((state) => state.id);
     const setLogin = useUser((state) => state.setLogin);
+    const setLogout = useUser((state) => state.setLogout);
     const [error, setError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (showDeleteModal) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-        
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [showDeleteModal]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchUserProfile() {
@@ -90,15 +82,10 @@ export const Profile: React.FC = () => {
                 throw new Error(result?.message);
             }
             setProfileData(null);
-            setLogin({
-                isloggedin: false,
-                name: "",
-                role: "",
-                image: "",
-                id: "",
-            });
+            setLogout();
             setShowDeleteModal(false);
             setError("");
+            navigate("/");
         } catch (error: any) {
             setError(error.message || "An unexpected error occurred");
         } finally {
@@ -314,40 +301,13 @@ export const Profile: React.FC = () => {
                 )}
             </div>
 
-            {/* Delete Profile Modal */}
-            {showDeleteModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-                    <div className="bg-gray-900 border border-red-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl relative z-50">
-                        <div className="flex items-center gap-3 mb-4 text-red-500">
-                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                            <h3 className="text-xl font-bold">Delete Profile</h3>
-                        </div>
-                        <p className="text-gray-300 mb-6">
-                            Do you want to delete your profile ??
-                        </p>
-                        <div className="flex justify-end gap-3">
-                            <button
-                                onClick={() => setShowDeleteModal(false)}
-                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer"
-                            >
-                                No
-                            </button>
-                            <button
-                                // onClick={async () => {
-
-                                    // Handle delete logic here
-                                //     console.log("Profile deleted");
-                                //     setShowDeleteModal(false);
-                                // }}
-                                onClick={handleDeleteProfile}
-                                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-red-500/20 cursor-pointer"
-                            >
-                                Yes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ConfirmationModal
+                isOpen={showDeleteModal}
+                title="Delete Profile"
+                message="Do you want to delete your profile ??"
+                onConfirm={handleDeleteProfile}
+                onCancel={() => setShowDeleteModal(false)}
+            />
         </div>
     );
 };

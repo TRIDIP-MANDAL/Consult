@@ -24,7 +24,7 @@ const userState = (set) => {
         setLogin: (user) => {
             return set(() => {
                 return {
-                    isloggedin: true,
+                    isloggedin: user.isloggedin !== undefined ? user.isloggedin : true,
                     name: user.name,
                     role: user.role,
                     image: user.image,
