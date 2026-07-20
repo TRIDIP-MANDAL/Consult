@@ -187,7 +187,7 @@ const updateProfile = async (req, res) => {
     if (!user) return res.status(404).json({ success: false, message: "No user found" });
     // only allow user to update email or phone if old email or phone is verified
     const userData = req.body.user;
-    const mentorData = req.body?.mentor || null;
+    const mentorData = req.body?.mentor || null; // here just check if we do mentorData = {} what the things would stop working ??, because if we update anything in profile , that profile will be marked verified = false in mentor table. 
     const audit = req.body.audit;
     const ip = req.ip || req.headers['x-forwarded-for'] || "Unknown";
     const device = req.headers['user-agent'] || "Unknown";
@@ -248,7 +248,7 @@ const updateProfile = async (req, res) => {
     const oldRole = user.role;
     const newRole = userData.role || oldRole;
     const switchingToMentor = oldRole !== 'MENTOR' && newRole === 'MENTOR';
-    // const switchingFromMentor = oldRole === 'MENTOR' && newRole !== 'MENTOR';
+    // const switchingFromMentor = oldRole === 'MENTOR' && newRole === 'USER'; for this case it is also required to update the col active_mentor= false in Mentor table
     if((oldRole === 'MENTOR' || newRole === 'MENTOR') && mentorData) {
       mentorData.verified = false;
     }
@@ -337,7 +337,7 @@ const logout = (req, res) => {
   }
 }
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res) => { // doubt, is it even used any where
   try {
     // forgot password logic required here
     // first enter new password, then reenter new password, and that logic will be handled from frontend, if success then only the API hit will be done
@@ -394,4 +394,39 @@ const resetPassword = async (req, res) => {
   }
 }
 
-export { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword };
+const loadMentors = async (req, res) =>{
+  //  redis caching required
+  // client side caching required
+  // verified, profession category, profession, country, price, rating, experience, expertise
+
+   const page = Number(req.query.page) || 1;
+   const limit = Number(req.query.limit) || 8;
+  const filter = {
+    skip:(page-1)*limit,
+    take: limit,
+    verified: req.query?.verified,
+    profession_category: req.query.profession_category,
+    profession: req.query.profession,
+    country: req.query.country,
+    price: req.query.price,
+    rating: req.query.rating,
+    experience: req.query.experience,
+    expertise: req.query.expertise,
+  }
+try{
+  const mentors = await prisma.mentor.findMany({
+    include:{ //join applied here 
+      user: true
+    },
+    where: filter
+    // {
+    //   active_mentor: true
+    // }
+  })
+  return res.status(200).json({ success: true, message: "Mentors loaded successfully", data: mentors })
+}
+catch(err){
+  return res.status(500).json({ success: false, message: "Unable to load mentors", error: err?.message || "Unknown error" })
+}
+}
+export { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword, loadMentors };

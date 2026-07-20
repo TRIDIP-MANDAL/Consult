@@ -1,6 +1,6 @@
 import prisma from "../model/db.js";
 
-export const getFeedback = async (req, res) => {
+const getFeedback = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
@@ -25,7 +25,7 @@ export const getFeedback = async (req, res) => {
   }
 }
 
-export const createFeedback = async (req, res) => {
+const createFeedback = async (req, res) => {
   try {
     console.log("create fedback ", req.params)
     const { image, content } = req.body;
@@ -48,7 +48,7 @@ export const createFeedback = async (req, res) => {
   }
 }
 
-export const getAllFeedbacks = async (req, res) => { //here ,each time in front end I have to store previous res data and render them, 
+const getAllFeedbacks = async (req, res) => { //here ,each time in front end I have to store previous res data and render them, 
   try {
     // anothere thing need to be added here like if user is logged in, he or she can see his feedback also
     const order = req.query.order;
@@ -106,7 +106,7 @@ export const getAllFeedbacks = async (req, res) => { //here ,each time in front 
   }
 };
 
-export const updateFeedback = async (req, res) => {
+const updateFeedback = async (req, res) => {
   try {
     const obj = {};
     ["content", "image", "video"].forEach((key) => {
@@ -139,7 +139,7 @@ export const updateFeedback = async (req, res) => {
   }
 }
 
-export const deleteFeedback = async (req, res) => {
+const deleteFeedback = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -167,3 +167,5 @@ export const deleteFeedback = async (req, res) => {
     });
   }
 }
+
+export { getFeedback, createFeedback, getAllFeedbacks, updateFeedback, deleteFeedback }

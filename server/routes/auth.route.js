@@ -8,11 +8,10 @@ export const authentication = express.Router();
 authentication.post('/signup', restrictAuth, isVerified, signup);
 authentication.post('/login', restrictAuth, login);
 authentication.get('/profile/:id', protect, userRoute, loadProfile);
-authentication.patch('/editprofile/:id', protect, userRoute, updateProfile);
-// authentication.patch('/editprofile/:id', protect, userRoute, isVerified, updateProfile);
+authentication.patch('/editprofile/:id', protect, userRoute, updateProfile); // later implement here the option for updating email , phone no etc.
 authentication.get('/logout', protect, userRoute, logout); //done
 authentication.patch('/changepasswd/:id', protect, userRoute, changePassword);//done
 authentication.delete('/deleteprofile/:id', protect, userRoute, deActivateProfile); //done 
 authentication.patch('/reset-passwd', restrictAuth,  isVerified, resetPassword);
-
+authentication.get('/our-mentors');
 // might need to add averify profile option to verify mentor profile via document
