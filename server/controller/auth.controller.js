@@ -397,31 +397,71 @@ const resetPassword = async (req, res) => {
 const loadMentors = async (req, res) =>{
   //  redis caching required
   // client side caching required
-  // verified, profession category, profession, country, price, rating, experience, expertise
+  // profession category, profession, country, price, rating, experience, expertise
 
    const page = Number(req.query.page) || 1;
    const limit = Number(req.query.limit) || 8;
-  const filter = {
+const whereCondition = {
+  active_mentor: true, 
+};
+
+if (req.query.verified !== undefined) {
+  whereCondition.verified = req.query.verified === 'true';
+}
+if (req.query.expertise) {
+  whereCondition.expertise = req.query.expertise;
+}
+if (req.query.experience) {
+  whereCondition.experience = { gte: Number(req.query.experience) }; // experience >= X
+}
+if (req.query.rating) {
+  whereCondition.rating = { gte: Number(req.query.rating) }; // rating >= X
+}
+if (req.query.price) {
+  whereCondition.charge = { lte: Number(req.query.price) }; // charge <= X
+}
+
+// User-level filters (nested inside the 'user' relation)
+const userFilter = {};
+if (req.query.profession_category) {
+  userFilter.profession_category = req.query.profession_category;
+}
+if (req.query.profession) {
+  userFilter.profession = { contains: String(req.query.profession), mode: 'insensitive' };
+}
+if (req.query.country) {
+  userFilter.country = req.query.country;
+}
+
+if (Object.keys(userFilter).length > 0) {
+  whereCondition.user = userFilter;
+}
+
+try{
+  //  => name, image, gender, profession category, profession, country,
+  const mentors = await prisma.mentor.findMany({
     skip:(page-1)*limit,
     take: limit,
-    verified: req.query?.verified,
-    profession_category: req.query.profession_category,
-    profession: req.query.profession,
-    country: req.query.country,
-    price: req.query.price,
-    rating: req.query.rating,
-    experience: req.query.experience,
-    expertise: req.query.expertise,
-  }
-try{
-  const mentors = await prisma.mentor.findMany({
-    include:{ //join applied here 
-      user: true
-    },
-    where: filter
-    // {
-    //   active_mentor: true
-    // }
+    where: whereCondition,
+    select: {
+      experience: true,
+      charge: true,
+      currency: true,
+      verified: true,
+      rating: true,
+      user: {
+        select: {
+          id: true,
+          first_name: true,
+          middle_name:true,
+          last_name: true,
+          image:true,
+          profession: true,
+          profession_category: true,
+          country: true,
+        }
+      }
+    }
   })
   return res.status(200).json({ success: true, message: "Mentors loaded successfully", data: mentors })
 }
