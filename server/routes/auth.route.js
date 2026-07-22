@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword, loadMentors } from '../controller/auth.controller.js';
+import { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword, loadMentors, loadMentorProfile } from '../controller/auth.controller.js';
 import { userRoute, protect } from '../middleware/protectRoute.js'
 import { restrictAuth } from '../middleware/restrictAuth.js'
 import { isVerified } from '../middleware/otpVerified.js'
@@ -15,4 +15,5 @@ authentication.patch('/changepasswd/:id', protect, userRoute, changePassword);//
 authentication.delete('/deleteprofile/:id', protect, userRoute, deActivateProfile); //done 
 authentication.patch('/reset-passwd', restrictAuth,  isVerified, resetPassword);
 authentication.get('/our-mentors', loadMentors);
+authentication.get('/mentor/:id', loadMentorProfile);
 // might need to add averify profile option to verify mentor profile via document

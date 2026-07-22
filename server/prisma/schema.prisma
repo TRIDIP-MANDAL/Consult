@@ -37,7 +37,7 @@ enum MentorLevel {
 
 enum MentorExpertise {
   BEGINNER
-  MEDIUM
+  INTERMEDIATE
   EXPERT
 }
 

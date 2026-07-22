@@ -19,15 +19,14 @@
         ],
         "EDUCATION": [
             "Student",
-            "School Teacher",
-            "University Professor",
+            "Teacher",
+            "Professor",
             "Principal",
-            "Tutor",
             "Academic Advisor",
             "Educational Researcher",
             "Instructional Designer",
-            "Special Education Teacher",
             "Librarian",
+            "Clerk",
             "Other"
         ],
         "TECHNOLOGY": [

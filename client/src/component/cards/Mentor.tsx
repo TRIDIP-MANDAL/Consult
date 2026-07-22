@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface MentorData {
   id: string;
@@ -7,6 +8,7 @@ export interface MentorData {
   currency: string;
   verified: boolean;
   rating: string | number;
+  expertise?: string;
   user: {
     id: string;
     first_name: string;
@@ -24,6 +26,7 @@ interface MentorCardProps {
 }
 
 export const MentorCard: React.FC<MentorCardProps> = ({ mentor }) => {
+  const navigate = useNavigate();
   const { user, experience, charge, currency, verified, rating } = mentor;
   const fullName = `${user.first_name} ${user.middle_name ? user.middle_name + ' ' : ''}${user.last_name}`;
 
@@ -81,9 +84,14 @@ export const MentorCard: React.FC<MentorCardProps> = ({ mentor }) => {
       </div>
 
       {/* Action */}
-      <button className="w-full mt-2 py-2.5 bg-violet-600/10 hover:bg-violet-600 text-violet-400 hover:text-white border border-violet-500/20 hover:border-violet-500 rounded-lg font-medium transition-all duration-300">
-        View Profile
-      </button>
+      <div className="flex items-center gap-3 mt-2">
+        <div className="w-[60%] flex items-center justify-center bg-gray-800/80 border border-gray-700 rounded-lg py-2.5 group-hover:border-gray-600 transition-colors">
+          <span className="text-xs font-semibold text-gray-300 uppercase tracking-widest">{mentor.expertise || 'BEGINNER'}</span>
+        </div>
+        <button onClick={() => navigate(`/mentor/${user.id}`)} className="w-[40%] py-2.5 bg-violet-600/10 hover:bg-violet-600 text-violet-400 hover:text-white border border-violet-500/20 hover:border-violet-500 rounded-lg font-medium transition-all duration-300 text-sm">
+          Profile
+        </button>
+      </div>
     </div>
   );
 };

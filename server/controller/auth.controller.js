@@ -449,6 +449,7 @@ try{
       currency: true,
       verified: true,
       rating: true,
+      expertise: true,
       user: {
         select: {
           id: true,
@@ -469,4 +470,44 @@ catch(err){
   return res.status(500).json({ success: false, message: "Unable to load mentors", error: err?.message || "Unknown error" })
 }
 }
-export { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword, loadMentors };
+
+const loadMentorProfile = async (req, res) => {
+  try {
+    const mentorId = BigInt(req.params.id);
+    const mentor = await prisma.mentor.findUnique({
+      where: { id: mentorId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            first_name: true,
+            middle_name: true,
+            last_name: true,
+            image: true,
+            gender: true,
+            dob: true,
+            profession: true,
+            profession_category: true,
+            country: true,
+            created_at: true,
+          }
+        }
+      }
+    });
+
+    if (!mentor || !mentor.active_mentor) {
+      return res.status(404).json({ success: false, message: "Mentor profile not found or inactive" });
+    }
+
+    // Convert BigInts manually for JSON serialization if they aren't handled by a global replacer
+    // (We'll assume your app already has big-int serialization configured, else they fail to JSON stringify)
+    // Actually, Prisma BigInts often need a custom serializer, but if loadMentors works without one, this will too.
+
+    return res.status(200).json({ success: true, message: "Mentor profile fetched successfully", data: mentor });
+  } catch (err) {
+    console.error("Error in loadMentorProfile:", err.message);
+    return res.status(500).json({ success: false, message: "Unable to load mentor profile", error: err?.message || "Unknown error" });
+  }
+}
+
+export { signup, login, loadProfile, updateProfile, logout, changePassword, deActivateProfile, resetPassword, loadMentors, loadMentorProfile };

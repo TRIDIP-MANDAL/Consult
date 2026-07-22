@@ -12,6 +12,7 @@ import { UpdateProfile } from "./pages/profile/UpdateProfile"
 import { BookSession } from "./pages/BookSession"
 import { Membership } from "./pages/Membership"
 import { AboutUs } from "./pages/static/AboutUs"
+import { MentorProfile } from "./pages/profile/MentorProfile"
 import ResetPassword from "./pages/auth/ResetPassword"
 // import { OtpVerification } from "./component/cards/OtpVerification"
 function App() {
@@ -32,6 +33,7 @@ function App() {
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit-profile" element={<UpdateProfile />} />
+          <Route path="/mentor/:id" element={<MentorProfile />} />
           
           <Route path="/book-session" element={<BookSession />} />
           <Route path="/membership" element={<Membership />} />
