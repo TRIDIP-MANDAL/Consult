@@ -498,11 +498,7 @@ const loadMentorProfile = async (req, res) => {
     if (!mentor || !mentor.active_mentor) {
       return res.status(404).json({ success: false, message: "Mentor profile not found or inactive" });
     }
-
-    // Convert BigInts manually for JSON serialization if they aren't handled by a global replacer
-    // (We'll assume your app already has big-int serialization configured, else they fail to JSON stringify)
-    // Actually, Prisma BigInts often need a custom serializer, but if loadMentors works without one, this will too.
-
+    
     return res.status(200).json({ success: true, message: "Mentor profile fetched successfully", data: mentor });
   } catch (err) {
     console.error("Error in loadMentorProfile:", err.message);

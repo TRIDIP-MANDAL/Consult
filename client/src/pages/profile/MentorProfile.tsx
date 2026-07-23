@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callApi } from '../../config/api';
 
-// Interface for detailed mentor
 interface MentorDetailed {
   id: string;
   experience: number;
