@@ -126,9 +126,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   email: 'email',
   phone: 'phone',
   password: 'password',
-  first_name: 'first_name',
-  middle_name: 'middle_name',
-  last_name: 'last_name',
+  full_name: 'full_name',
+  full_name_search: 'full_name_search',
   dob: 'dob',
   gender: 'gender',
   role: 'role',
@@ -302,7 +301,6 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   role: 'role',
   ip_address: 'ip_address',
   device: 'device',
-  browser: 'browser',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -357,7 +355,7 @@ exports.ProfessionCategory = exports.$Enums.ProfessionCategory = {
 
 exports.MentorExpertise = exports.$Enums.MentorExpertise = {
   BEGINNER: 'BEGINNER',
-  MEDIUM: 'MEDIUM',
+  INTERMEDIATE: 'INTERMEDIATE',
   EXPERT: 'EXPERT'
 };
 

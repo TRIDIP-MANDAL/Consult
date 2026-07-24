@@ -19,9 +19,7 @@ interface MentorDetailed {
   created_at: string;
   user: {
     id: string;
-    first_name: string;
-    middle_name: string | null;
-    last_name: string;
+    full_name: string;
     image: string | null;
     gender: string | null;
     dob: string | null;
@@ -82,7 +80,9 @@ export const MentorProfile: React.FC = () => {
   }
 
   const { user } = mentor;
-  const fullName = `${user.first_name} ${user.middle_name ? user.middle_name + ' ' : ''}${user.last_name}`;
+  const fullName = user.full_name;
+  const nameParts = fullName.trim().split(/\s+/);
+  const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}` : nameParts[0][0];
 
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
@@ -99,7 +99,7 @@ export const MentorProfile: React.FC = () => {
               <img src={user.image} alt={fullName} className="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-4 border-gray-800 shadow-2xl" />
             ) : (
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gray-800 border-4 border-gray-700 flex items-center justify-center text-5xl font-bold text-gray-400 shadow-2xl">
-                {user.first_name[0]}{user.last_name[0]}
+                {initials}
               </div>
             )}
             {mentor.verified && (

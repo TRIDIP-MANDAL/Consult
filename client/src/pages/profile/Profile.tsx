@@ -7,9 +7,7 @@ import { ConfirmationModal } from "../../component/ConfirmationModal";
 
 interface ProfileData {
     id: string;
-    first_name: string;
-    middle_name?: string;
-    last_name: string;
+    full_name: string;
     email: string;
     phone: string;
     gender?: string;
@@ -55,7 +53,7 @@ export const Profile: React.FC = () => {
                 setProfileData(result.data);
                 setLogin({
                     isloggedin: true,
-                    name: `${result.data.first_name}${result.data.middle_name ? " " + result.data.middle_name : ""} ${result.data.last_name}`,
+                    name: result.data.full_name,
                     role: result.data.role,
                     image: result.data.image || "",
                     id: result.data.id.toString(),
@@ -138,7 +136,7 @@ export const Profile: React.FC = () => {
 
                         <div className="text-center md:text-left space-y-2">
                             <h1 className="text-3xl font-bold text-white tracking-tight">
-                                {profileData.first_name} {profileData.middle_name ? profileData.middle_name + " " : ""}{profileData.last_name}
+                                {profileData.full_name}
                             </h1>
                             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/20 capitalize tracking-wide">

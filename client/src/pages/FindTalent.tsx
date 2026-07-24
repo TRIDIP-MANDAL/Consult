@@ -109,7 +109,7 @@ export const FindTalent: React.FC = () => {
     }, [page, appliedFilters])
 
     // Infinite scroll observer setup
-    const observerTarget = useRef<HTMLDivElement>(null);
+    const observerTarget = useRef<HTMLDivElement>(null); // DOUBT
 
     useEffect(() => {
         const observer = new IntersectionObserver(

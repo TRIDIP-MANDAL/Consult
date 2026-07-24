@@ -1,3 +1,5 @@
 */node_modules/
 */**/.env
 .vscode
+generate_mentors.js
+mentor_payloads.json

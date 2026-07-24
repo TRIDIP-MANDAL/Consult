@@ -10,9 +10,7 @@ import { callApi } from "../../config/api.ts";
 import { isStrongPassword, type CountryCode } from "../../config/others.ts"
 
 interface UserForm {
-    first_name: string;
-    middle_name: string;
-    last_name: string;
+    full_name: string;
     email: string;
     phone: string;
     cntryCode: string;
@@ -44,9 +42,7 @@ interface CombinedForm {
 
 export const Signup: React.FC = () => {
     const [userForm, setUserForm] = useState<UserForm>({
-        first_name: "",
-        middle_name: "",
-        last_name: "",
+        full_name: "",
         email: "",
         phone: "",
         cntryCode: "",
@@ -185,18 +181,8 @@ export const Signup: React.FC = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-sm font-medium text-gray-300">First Name *</label>
-                                <input type="text" name="first_name" value={userForm.first_name} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                            </div>
-
-                            <div className="flex flex-col gap-1.5">
-                                <label className="text-sm font-medium text-gray-300">Middle Name</label>
-                                <input type="text" name="middle_name" value={userForm.middle_name} onChange={handleUserChange} className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                            </div>
-
-                            <div className="flex flex-col gap-1.5">
-                                <label className="text-sm font-medium text-gray-300">Last Name *</label>
-                                <input type="text" name="last_name" value={userForm.last_name} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                                <label className="text-sm font-medium text-gray-300">Full Name *</label>
+                                <input type="text" name="full_name" value={userForm.full_name} onChange={handleUserChange} required className="bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="e.g. John Doe" />
                             </div>
 
                             <div className="flex flex-col gap-1.5">

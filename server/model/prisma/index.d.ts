@@ -124,7 +124,7 @@ export type MentorLevel = (typeof MentorLevel)[keyof typeof MentorLevel]
 
 export const MentorExpertise: {
   BEGINNER: 'BEGINNER',
-  MEDIUM: 'MEDIUM',
+  INTERMEDIATE: 'INTERMEDIATE',
   EXPERT: 'EXPERT'
 };
 
@@ -2731,9 +2731,8 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     password: string | null
-    first_name: string | null
-    middle_name: string | null
-    last_name: string | null
+    full_name: string | null
+    full_name_search: string | null
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole | null
@@ -2753,9 +2752,8 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     password: string | null
-    first_name: string | null
-    middle_name: string | null
-    last_name: string | null
+    full_name: string | null
+    full_name_search: string | null
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole | null
@@ -2775,9 +2773,8 @@ export namespace Prisma {
     email: number
     phone: number
     password: number
-    first_name: number
-    middle_name: number
-    last_name: number
+    full_name: number
+    full_name_search: number
     dob: number
     gender: number
     role: number
@@ -2807,9 +2804,8 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    first_name?: true
-    middle_name?: true
-    last_name?: true
+    full_name?: true
+    full_name_search?: true
     dob?: true
     gender?: true
     role?: true
@@ -2829,9 +2825,8 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    first_name?: true
-    middle_name?: true
-    last_name?: true
+    full_name?: true
+    full_name_search?: true
     dob?: true
     gender?: true
     role?: true
@@ -2851,9 +2846,8 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    first_name?: true
-    middle_name?: true
-    last_name?: true
+    full_name?: true
+    full_name_search?: true
     dob?: true
     gender?: true
     role?: true
@@ -2960,9 +2954,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name: string | null
-    last_name: string
+    full_name: string
+    full_name_search: string | null
     dob: Date | null
     gender: $Enums.Gender | null
     role: $Enums.UserRole
@@ -3001,9 +2994,8 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    first_name?: boolean
-    middle_name?: boolean
-    last_name?: boolean
+    full_name?: boolean
+    full_name_search?: boolean
     dob?: boolean
     gender?: boolean
     role?: boolean
@@ -3039,9 +3031,8 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    first_name?: boolean
-    middle_name?: boolean
-    last_name?: boolean
+    full_name?: boolean
+    full_name_search?: boolean
     dob?: boolean
     gender?: boolean
     role?: boolean
@@ -3061,9 +3052,8 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    first_name?: boolean
-    middle_name?: boolean
-    last_name?: boolean
+    full_name?: boolean
+    full_name_search?: boolean
     dob?: boolean
     gender?: boolean
     role?: boolean
@@ -3083,9 +3073,8 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    first_name?: boolean
-    middle_name?: boolean
-    last_name?: boolean
+    full_name?: boolean
+    full_name_search?: boolean
     dob?: boolean
     gender?: boolean
     role?: boolean
@@ -3099,7 +3088,7 @@ export namespace Prisma {
     isactive?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "email" | "phone" | "password" | "first_name" | "middle_name" | "last_name" | "dob" | "gender" | "role" | "profession_category" | "profession" | "country" | "postal_code" | "created_at" | "updated_at" | "deleted_at" | "isactive", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "email" | "phone" | "password" | "full_name" | "full_name_search" | "dob" | "gender" | "role" | "profession_category" | "profession" | "country" | "postal_code" | "created_at" | "updated_at" | "deleted_at" | "isactive", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
     payments?: boolean | Users$paymentsArgs<ExtArgs>
@@ -3146,9 +3135,8 @@ export namespace Prisma {
       email: string
       phone: string
       password: string
-      first_name: string
-      middle_name: string | null
-      last_name: string
+      full_name: string
+      full_name_search: string | null
       dob: Date | null
       gender: $Enums.Gender | null
       role: $Enums.UserRole
@@ -3603,9 +3591,8 @@ export namespace Prisma {
     readonly email: FieldRef<"Users", 'String'>
     readonly phone: FieldRef<"Users", 'String'>
     readonly password: FieldRef<"Users", 'String'>
-    readonly first_name: FieldRef<"Users", 'String'>
-    readonly middle_name: FieldRef<"Users", 'String'>
-    readonly last_name: FieldRef<"Users", 'String'>
+    readonly full_name: FieldRef<"Users", 'String'>
+    readonly full_name_search: FieldRef<"Users", 'String'>
     readonly dob: FieldRef<"Users", 'DateTime'>
     readonly gender: FieldRef<"Users", 'Gender'>
     readonly role: FieldRef<"Users", 'UserRole'>
@@ -19536,7 +19523,6 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     ip_address: string | null
     device: string | null
-    browser: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -19550,7 +19536,6 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     ip_address: string | null
     device: string | null
-    browser: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -19566,7 +19551,6 @@ export namespace Prisma {
     role: number
     ip_address: number
     device: number
-    browser: number
     created_at: number
     updated_at: number
     _all: number
@@ -19594,7 +19578,6 @@ export namespace Prisma {
     role?: true
     ip_address?: true
     device?: true
-    browser?: true
     created_at?: true
     updated_at?: true
   }
@@ -19608,7 +19591,6 @@ export namespace Prisma {
     role?: true
     ip_address?: true
     device?: true
-    browser?: true
     created_at?: true
     updated_at?: true
   }
@@ -19624,7 +19606,6 @@ export namespace Prisma {
     role?: true
     ip_address?: true
     device?: true
-    browser?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -19727,7 +19708,6 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     ip_address: string | null
     device: string | null
-    browser: string | null
     created_at: Date
     updated_at: Date
     _count: AuditLogCountAggregateOutputType | null
@@ -19762,7 +19742,6 @@ export namespace Prisma {
     role?: boolean
     ip_address?: boolean
     device?: boolean
-    browser?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["auditLog"]>
@@ -19778,7 +19757,6 @@ export namespace Prisma {
     role?: boolean
     ip_address?: boolean
     device?: boolean
-    browser?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["auditLog"]>
@@ -19794,7 +19772,6 @@ export namespace Prisma {
     role?: boolean
     ip_address?: boolean
     device?: boolean
-    browser?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["auditLog"]>
@@ -19810,12 +19787,11 @@ export namespace Prisma {
     role?: boolean
     ip_address?: boolean
     device?: boolean
-    browser?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "table_name" | "record_id" | "action" | "previous_data" | "updated_data" | "user_id" | "role" | "ip_address" | "device" | "browser" | "created_at" | "updated_at", ExtArgs["result"]["auditLog"]>
+  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "table_name" | "record_id" | "action" | "previous_data" | "updated_data" | "user_id" | "role" | "ip_address" | "device" | "created_at" | "updated_at", ExtArgs["result"]["auditLog"]>
 
   export type $AuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AuditLog"
@@ -19831,7 +19807,6 @@ export namespace Prisma {
       role: $Enums.UserRole | null
       ip_address: string | null
       device: string | null
-      browser: string | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["auditLog"]>
@@ -20267,7 +20242,6 @@ export namespace Prisma {
     readonly role: FieldRef<"AuditLog", 'UserRole'>
     readonly ip_address: FieldRef<"AuditLog", 'String'>
     readonly device: FieldRef<"AuditLog", 'String'>
-    readonly browser: FieldRef<"AuditLog", 'String'>
     readonly created_at: FieldRef<"AuditLog", 'DateTime'>
     readonly updated_at: FieldRef<"AuditLog", 'DateTime'>
   }
@@ -20656,9 +20630,8 @@ export namespace Prisma {
     email: 'email',
     phone: 'phone',
     password: 'password',
-    first_name: 'first_name',
-    middle_name: 'middle_name',
-    last_name: 'last_name',
+    full_name: 'full_name',
+    full_name_search: 'full_name_search',
     dob: 'dob',
     gender: 'gender',
     role: 'role',
@@ -20874,7 +20847,6 @@ export namespace Prisma {
     role: 'role',
     ip_address: 'ip_address',
     device: 'device',
-    browser: 'browser',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -21297,9 +21269,8 @@ export namespace Prisma {
     email?: StringFilter<"Users"> | string
     phone?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
-    first_name?: StringFilter<"Users"> | string
-    middle_name?: StringNullableFilter<"Users"> | string | null
-    last_name?: StringFilter<"Users"> | string
+    full_name?: StringFilter<"Users"> | string
+    full_name_search?: StringNullableFilter<"Users"> | string | null
     dob?: DateTimeNullableFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleFilter<"Users"> | $Enums.UserRole
@@ -21334,9 +21305,8 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    first_name?: SortOrder
-    middle_name?: SortOrderInput | SortOrder
-    last_name?: SortOrder
+    full_name?: SortOrder
+    full_name_search?: SortOrderInput | SortOrder
     dob?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -21374,9 +21344,8 @@ export namespace Prisma {
     NOT?: UsersWhereInput | UsersWhereInput[]
     image?: StringNullableFilter<"Users"> | string | null
     password?: StringFilter<"Users"> | string
-    first_name?: StringFilter<"Users"> | string
-    middle_name?: StringNullableFilter<"Users"> | string | null
-    last_name?: StringFilter<"Users"> | string
+    full_name?: StringFilter<"Users"> | string
+    full_name_search?: StringNullableFilter<"Users"> | string | null
     dob?: DateTimeNullableFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleFilter<"Users"> | $Enums.UserRole
@@ -21411,9 +21380,8 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    first_name?: SortOrder
-    middle_name?: SortOrderInput | SortOrder
-    last_name?: SortOrder
+    full_name?: SortOrder
+    full_name_search?: SortOrderInput | SortOrder
     dob?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -21441,9 +21409,8 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Users"> | string
     phone?: StringWithAggregatesFilter<"Users"> | string
     password?: StringWithAggregatesFilter<"Users"> | string
-    first_name?: StringWithAggregatesFilter<"Users"> | string
-    middle_name?: StringNullableWithAggregatesFilter<"Users"> | string | null
-    last_name?: StringWithAggregatesFilter<"Users"> | string
+    full_name?: StringWithAggregatesFilter<"Users"> | string
+    full_name_search?: StringNullableWithAggregatesFilter<"Users"> | string | null
     dob?: DateTimeNullableWithAggregatesFilter<"Users"> | Date | string | null
     gender?: EnumGenderNullableWithAggregatesFilter<"Users"> | $Enums.Gender | null
     role?: EnumUserRoleWithAggregatesFilter<"Users"> | $Enums.UserRole
@@ -22474,7 +22441,6 @@ export namespace Prisma {
     role?: EnumUserRoleNullableFilter<"AuditLog"> | $Enums.UserRole | null
     ip_address?: StringNullableFilter<"AuditLog"> | string | null
     device?: StringNullableFilter<"AuditLog"> | string | null
-    browser?: StringNullableFilter<"AuditLog"> | string | null
     created_at?: DateTimeFilter<"AuditLog"> | Date | string
     updated_at?: DateTimeFilter<"AuditLog"> | Date | string
   }
@@ -22490,7 +22456,6 @@ export namespace Prisma {
     role?: SortOrderInput | SortOrder
     ip_address?: SortOrderInput | SortOrder
     device?: SortOrderInput | SortOrder
-    browser?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -22509,7 +22474,6 @@ export namespace Prisma {
     role?: EnumUserRoleNullableFilter<"AuditLog"> | $Enums.UserRole | null
     ip_address?: StringNullableFilter<"AuditLog"> | string | null
     device?: StringNullableFilter<"AuditLog"> | string | null
-    browser?: StringNullableFilter<"AuditLog"> | string | null
     created_at?: DateTimeFilter<"AuditLog"> | Date | string
     updated_at?: DateTimeFilter<"AuditLog"> | Date | string
   }, "id">
@@ -22525,7 +22489,6 @@ export namespace Prisma {
     role?: SortOrderInput | SortOrder
     ip_address?: SortOrderInput | SortOrder
     device?: SortOrderInput | SortOrder
-    browser?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: AuditLogCountOrderByAggregateInput
@@ -22549,7 +22512,6 @@ export namespace Prisma {
     role?: EnumUserRoleNullableWithAggregatesFilter<"AuditLog"> | $Enums.UserRole | null
     ip_address?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     device?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
-    browser?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
@@ -22560,9 +22522,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -22597,9 +22558,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -22634,9 +22594,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -22671,9 +22630,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -22708,9 +22666,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -22730,9 +22687,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -22752,9 +22708,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -23822,7 +23777,6 @@ export namespace Prisma {
     role?: $Enums.UserRole | null
     ip_address?: string | null
     device?: string | null
-    browser?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -23838,7 +23792,6 @@ export namespace Prisma {
     role?: $Enums.UserRole | null
     ip_address?: string | null
     device?: string | null
-    browser?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -23854,7 +23807,6 @@ export namespace Prisma {
     role?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     ip_address?: NullableStringFieldUpdateOperationsInput | string | null
     device?: NullableStringFieldUpdateOperationsInput | string | null
-    browser?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23870,7 +23822,6 @@ export namespace Prisma {
     role?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     ip_address?: NullableStringFieldUpdateOperationsInput | string | null
     device?: NullableStringFieldUpdateOperationsInput | string | null
-    browser?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23886,7 +23837,6 @@ export namespace Prisma {
     role?: $Enums.UserRole | null
     ip_address?: string | null
     device?: string | null
-    browser?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -23902,7 +23852,6 @@ export namespace Prisma {
     role?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     ip_address?: NullableStringFieldUpdateOperationsInput | string | null
     device?: NullableStringFieldUpdateOperationsInput | string | null
-    browser?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23918,7 +23867,6 @@ export namespace Prisma {
     role?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     ip_address?: NullableStringFieldUpdateOperationsInput | string | null
     device?: NullableStringFieldUpdateOperationsInput | string | null
-    browser?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24118,9 +24066,8 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    first_name?: SortOrder
-    middle_name?: SortOrder
-    last_name?: SortOrder
+    full_name?: SortOrder
+    full_name_search?: SortOrder
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
@@ -24144,9 +24091,8 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    first_name?: SortOrder
-    middle_name?: SortOrder
-    last_name?: SortOrder
+    full_name?: SortOrder
+    full_name_search?: SortOrder
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
@@ -24166,9 +24112,8 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    first_name?: SortOrder
-    middle_name?: SortOrder
-    last_name?: SortOrder
+    full_name?: SortOrder
+    full_name_search?: SortOrder
     dob?: SortOrder
     gender?: SortOrder
     role?: SortOrder
@@ -25377,7 +25322,6 @@ export namespace Prisma {
     role?: SortOrder
     ip_address?: SortOrder
     device?: SortOrder
-    browser?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -25397,7 +25341,6 @@ export namespace Prisma {
     role?: SortOrder
     ip_address?: SortOrder
     device?: SortOrder
-    browser?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -25411,7 +25354,6 @@ export namespace Prisma {
     role?: SortOrder
     ip_address?: SortOrder
     device?: SortOrder
-    browser?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -28261,9 +28203,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28297,9 +28238,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28349,9 +28289,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28385,9 +28324,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28421,9 +28359,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28457,9 +28394,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28498,9 +28434,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28534,9 +28469,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28662,9 +28596,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28698,9 +28631,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28745,9 +28677,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28781,9 +28712,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -28849,9 +28779,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28885,9 +28814,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28926,9 +28854,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -28962,9 +28889,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29048,9 +28974,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29084,9 +29009,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29131,9 +29055,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29167,9 +29090,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29219,9 +29141,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29255,9 +29176,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29296,9 +29216,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29332,9 +29251,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29424,9 +29342,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29460,9 +29377,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29507,9 +29423,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29543,9 +29458,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29681,9 +29595,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29717,9 +29630,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29758,9 +29670,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29794,9 +29705,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -29881,9 +29791,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29917,9 +29826,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -29964,9 +29872,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30000,9 +29907,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30077,9 +29983,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30113,9 +30018,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30165,9 +30069,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30201,9 +30104,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30295,9 +30197,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30331,9 +30232,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30443,9 +30343,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30479,9 +30378,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30587,9 +30485,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30623,9 +30520,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30675,9 +30571,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30711,9 +30606,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30747,9 +30641,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30783,9 +30676,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30835,9 +30727,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30871,9 +30762,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -30907,9 +30797,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30943,9 +30832,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -30984,9 +30872,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -31020,9 +30907,8 @@ export namespace Prisma {
     email: string
     phone: string
     password: string
-    first_name: string
-    middle_name?: string | null
-    last_name: string
+    full_name: string
+    full_name_search?: string | null
     dob?: Date | string | null
     gender?: $Enums.Gender | null
     role?: $Enums.UserRole
@@ -31072,9 +30958,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -31108,9 +30993,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -31155,9 +31039,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -31191,9 +31074,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    middle_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole

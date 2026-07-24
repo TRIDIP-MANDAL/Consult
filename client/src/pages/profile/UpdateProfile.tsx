@@ -8,9 +8,7 @@ import useUser from "../../lib/UserState";
 import {ConfirmationModal} from "../../component/ConfirmationModal";
 
 interface UserForm {
-    first_name: string;
-    middle_name: string;
-    last_name: string;
+    full_name: string;
     email: string;
     phone: string;
     dob: string;
@@ -50,9 +48,7 @@ export const UpdateProfile: React.FC = () => {
     const isCustomProfession = savedProfession && !initialProfessions.includes(savedProfession);
 
     const [userData, setUserData] = useState<UserForm>({
-        first_name: profileData?.first_name || "",
-        middle_name: profileData?.middle_name || "",
-        last_name: profileData?.last_name || "",
+        full_name: profileData?.full_name || "",
         email: profileData?.email || "",
         phone: profileData?.phone || "",
         dob: profileData?.dob ? profileData.dob.split("T")[0] : "",
@@ -135,7 +131,7 @@ export const UpdateProfile: React.FC = () => {
             const updatedUser = response.data.user;
             setLogin({
                 isloggedin: true,
-                name: `${updatedUser.first_name}${updatedUser.middle_name ? " " + updatedUser.middle_name : ""} ${updatedUser.last_name}`,
+                name: updatedUser.full_name,
                 role: updatedUser.role,
                 image: updatedUser.image || "",
                 id: updatedUser.id.toString(),
@@ -202,16 +198,8 @@ export const UpdateProfile: React.FC = () => {
                         <h3 className={sectionTitleClasses}>Personal Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className={labelClasses}>First Name *</label>
-                                <input className={inputClasses} type="text" name="first_name" value={userData.first_name} onChange={handleUserChange} required />
-                            </div>
-                            <div>
-                                <label className={labelClasses}>Middle Name</label>
-                                <input className={inputClasses} type="text" name="middle_name" value={userData.middle_name} onChange={handleUserChange} />
-                            </div>
-                            <div>
-                                <label className={labelClasses}>Last Name *</label>
-                                <input className={inputClasses} type="text" name="last_name" value={userData.last_name} onChange={handleUserChange} required />
+                                <label className={labelClasses}>Full Name *</label>
+                                <input className={inputClasses} type="text" name="full_name" value={userData.full_name} onChange={handleUserChange} required />
                             </div>
                             <div>
                                 <label className={labelClasses}>Date of Birth</label>

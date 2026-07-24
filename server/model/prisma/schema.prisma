@@ -5,12 +5,14 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../model/prisma"
+  provider        = "prisma-client-js"
+  output          = "../model/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
+  extensions = [pg_trgm, unaccent]
 }
 
 //// ENUMS ////
@@ -37,7 +39,7 @@ enum MentorLevel {
 
 enum MentorExpertise {
   BEGINNER
-  MEDIUM
+  INTERMEDIATE
   EXPERT
 }
 
@@ -174,9 +176,8 @@ model Users {
   email               String              @unique
   phone               String              @unique
   password            String
-  first_name          String
-  middle_name         String?
-  last_name           String
+  full_name           String
+  full_name_search    String?
   dob                 DateTime?
   gender              Gender?
   role                UserRole            @default(USER)
@@ -214,6 +215,9 @@ model Users {
 
   user1 Relationship[] @relation("user1")
   user2 Relationship[] @relation("user2")
+
+  @@index([full_name_search(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([isactive])
 }
 
 model Mentor {
@@ -461,7 +465,6 @@ model AuditLog {
   role       UserRole?
   ip_address String?
   device     String?
-  browser    String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt // Added specifically to catch tampering as requested

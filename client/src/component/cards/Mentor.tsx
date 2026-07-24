@@ -11,9 +11,7 @@ export interface MentorData {
   expertise?: string;
   user: {
     id: string;
-    first_name: string;
-    middle_name?: string | null;
-    last_name: string;
+    full_name: string;
     image?: string | null;
     profession: string;
     profession_category: string;
@@ -28,18 +26,19 @@ interface MentorCardProps {
 export const MentorCard: React.FC<MentorCardProps> = ({ mentor }) => {
   const navigate = useNavigate();
   const { user, experience, charge, currency, verified, rating } = mentor;
-  const fullName = `${user.first_name} ${user.middle_name ? user.middle_name + ' ' : ''}${user.last_name}`;
+  const fullName = user.full_name;
+  const nameParts = fullName.trim().split(/\s+/);
+  const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}` : nameParts[0][0];
 
   return (
     <div className="bg-gray-900/40 border border-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-violet-900/20 hover:border-violet-500/30 transition-all duration-300 group flex flex-col gap-4">
-      {/* Header: Image & Name */}
       <div className="flex items-center gap-4">
         <div className="relative">
           {user.image ? (
             <img src={user.image} alt={fullName} className="w-16 h-16 rounded-full object-cover border-2 border-gray-700 group-hover:border-violet-500 transition-colors" />
           ) : (
             <div className="w-16 h-16 rounded-full bg-gray-800 border-2 border-gray-700 flex items-center justify-center text-xl font-bold text-gray-400 group-hover:border-violet-500 group-hover:text-violet-400 transition-colors">
-              {user.first_name[0]}{user.last_name[0]}
+              {initials}
             </div>
           )}
           {verified && (

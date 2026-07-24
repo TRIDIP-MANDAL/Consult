@@ -7,10 +7,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../model/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
+  extensions = [pg_trgm, unaccent]
 }
 
 //// ENUMS ////
@@ -174,9 +176,8 @@ model Users {
   email                 String                @unique
   phone                 String                @unique
   password              String
-  first_name            String
-  middle_name           String?
-  last_name             String
+  full_name             String
+  full_name_search      String?
   dob                   DateTime?
   gender                Gender?
   role                  UserRole              @default(USER)
@@ -214,6 +215,8 @@ model Users {
 
   user1 Relationship[] @relation("user1")
   user2 Relationship[] @relation("user2")
+  @@index([full_name_search(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([isactive])
 }
 
 model Mentor {

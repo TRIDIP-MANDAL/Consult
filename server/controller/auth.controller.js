@@ -129,7 +129,7 @@ const login = async (req, res) => {
     if (!isMatch) return res.status(401).json({ success: false, message: "Invalid Credentials" })
     const data = {
       id: user.id.toString(),
-      name: user.first_name + (user.middle_name ? ` ${user.middle_name} ` : " ") + user.last_name,
+      name: user.full_name,
       role: user.role
     }
     const token = generateToken(data);
@@ -337,7 +337,7 @@ const logout = (req, res) => {
   }
 }
 
-const changePassword = async (req, res) => { // doubt, is it even used any where
+const changePassword = async (req, res) => { // DOUBT, is it even used any where
   try {
     // forgot password logic required here
     // first enter new password, then reenter new password, and that logic will be handled from frontend, if success then only the API hit will be done
@@ -453,9 +453,7 @@ try{
       user: {
         select: {
           id: true,
-          first_name: true,
-          middle_name:true,
-          last_name: true,
+          full_name: true,
           image:true,
           profession: true,
           profession_category: true,
@@ -480,9 +478,7 @@ const loadMentorProfile = async (req, res) => {
         user: {
           select: {
             id: true,
-            first_name: true,
-            middle_name: true,
-            last_name: true,
+            full_name: true,
             image: true,
             gender: true,
             dob: true,
@@ -498,7 +494,7 @@ const loadMentorProfile = async (req, res) => {
     if (!mentor || !mentor.active_mentor) {
       return res.status(404).json({ success: false, message: "Mentor profile not found or inactive" });
     }
-    
+
     return res.status(200).json({ success: true, message: "Mentor profile fetched successfully", data: mentor });
   } catch (err) {
     console.error("Error in loadMentorProfile:", err.message);
