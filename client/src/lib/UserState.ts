@@ -5,8 +5,9 @@ type State = {
     isloggedin: boolean;
     name: string;
     role: string;
-    image: string;
+    image: string | null;
     id: string;
+    profession_category: string | null;
 }
 
 type Action = {
@@ -21,6 +22,7 @@ const userState = (set) => {
         role: "",
         image: "",
         id: "",
+        profession_category: "",
         setLogin: (user) => {
             return set(() => {
                 return {
@@ -29,6 +31,7 @@ const userState = (set) => {
                     role: user.role,
                     image: user.image,
                     id: user.id,
+                    profession_category: user.profession_category ?? null,
                 }
             })
         },

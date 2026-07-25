@@ -135,6 +135,7 @@ export const UpdateProfile: React.FC = () => {
                 role: updatedUser.role,
                 image: updatedUser.image || "",
                 id: updatedUser.id.toString(),
+                profession_category: updatedUser.profession_category,
             });
             
             setError("");

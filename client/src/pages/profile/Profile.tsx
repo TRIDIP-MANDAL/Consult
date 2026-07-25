@@ -57,6 +57,7 @@ export const Profile: React.FC = () => {
                     role: result.data.role,
                     image: result.data.image || "",
                     id: result.data.id.toString(),
+                    profession_category: result.data.profession_category,
                 });
             } catch (error: any) {
                 setError(error.message || "An unexpected error occurred");
