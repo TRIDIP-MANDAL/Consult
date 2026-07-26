@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { MentorCard, type MentorData } from '../component/cards/Mentor';
-import { callApi } from '../config/api';
+import { callApi } from '../config/api.ts';
 import { countries } from '../assets/data/country_dialCode.json';
 import { currencies } from '../assets/data/currency.json';
 import { professionCategories } from '../assets/data/profession.json';
 import useUser from '../lib/UserState';
 
 type Mode = 'search' | 'filter';
+
+interface Suggestion {
+    id: string;
+    full_name: string;
+    image: string | null;
+    profession: string | null;
+}
 
 const emptyFilters = {
     verified: false,
@@ -34,34 +41,96 @@ export const FindTalent: React.FC = () => {
 
     const [mode, setMode] = useState<Mode>('search');
 
-    const [searchInput, setSearchInput] = useState('');
-    const [debouncedSearch, setDebouncedSearch] = useState('');
-    const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // ── Search state ─────────────────────────────────────
+    const [searchInput, setSearchInput]         = useState('');
+    const [committedSearch, setCommittedSearch] = useState(''); // what actually triggers the list fetch
+    const [suggestions, setSuggestions]         = useState<Suggestion[]>([]);
+    const [showDropdown, setShowDropdown]       = useState(false);
+    const [suggLoading, setSuggLoading]         = useState(false);
+    const suggDebounce  = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const searchWrapper = useRef<HTMLDivElement>(null);
 
-    const [filters, setFilters] = useState(emptyFilters);
+    // ── Filter state ──────────────────────────────────────
+    const [filters, setFilters]               = useState(emptyFilters);
     const [appliedFilters, setAppliedFilters] = useState(emptyFilters);
 
+    // ── List state ────────────────────────────────────────
     const [mentors, setMentors] = useState<MentorData[]>([]);
-    const [page, setPage] = useState(1);
-    const [limit] = useState(getOptimalLimit);
+    const [page, setPage]       = useState(1);
+    const [limit]               = useState(getOptimalLimit);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
 
     const observerTarget = useRef<HTMLDivElement>(null); // DOUBT
 
+    // ── Close dropdown when clicking outside ─────────────
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (searchWrapper.current && !searchWrapper.current.contains(e.target as Node)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, []);
+
+    // ── Suggestion fetch (500ms debounce) ─────────────────
     const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setSearchInput(val);
+        setShowDropdown(true);
 
-        if (debounceTimer.current) clearTimeout(debounceTimer.current);
-        debounceTimer.current = setTimeout(() => {
-            setDebouncedSearch(val);
-            setPage(1);
-        }, 2000);
+        if (suggDebounce.current) clearTimeout(suggDebounce.current);
+
+        if (!val.trim()) {
+            setSuggestions([]);
+            setShowDropdown(false);
+            return;
+        }
+
+        suggDebounce.current = setTimeout(async () => {
+            setSuggLoading(true);
+            try {
+                const res: any = await callApi(`/auth/our-mentors/suggestions?q=${encodeURIComponent(val.trim())}`, 'GET');
+                setSuggestions(res?.data || []);
+            } catch {
+                setSuggestions([]);
+            } finally {
+                setSuggLoading(false);
+            }
+        }, 500);
     };
 
-    useEffect(() => () => { if (debounceTimer.current) clearTimeout(debounceTimer.current); }, []);
+    useEffect(() => () => { if (suggDebounce.current) clearTimeout(suggDebounce.current); }, []);
 
+    // ── Commit a search (triggers the main list fetch) ────
+    const commitSearch = (term: string) => {
+        setSearchInput(term);
+        setCommittedSearch(term);
+        setSuggestions([]);
+        setShowDropdown(false);
+        setPage(1);
+    };
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            commitSearch(searchInput);
+        }
+        if (e.key === 'Escape') {
+            setShowDropdown(false);
+        }
+    };
+
+    const clearSearch = () => {
+        setSearchInput('');
+        setCommittedSearch('');
+        setSuggestions([]);
+        setShowDropdown(false);
+        setPage(1);
+    };
+
+    // ── Filter handlers ───────────────────────────────────
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = e.target as HTMLInputElement;
         const { name, value, type, checked } = target;
@@ -70,7 +139,7 @@ export const FindTalent: React.FC = () => {
 
     const handleApplyFilters = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("created filters ", filters)
+        console.log('created filters ', filters);
         setAppliedFilters(filters);
         setPage(1);
     };
@@ -81,9 +150,7 @@ export const FindTalent: React.FC = () => {
         setPage(1);
     };
 
-    /* ────────────────────────────────────────────────────
-       Mode toggle — reset relevant state when switching
-    ──────────────────────────────────────────────────── */
+    // ── Mode switch ───────────────────────────────────────
     const switchMode = (next: Mode) => {
         setMode(next);
         setMentors([]);
@@ -93,59 +160,51 @@ export const FindTalent: React.FC = () => {
             setAppliedFilters(emptyFilters);
         } else {
             setSearchInput('');
-            setDebouncedSearch('');
+            setCommittedSearch('');
+            setSuggestions([]);
+            setShowDropdown(false);
         }
     };
 
-    /* ────────────────────────────────────────────────────
-       Fetch mentors
-    ──────────────────────────────────────────────────── */
+    // ── Fetch mentor list ─────────────────────────────────
     const fetchMentors = useCallback(async () => {
         setLoading(true);
         try {
-            const params = new URLSearchParams({
-                page: page.toString(),
-                limit: limit.toString(),
-            });
+            const params = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
 
             if (mode === 'search') {
-                /* search mode: send query string; if empty, pre-fill
-                   with the logged-in user's profession_category         */
-                if (debouncedSearch.trim()) {
-                    params.append('search', debouncedSearch.trim());
+                if (committedSearch.trim()) {
+                    params.append('search', committedSearch.trim());
                 } else if (userProfessionCategory) {
                     params.append('profession_category', userProfessionCategory);
                 }
             } else {
-                /* filter mode */
-                if (appliedFilters.verified)           params.append('verified', 'true');
-                if (appliedFilters.expertise)          params.append('expertise', appliedFilters.expertise);
-                if (appliedFilters.experience)         params.append('experience', appliedFilters.experience);
-                if (appliedFilters.rating)             params.append('rating', appliedFilters.rating);
-                if (appliedFilters.price)              params.append('price', appliedFilters.price);
+                if (appliedFilters.verified)            params.append('verified', 'true');
+                if (appliedFilters.expertise)           params.append('expertise', appliedFilters.expertise);
+                if (appliedFilters.experience)          params.append('experience', appliedFilters.experience);
+                if (appliedFilters.rating)              params.append('rating', appliedFilters.rating);
+                if (appliedFilters.price)               params.append('price', appliedFilters.price);
                 if (appliedFilters.profession_category) params.append('profession_category', appliedFilters.profession_category);
-                if (appliedFilters.profession)         params.append('profession', appliedFilters.profession);
-                if (appliedFilters.country)            params.append('country', appliedFilters.country);
+                if (appliedFilters.profession)          params.append('profession', appliedFilters.profession);
+                if (appliedFilters.country)             params.append('country', appliedFilters.country);
             }
 
+            console.log('created params before api call ', params.toString());
             const response: any = await callApi(`/auth/our-mentors?${params.toString()}`, 'GET');
             const newMentors: MentorData[] = response?.data || response || [];
 
             setHasMore(newMentors.length >= limit);
-
             setMentors(prev => (page === 1 ? newMentors : [...prev, ...newMentors]));
         } catch (err) {
             console.error('Failed to fetch mentors', err);
         } finally {
             setLoading(false);
         }
-    }, [page, limit, mode, debouncedSearch, appliedFilters, userProfessionCategory]);
+    }, [page, limit, mode, committedSearch, appliedFilters, userProfessionCategory]);
 
     useEffect(() => { fetchMentors(); }, [fetchMentors]);
 
-    /* ────────────────────────────────────────────────────
-       Infinite scroll
-    ──────────────────────────────────────────────────── */
+    //    infinite scroll
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -160,20 +219,12 @@ export const FindTalent: React.FC = () => {
         return () => { if (el) observer.unobserve(el); };
     }, [hasMore, loading]);
 
-    /* ────────────────────────────────────────────────────
-       Shared classes
-    ──────────────────────────────────────────────────── */
     const inputCls = 'w-full bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all';
     const labelCls = 'block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2';
 
-    /* ────────────────────────────────────────────────────
-       Render
-    ──────────────────────────────────────────────────── */
     return (
         <div className="min-h-screen bg-black text-white p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
-
-                {/* ── Page title ── */}
                 <h1 className="text-3xl font-bold mb-6">Find Talent</h1>
 
                 {/* ── Mode Toggle ── */}
@@ -186,7 +237,6 @@ export const FindTalent: React.FC = () => {
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        {/* search icon */}
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
                         </svg>
@@ -200,7 +250,6 @@ export const FindTalent: React.FC = () => {
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        {/* filter icon */}
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
                         </svg>
@@ -209,61 +258,123 @@ export const FindTalent: React.FC = () => {
                 </div>
 
                 {/* ══════════════════════════════════════════════
-                    SEARCH BAR
+                    SEARCH BAR (Google-style autocomplete)
                 ══════════════════════════════════════════════ */}
                 {mode === 'search' && (
                     <div className="w-full md:w-1/2 mb-8 mx-auto">
-                        <div className="relative group">
-                            {/* magnifier */}
-                            <svg
-                                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-violet-400 transition-colors"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
-                            </svg>
+                        {/* wrapper — click-outside closes dropdown */}
+                        <div ref={searchWrapper} className="relative">
 
-                            <input
-                                id="mentor-search"
-                                type="text"
-                                value={searchInput}
-                                onChange={handleSearchInput}
-                                placeholder="Search mentors by name…"
-                                className="w-full bg-gray-900/60 border border-gray-800 hover:border-gray-700 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 rounded-2xl pl-12 pr-16 py-4 text-base text-white placeholder-gray-500 outline-none transition-all backdrop-blur-xl"
-                            />
+                            {/* input row */}
+                            <div className={`flex items-center bg-gray-900/60 border transition-all backdrop-blur-xl ${showDropdown && suggestions.length > 0 ? 'rounded-t-2xl border-violet-500 ring-1 ring-violet-500 border-b-gray-800' : 'rounded-2xl border-gray-800 hover:border-gray-700 focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500'}`}>
 
-                            {/* debounce indicator / clear button */}
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                {searchInput && searchInput !== debouncedSearch && (
-                                    <span className="text-xs text-gray-500 animate-pulse select-none">searching…</span>
-                                )}
-                                {searchInput && (
+                                {/* magnifier (left) */}
+                                <svg className="shrink-0 ml-4 w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+                                </svg>
+
+                                <input
+                                    id="mentor-search"
+                                    type="text"
+                                    value={searchInput}
+                                    onChange={handleSearchInput}
+                                    onKeyDown={handleSearchKeyDown}
+                                    onFocus={() => { if (searchInput && suggestions.length > 0) setShowDropdown(true); }}
+                                    placeholder="Search mentors by name…"
+                                    className="flex-1 bg-transparent px-3 py-4 text-base text-white placeholder-gray-500 outline-none"
+                                    autoComplete="off"
+                                />
+
+                                {/* right side: loading spinner | clear | search button */}
+                                <div className="flex items-center gap-1 mr-2">
+                                    {suggLoading && (
+                                        <div className="w-4 h-4 border-2 border-gray-600 border-t-violet-400 rounded-full animate-spin" />
+                                    )}
+                                    {searchInput && (
+                                        <button
+                                            type="button"
+                                            onClick={clearSearch}
+                                            className="p-1.5 text-gray-500 hover:text-white transition-colors"
+                                            title="Clear"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    )}
+                                    {/* search icon button — commits the search */}
                                     <button
                                         type="button"
-                                        onClick={() => {
-                                            setSearchInput('');
-                                            setDebouncedSearch('');
-                                            setPage(1);
-                                        }}
-                                        className="text-gray-500 hover:text-white transition-colors"
-                                        title="Clear search"
+                                        onClick={() => commitSearch(searchInput)}
+                                        className="flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white text-sm font-semibold px-3.5 py-2 rounded-xl transition-all"
+                                        title="Search"
                                     >
                                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
                                         </svg>
+                                        <span className="hidden sm:inline">Search</span>
                                     </button>
-                                )}
+                                </div>
                             </div>
+
+                            {/* ── Suggestion Dropdown ── */}
+                            {showDropdown && suggestions.length > 0 && (
+                                <div className="absolute z-50 top-full left-0 right-0 bg-gray-900 border border-t-0 border-violet-500/60 rounded-b-2xl overflow-hidden shadow-2xl shadow-black/60">
+                                    {suggestions.map((s, i) => (
+                                        <button
+                                            key={s.id}
+                                            type="button"
+                                            onMouseDown={(e) => e.preventDefault()} // keep input focused
+                                            onClick={() => commitSearch(s.full_name)}
+                                            className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-800 transition-colors ${i > 0 ? 'border-t border-gray-800' : ''}`}
+                                        >
+                                            {/* avatar */}
+                                            {s.image ? (
+                                                <img src={s.image} alt={s.full_name} className="w-8 h-8 rounded-full object-cover shrink-0 border border-gray-700" />
+                                            ) : (
+                                                <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-gray-400 shrink-0">
+                                                    {s.full_name.trim().split(/\s+/)[0]?.[0]?.toUpperCase()}
+                                                </div>
+                                            )}
+
+                                            <div className="flex-1 min-w-0">
+                                                {/* highlight matching part */}
+                                                <p className="text-sm text-white font-medium truncate">{s.full_name}</p>
+                                                {s.profession && <p className="text-xs text-gray-500 truncate">{s.profession}</p>}
+                                            </div>
+
+                                            {/* search arrow */}
+                                            <svg className="w-4 h-4 text-gray-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* no results hint */}
+                            {showDropdown && !suggLoading && searchInput.trim() && suggestions.length === 0 && (
+                                <div className="absolute z-50 top-full left-0 right-0 bg-gray-900 border border-t-0 border-gray-800 rounded-b-2xl px-4 py-3 text-sm text-gray-500 shadow-2xl">
+                                    No mentors match "<span className="text-gray-300">{searchInput}</span>" — press Enter to search anyway.
+                                </div>
+                            )}
                         </div>
 
-                        {/* context hint */}
-                        {!searchInput && userProfessionCategory && (
+                        {/* context hint (when nothing is typed yet) */}
+                        {!searchInput && !committedSearch && userProfessionCategory && (
                             <p className="mt-2 text-xs text-gray-500 pl-1">
                                 Showing mentors in your field: <span className="text-violet-400 font-medium">{userProfessionCategory}</span>
                             </p>
                         )}
-                        {!searchInput && !userProfessionCategory && (
+                        {!searchInput && !committedSearch && !userProfessionCategory && (
                             <p className="mt-2 text-xs text-gray-500 pl-1">
                                 Showing all mentors. Log in to see recommendations for your field.
+                            </p>
+                        )}
+                        {committedSearch && (
+                            <p className="mt-2 text-xs text-gray-500 pl-1">
+                                Results for: <span className="text-violet-400 font-medium">"{committedSearch}"</span>
+                                <button onClick={clearSearch} className="ml-2 text-gray-600 hover:text-white underline transition-colors">clear</button>
                             </p>
                         )}
                     </div>
@@ -275,8 +386,6 @@ export const FindTalent: React.FC = () => {
                 {mode === 'filter' && (
                     <div className="w-full bg-gray-900/50 p-6 rounded-2xl border border-gray-800 mb-8 backdrop-blur-xl">
                         <form onSubmit={handleApplyFilters} className="flex flex-col gap-5">
-
-                            {/* header + verified toggle */}
                             <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-2">
                                 <h2 className="text-xl font-semibold flex items-center gap-2">
                                     <svg className="h-5 w-5 text-violet-500" fill="currentColor" viewBox="0 0 20 20">
@@ -293,7 +402,6 @@ export const FindTalent: React.FC = () => {
                                 </label>
                             </div>
 
-                            {/* filter grid */}
                             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
 
                                 <div>

@@ -3,3 +3,4 @@
 .vscode
 generate_mentors.js
 mentor_payloads.json
+server/test_script
