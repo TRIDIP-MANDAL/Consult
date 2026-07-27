@@ -5,13 +5,13 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../model/prisma"
+  provider        = "prisma-client-js"
+  output          = "../model/prisma"
   previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
   extensions = [pg_trgm, unaccent, fuzzystrmatch]
 }
 
@@ -171,18 +171,18 @@ enum ActionType {
 //// MODELS ////
 
 model Users {
-  id                    BigInt                @id @default(autoincrement())
-  image                 String?
-  email                 String                @unique
-  phone                 String                @unique
-  password              String
-  full_name             String
-  full_name_search      String?
-  dob                   DateTime?
-  gender                Gender?
-  role                  UserRole              @default(USER)
-  profession_category   ProfessionCategory?
-  profession            String?
+  id                  BigInt              @id @default(autoincrement())
+  image               String?
+  email               String              @unique
+  phone               String              @unique
+  password            String
+  full_name           String
+  full_name_search    String?
+  dob                 DateTime?
+  gender              Gender?
+  role                UserRole            @default(USER)
+  profession_category ProfessionCategory?
+  profession          String?
 
   country     String
   postal_code String?
@@ -215,6 +215,7 @@ model Users {
 
   user1 Relationship[] @relation("user1")
   user2 Relationship[] @relation("user2")
+
   @@index([full_name_search(ops: raw("gin_trgm_ops"))], type: Gin)
   @@index([isactive])
 }
@@ -235,8 +236,8 @@ model Mentor {
   currency          Currency?       @default(INR)
   achievements      String?
   active_mentor     Boolean         @default(true) // in case if someone changes profile from mentor to user
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
 }
 
 model Consultancy_service {
@@ -451,20 +452,20 @@ model Relationship {
 }
 
 model AuditLog {
-  id            BigInt   @id @default(autoincrement())
-  
-  table_name    TableName
-  record_id     BigInt   // The ID of the row that was changed
-  action        ActionType // enum: CREATE, UPDATE, DELETE
-  
-  previous_data Json?    // Null on CREATE
-  updated_data  Json?    // Null on DELETE
-  
-  user_id       BigInt?  // The person making the change
-  role          UserRole? 
-  ip_address    String?
-  device        String?
-  
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt // Added specifically to catch tampering as requested
+  id BigInt @id @default(autoincrement())
+
+  table_name TableName
+  record_id  BigInt // The ID of the row that was changed
+  action     ActionType // enum: CREATE, UPDATE, DELETE
+
+  previous_data Json? // Null on CREATE
+  updated_data  Json? // Null on DELETE
+
+  user_id    BigInt? // The person making the change
+  role       UserRole?
+  ip_address String?
+  device     String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt // Added specifically to catch tampering as requested
 }

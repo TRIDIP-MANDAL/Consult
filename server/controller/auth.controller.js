@@ -473,7 +473,7 @@ const searchMentorSuggestions = async (req, res) => {
   const raw = req.query.q?.toString().trim();
   if (!raw || raw.length < 1) return res.status(200).json({ success: true, data: [] });
 
-  // Normalize the query the same way the stored full_name_search column is normalized
+  // Normalize query the same way stored full_name_search is normalized
   const q = raw
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -483,38 +483,34 @@ const searchMentorSuggestions = async (req, res) => {
     .replace(/\s+/g, ' ')
     .trim();
 
-  const prefixPattern     = q + '%';        // full name starts with query
+  const prefixPattern     = q + '%';        // name starts with query
   const wordPrefixPattern = '% ' + q + '%'; // any word in name starts with query
-
-  // Levenshtein tolerance: 1 edit for ≤4 char query, 2 edits for longer
-  const levThreshold = q.length <= 4 ? 1 : 2;
+  const levThreshold      = q.length <= 4 ? 1 : 2; // edit distance tolerance
 
   try {
-    // ── Pass 1: prefix-per-word ILIKE ─────────────────────────────────────────────
-    // "jes" → "jessica", "jame" → "james", "jo" → "john doe"
-    // Exact prefix matches, score = 1.0
-    let rows = await prisma.$queryRaw`
-      SELECT u.id, u.full_name, u.image, u.profession,
-             1.0::float AS score
-      FROM "Users" u
-      INNER JOIN "Mentor" m ON m.id = u.id
-      WHERE u.deleted_at IS NULL
-        AND u.isactive      = true
-        AND m.active_mentor = true
-        AND (
-          u.full_name_search ILIKE ${prefixPattern}
-          OR u.full_name_search ILIKE ${wordPrefixPattern}
-        )
-      ORDER BY u.full_name_search
-      LIMIT 8
-    `;
+    // Single DB call — all strategies combined in one CTE + UNION ALL.
+    // PostgreSQL executes all branches in one round trip and uses GIN index for trigrams.
+    // GROUP BY + MAX(score) deduplicates users, keeping the strongest strategy's score.
+    const rows = await prisma.$queryRaw`
+      WITH candidates AS (
 
-    // ── Pass 2: trigram similarity (GIN index on full_name_search) ────────────────
-    // "jessika" → "jessica", "jhn" → "john" (typo tolerance for longer words)
-    if (rows.length < 8) {
-      const seenIds = new Set(rows.map(r => r.id.toString()));
+        -- Strategy 1: prefix ILIKE (strongest signal, exact word prefix)
+        -- "jes" → "jessica", "jame" → "james", "wil" → "john williams"
+        SELECT u.id, u.full_name, u.image, u.profession, 1.0::float AS score
+        FROM "Users" u
+        INNER JOIN "Mentor" m ON m.id = u.id
+        WHERE u.deleted_at IS NULL
+          AND u.isactive      = true
+          AND m.active_mentor = true
+          AND (
+            u.full_name_search ILIKE ${prefixPattern}
+            OR u.full_name_search ILIKE ${wordPrefixPattern}
+          )
 
-      const trigramRows = await prisma.$queryRaw`
+        UNION ALL
+
+        -- Strategy 2: trigram similarity via GIN index (longer-word typos)
+        -- "jessika" → "jessica", "williamss" → "williams"
         SELECT u.id, u.full_name, u.image, u.profession,
                GREATEST(
                  similarity(u.full_name_search, ${q}),
@@ -526,60 +522,30 @@ const searchMentorSuggestions = async (req, res) => {
           AND u.isactive      = true
           AND m.active_mentor = true
           AND (u.full_name_search % ${q} OR u.full_name_search %> ${q})
-        ORDER BY score DESC
-        LIMIT 8
-      `;
 
-      for (const r of trigramRows) {
-        if (rows.length >= 8) break;
-        if (!seenIds.has(r.id.toString())) rows.push(r);
-      }
-    }
+        UNION ALL
 
-    // ── Pass 2.5: per-word Levenshtein (fuzzystrmatch) ────────────────────────────
-    // Catches transpositions that pg_trgm misses on short words:
-    //   "jhon" → "john" (distance 2), "jmes" → "james" (distance 1)
-    // unnest splits "john williams" into {"john","williams"} and checks each word
-    if (rows.length < 8) {
-      const seenIds = new Set(rows.map(r => r.id.toString()));
-
-      const levRows = await prisma.$queryRaw`
-        SELECT DISTINCT ON (u.id) u.id, u.full_name, u.image, u.profession,
-               0.75::float AS score
-        FROM "Users" u
-        INNER JOIN "Mentor" m ON m.id = u.id
-        CROSS JOIN LATERAL unnest(string_to_array(u.full_name_search, ' ')) AS word
-        WHERE u.deleted_at IS NULL
-          AND u.isactive      = true
-          AND m.active_mentor = true
-          AND levenshtein(word, ${q}) <= ${levThreshold}
-        ORDER BY u.id, u.full_name_search
-        LIMIT 8
-      `;
-
-      for (const r of levRows) {
-        if (rows.length >= 8) break;
-        if (!seenIds.has(r.id.toString())) rows.push(r);
-      }
-    }
-
-    // ── Pass 3: low-threshold similarity fallback ─────────────────────────────────
-    // Both passes returned nothing — cast a wider net
-    if (rows.length === 0) {
-      rows = await prisma.$queryRaw`
-        SELECT u.id, u.full_name, u.image, u.profession,
-               similarity(u.full_name_search, ${q}) AS score
+        -- Strategy 3: per-word Levenshtein (transpositions on short words)
+        -- "jhon" → "john", "jmes" → "james" (cases pg_trgm misses on 4-char words)
+        SELECT u.id, u.full_name, u.image, u.profession, 0.75::float AS score
         FROM "Users" u
         INNER JOIN "Mentor" m ON m.id = u.id
         WHERE u.deleted_at IS NULL
           AND u.isactive      = true
           AND m.active_mentor = true
-          AND similarity(u.full_name_search, ${q}) > 0.10
-        ORDER BY score DESC
-        LIMIT 8
-      `;
-    }
+          AND EXISTS (
+            SELECT 1
+            FROM unnest(string_to_array(u.full_name_search, ' ')) AS word
+            WHERE levenshtein(word, ${q}) <= ${levThreshold}
+          )
 
+      )
+      SELECT id, full_name, image, profession, MAX(score) AS score
+      FROM candidates
+      GROUP BY id, full_name, image, profession
+      ORDER BY MAX(score) DESC
+      LIMIT 8`;
+      
     return res.status(200).json({ success: true, data:rows });
   } catch (err) {
     console.error('searchMentorSuggestions error:', err.message);
