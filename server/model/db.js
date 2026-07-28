@@ -1,23 +1,11 @@
 import 'dotenv/config';
 import { PrismaClient } from './prisma/index.js';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { normalizeName } from '../lib/others.js';
 
 const adapter = new PrismaPg({ 
   connectionString: process.env.DATABASE_URL 
 });
-
-export const normalizeName = (name) => {
-  if (!name) return '';
-
-  return name
-    .normalize('NFD')                   // 1. Decompose accents
-    .replace(/[\u0300-\u036f]/g, '')     // 2. Strip accent marks
-    .toLowerCase()                       // 3. Lowercase
-    .replace(/[()[\]{}<>]/g, ' ')        // 4. Remove brackets/parens
-    .replace(/[^\w\s']/g, ' ')           // 5. Remove special characters (keep apostrophes)
-    .replace(/\s+/g, ' ')                // 6. Collapse multiple spaces
-    .trim();                             // 7. Trim edges
-};
 
 const prisma = new PrismaClient({ adapter }).$extends({
   query: {

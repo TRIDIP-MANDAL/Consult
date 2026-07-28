@@ -86,4 +86,17 @@ const createAuditLog = async ({
     }
 }
 
-export { purifyObject, sendMail, sendSMS, createAuditLog};
+const normalizeName = (name) => {
+  if (!name) return '';
+
+  return name
+    .normalize('NFD')                   // 1. Decompose accents
+    .replace(/[\u0300-\u036f]/g, '')     // 2. Strip accent marks
+    .toLowerCase()                       // 3. Lowercase
+    .replace(/[()[\]{}<>]/g, ' ')        // 4. Remove brackets/parens
+    .replace(/[^\w\s']/g, ' ')           // 5. Remove special characters (keep apostrophes)
+    .replace(/\s+/g, ' ')                // 6. Collapse multiple spaces
+    .trim();                             // 7. Trim edges
+};
+
+export { purifyObject, sendMail, sendSMS, createAuditLog, normalizeName};

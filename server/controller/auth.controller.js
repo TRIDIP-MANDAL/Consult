@@ -3,12 +3,15 @@ import bcrypt from 'bcryptjs';
 import redis from "../lib/redis.js";
 import { generateToken } from "../lib/authHelper.js";
 import countryList from "country-list";
-import { purifyObject, sendMail, sendSMS, createAuditLog } from "../lib/others.js"
+import { purifyObject, sendMail, sendSMS, createAuditLog, normalizeName } from "../lib/others.js"
+import { searchTier1, searchTier2 } from './queries/search.js';
+
+const MINIMUM_RCMNDTN_SRCH = 3;     // escalate to tier 2 if tier 1 returns fewer than this
+const MAX_QUERY_LENGTH = 20;     // guard against pathological input
+const CACHE_TTL_SECONDS = 60;
 // If you want a practical production bar, I would require at least these before deploy:
 // Remove the hardcoded JWT fallback and add token expiry.
 // Add production cookie settings and make logout clear with the same options.
-// Add email/phone verification before allowing full account use.
-
 const signup = async (req, res) => {
   try {
     //during signup mobile no and email both are mendatory, both need to be verified
@@ -432,6 +435,13 @@ if (req.query.profession) {
 if (req.query.country) {
   userFilter.country = req.query.country;
 }
+if (req.query.search) {
+  // Normalize the search term the same way full_name_search is stored
+  const normalizedSearch = normalizeName(req.query.search.toString());
+  if (normalizedSearch) {
+    userFilter.full_name_search = { contains: normalizedSearch, mode: 'insensitive' };
+  }
+}
 
 if (Object.keys(userFilter).length > 0) {
   whereCondition.user = userFilter;
@@ -470,89 +480,53 @@ catch(err){
 }
 
 const searchMentorSuggestions = async (req, res) => {
-  const raw = req.query.q?.toString().trim();
-  if (!raw || raw.length < 1) return res.status(200).json({ success: true, data: [] });
+    const raw = req.query.q?.toString().trim();
 
-  // Normalize query the same way stored full_name_search is normalized
-  const q = raw
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[()[\]{}<>]/g, ' ')
-    .replace(/[^\w\s']/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  if (!raw || raw.length < 1) {
+    return res.status(200).json({ success: true, data: [] });
+  }
 
-  const prefixPattern     = q + '%';        // name starts with query
-  const wordPrefixPattern = '% ' + q + '%'; // any word in name starts with query
-  const levThreshold      = q.length <= 4 ? 1 : 2; // edit distance tolerance
+  if (raw.length > MAX_QUERY_LENGTH) {
+    return res.status(400).json({ success: false, message: 'Query too long' });
+  }
+
+  const q = normalizeName(raw);
+  if (!q) {
+    return res.status(200).json({ success: true, data: [] });
+  }
+
+  const cacheKey = `search:mentors:${q}`;
 
   try {
-    // Single DB call — all strategies combined in one CTE + UNION ALL.
-    // PostgreSQL executes all branches in one round trip and uses GIN index for trigrams.
-    // GROUP BY + MAX(score) deduplicates users, keeping the strongest strategy's score.
-    const rows = await prisma.$queryRaw`
-      WITH candidates AS (
+    if (redis) {
+      const cached = await redis.get(cacheKey).catch(() => null);
+      if (cached) {
+        return res.status(200).json({ success: true, data: JSON.parse(cached) });
+      }
+    }
 
-        -- Strategy 1: prefix ILIKE (strongest signal, exact word prefix)
-        -- "jes" → "jessica", "jame" → "james", "wil" → "john williams"
-        SELECT u.id, u.full_name, u.image, u.profession, 1.0::float AS score
-        FROM "Users" u
-        INNER JOIN "Mentor" m ON m.id = u.id
-        WHERE u.deleted_at IS NULL
-          AND u.isactive      = true
-          AND m.active_mentor = true
-          AND (
-            u.full_name_search ILIKE ${prefixPattern}
-            OR u.full_name_search ILIKE ${wordPrefixPattern}
-          )
+    const prefixPattern = q + '%';
+    const wordPrefixPattern = '% ' + q + '%';
+    const levThreshold = q.length <= 3 ? 1 : 2;
 
-        UNION ALL
+    let rows = await searchTier1(q, prefixPattern, wordPrefixPattern);
 
-        -- Strategy 2: trigram similarity via GIN index (longer-word typos)
-        -- "jessika" → "jessica", "williamss" → "williams"
-        SELECT u.id, u.full_name, u.image, u.profession,
-               GREATEST(
-                 similarity(u.full_name_search, ${q}),
-                 word_similarity(${q}, u.full_name_search)
-               ) AS score
-        FROM "Users" u
-        INNER JOIN "Mentor" m ON m.id = u.id
-        WHERE u.deleted_at IS NULL
-          AND u.isactive      = true
-          AND m.active_mentor = true
-          AND (u.full_name_search % ${q} OR u.full_name_search %> ${q})
+    if (rows.length < MINIMUM_RCMNDTN_SRCH) {
+      rows = await searchTier2(q, prefixPattern, wordPrefixPattern, levThreshold);
+    }
 
-        UNION ALL
+    if (redis) {
+      redis.set(cacheKey, JSON.stringify(rows), 'EX', CACHE_TTL_SECONDS).catch((err) => {
+        console.error('searchMentorSuggestions: redis cache set failed', err);
+      });
+    }
 
-        -- Strategy 3: per-word Levenshtein (transpositions on short words)
-        -- "jhon" → "john", "jmes" → "james" (cases pg_trgm misses on 4-char words)
-        SELECT u.id, u.full_name, u.image, u.profession, 0.75::float AS score
-        FROM "Users" u
-        INNER JOIN "Mentor" m ON m.id = u.id
-        WHERE u.deleted_at IS NULL
-          AND u.isactive      = true
-          AND m.active_mentor = true
-          AND EXISTS (
-            SELECT 1
-            FROM unnest(string_to_array(u.full_name_search, ' ')) AS word
-            WHERE levenshtein(word, ${q}) <= ${levThreshold}
-          )
-
-      )
-      SELECT id, full_name, image, profession, MAX(score) AS score
-      FROM candidates
-      GROUP BY id, full_name, image, profession
-      ORDER BY MAX(score) DESC
-      LIMIT 8`;
-      
     return res.status(200).json({ success: true, data:rows });
   } catch (err) {
-    console.error('searchMentorSuggestions error:', err.message);
-    return res.status(500).json({ success: false, message: 'Suggestion lookup failed', error: err?.message });
+    console.error('searchMentorSuggestions error:', err);
+    return res.status(500).json({ success: false, message: 'Search failed' });
   }
 }
-
 
 const loadMentorProfile = async (req, res) => {
   try {

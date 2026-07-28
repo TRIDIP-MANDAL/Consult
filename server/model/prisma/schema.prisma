@@ -12,7 +12,7 @@ generator client {
 
 datasource db {
   provider   = "postgresql"
-  extensions = [pg_trgm, unaccent]
+  extensions = [pg_trgm, unaccent, fuzzystrmatch]
 }
 
 //// ENUMS ////
