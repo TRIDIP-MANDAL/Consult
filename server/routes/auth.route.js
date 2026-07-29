@@ -5,8 +5,8 @@ import { restrictAuth } from '../middleware/restrictAuth.js'
 import { isVerified } from '../middleware/otpVerified.js'
 export const authentication = express.Router();
 
-// authentication.post('/signup', restrictAuth, isVerified, signup);
-authentication.post('/signup', signup); //for putting dymmy data
+authentication.post('/signup', restrictAuth, isVerified, signup);
+// authentication.post('/signup', signup); //for putting dymmy data
 authentication.post('/login', restrictAuth, login);
 authentication.get('/profile/:id', protect, userRoute, loadProfile);
 authentication.patch('/editprofile/:id', protect, userRoute, updateProfile); // later implement here the option for updating email , phone no etc.

@@ -3,9 +3,10 @@ import 'dotenv/config';
 import morgan from "morgan";
 import { authentication } from './routes/auth.route.js';
 import { feedback } from './routes/feedback.route.js';
-import { otpverification } from './routes/otpVerify.route.js'
+import { otpverification } from './routes/otpVerify.route.js';
 import { contact_us } from './routes/contactus.route.js';
-import {mobOtpRouter} from './routes/mobOtp.route.js'
+import {mobOtpRouter} from './routes/mobOtp.route.js';
+import imageRoute from './controller/imageUpload.controller.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 // Patch for BigInt serialization in JSON (Prisma BigInt support)
@@ -38,6 +39,7 @@ app.use('/feedback', feedback);
 app.use('/otp', otpverification);
 app.use('/otp-mob',mobOtpRouter);
 app.use('/contactus', contact_us);
+app.use('/image',imageRoute);
 
 app.listen(PORT, (err) => {
   if (!err) console.log("Server started ");

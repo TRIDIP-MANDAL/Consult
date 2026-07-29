@@ -6,10 +6,9 @@ import countryList from "country-list";
 import { purifyObject, sendMail, sendSMS, createAuditLog, normalizeName } from "../lib/others.js"
 import { searchTier1, searchTier2 } from './queries/search.js';
 
-const MINIMUM_RCMNDTN_SRCH = 3;     // escalate to tier 2 if tier 1 returns fewer than this
-const MAX_QUERY_LENGTH = 20;     // guard against pathological input
+const MINIMUM_RCMNDTN_SRCH = 3;
+const MAX_QUERY_LENGTH = 20;
 const CACHE_TTL_SECONDS = 60;
-// If you want a practical production bar, I would require at least these before deploy:
 // Remove the hardcoded JWT fallback and add token expiry.
 // Add production cookie settings and make logout clear with the same options.
 const signup = async (req, res) => {
@@ -415,16 +414,15 @@ if (req.query.expertise) {
   whereCondition.expertise = req.query.expertise;
 }
 if (req.query.experience) {
-  whereCondition.experience = { gte: Number(req.query.experience) }; // experience >= X
+  whereCondition.experience = { gte: Number(req.query.experience) };
 }
 if (req.query.rating) {
-  whereCondition.rating = { gte: Number(req.query.rating) }; // rating >= X
+  whereCondition.rating = { gte: Number(req.query.rating) };
 }
 if (req.query.price) {
-  whereCondition.charge = { lte: Number(req.query.price) }; // charge <= X
+  whereCondition.charge = { lte: Number(req.query.price) };
 }
 
-// User-level filters (nested inside the 'user' relation)
 const userFilter = {};
 if (req.query.profession_category) {
   userFilter.profession_category = req.query.profession_category;
@@ -436,7 +434,6 @@ if (req.query.country) {
   userFilter.country = req.query.country;
 }
 if (req.query.search) {
-  // Normalize the search term the same way full_name_search is stored
   const normalizedSearch = normalizeName(req.query.search.toString());
   if (normalizedSearch) {
     userFilter.full_name_search = { contains: normalizedSearch, mode: 'insensitive' };
@@ -448,7 +445,6 @@ if (Object.keys(userFilter).length > 0) {
 }
 
 try{
-  //  => name, image, gender, profession category, profession, country,
   const mentors = await prisma.mentor.findMany({
     skip:(page-1)*limit,
     take: limit,
