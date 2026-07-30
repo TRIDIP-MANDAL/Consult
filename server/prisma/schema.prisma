@@ -91,6 +91,7 @@ enum PaymentMethod {
 }
 
 enum ServiceStatus {
+  INITIATED
   PENDING
   SCHEDULED
   CANCELED
@@ -247,9 +248,10 @@ model Consultancy_service {
   user_id   BigInt
 
   duration       String
-  amount         Decimal       @default(0) @db.Decimal(10, 2)
+  cost           Decimal       @default(0) @db.Decimal(10, 2)
   currency       Currency      @default(INR)
-  scheduled_time DateTime
+  scheduled_date DateTime      @db.Date
+  scheduled_time DateTime      @db.Time
   rating         Decimal?      @db.Decimal(2, 1)
   status         ServiceStatus @default(PENDING)
   opinion        String?
@@ -260,6 +262,11 @@ model Consultancy_service {
   userRef   Users      @relation("user", fields: [user_id], references: [id])
   payments  Payments[]
   reports   Report[]
+
+@@index([status])
+@@index([mentor_id, status])
+@@index([user_id, status])
+
 }
 
 model Chat {

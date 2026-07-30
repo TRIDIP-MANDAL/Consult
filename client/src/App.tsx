@@ -9,7 +9,7 @@ import { Login } from "./pages/auth/Login"
 import { Signup } from "./pages/auth/Signup"
 import { Profile } from "./pages/profile/Profile"
 import { UpdateProfile } from "./pages/profile/UpdateProfile"
-import { BookSession } from "./pages/BookSession"
+import BookSession from "./pages/BookSession.tsx"
 import { Membership } from "./pages/Membership"
 import { AboutUs } from "./pages/static/AboutUs"
 import { MentorProfile } from "./pages/profile/MentorProfile"
@@ -35,7 +35,7 @@ function App() {
           <Route path="/profile/edit-profile" element={<UpdateProfile />} />
           <Route path="/mentor/:id" element={<MentorProfile />} />
           
-          <Route path="/book-session" element={<BookSession />} />
+          <Route path="/book-session/:mentorId" element={<BookSession />} />
           <Route path="/membership" element={<Membership />} />
         </Route>
       </Routes>

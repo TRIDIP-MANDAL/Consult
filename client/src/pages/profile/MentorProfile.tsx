@@ -33,10 +33,27 @@ interface MentorDetailed {
 export const MentorProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  
+
   const [mentor, setMentor] = useState<MentorDetailed | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleBookSession = () => {
+    if (!mentor) {
+      setError("Something went wrong during booking session");
+      return;
+    }
+    navigate(`/book-session/${mentor.id}`, {
+      state: {
+        mentorName: mentor.user.full_name,
+        mentorImage: mentor.user.image,
+        charge: mentor.charge,
+        currency: mentor.currency,
+        available_from: mentor.available_from,
+        available_to: mentor.available_to
+      }
+    });
+  }
 
   useEffect(() => {
     const fetchMentor = async () => {
@@ -63,8 +80,8 @@ export const MentorProfile: React.FC = () => {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="flex flex-col items-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500 mb-4"></div>
-            <p className="text-gray-400">Loading profile...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500 mb-4"></div>
+          <p className="text-gray-400">Loading profile...</p>
         </div>
       </div>
     );
@@ -110,7 +127,7 @@ export const MentorProfile: React.FC = () => {
               </div>
             )}
           </div>
-          
+
           <div className="flex-1 w-full text-center md:text-left">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
               <div>
@@ -120,7 +137,7 @@ export const MentorProfile: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="bg-gray-800/80 px-4 py-2 rounded-xl border border-gray-700 flex items-center gap-2">
                   <span className="text-yellow-400 flex items-center gap-1 font-bold text-xl">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                     {mentor.rating}
                   </span>
                 </div>
@@ -130,12 +147,12 @@ export const MentorProfile: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-6">
               <span className="bg-gray-800/50 text-gray-300 px-3 py-1.5 rounded-lg text-sm border border-gray-700">{user.profession_category}</span>
               <span className="bg-gray-800/50 text-gray-300 px-3 py-1.5 rounded-lg text-sm border border-gray-700 flex items-center gap-1">
-                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                 {user.country}
               </span>
               <span className="bg-gray-800/50 text-gray-300 px-3 py-1.5 rounded-lg text-sm border border-gray-700 uppercase tracking-wider font-semibold text-violet-400 flex items-center gap-1.5">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
-                  {mentor.expertise}
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                {mentor.expertise}
               </span>
               {user.gender && (
                 <span className="bg-gray-800/50 text-gray-300 px-3 py-1.5 rounded-lg text-sm border border-gray-700 capitalize flex items-center gap-1">
@@ -174,8 +191,8 @@ export const MentorProfile: React.FC = () => {
           <div className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl flex flex-col items-center justify-center">
             <span className="text-gray-500 uppercase tracking-widest text-xs font-bold mb-2 text-center">Availability</span>
             <span className="text-sm font-medium text-white text-center">
-              {mentor.available_from ? new Date(mentor.available_from).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'} 
-              <br/><span className="text-gray-500">to</span><br/> 
+              {mentor.available_from ? new Date(mentor.available_from).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
+              <br /><span className="text-gray-500">to</span><br />
               {mentor.available_to ? new Date(mentor.available_to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
             </span>
           </div>
@@ -211,13 +228,13 @@ export const MentorProfile: React.FC = () => {
             {/* Action Card */}
             <div className="bg-gradient-to-b from-gray-900/80 to-gray-900/40 border border-gray-800 rounded-3xl p-6 md:p-8 backdrop-blur-xl sticky top-8">
               <h3 className="text-xl font-bold mb-6 text-center text-white">Ready to accelerate your career?</h3>
-              <button className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-violet-900/50 hover:shadow-violet-600/50 mb-4 active:scale-[0.98]">
+              <button onClick={handleBookSession} className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-violet-900/50 hover:shadow-violet-600/50 mb-4 active:scale-[0.98]">
                 Book a Session
               </button>
               <button className="w-full py-4 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl transition-all duration-300 border border-gray-700">
                 Message Mentor
               </button>
-              
+
               <div className="mt-6 pt-6 border-t border-gray-800 text-center">
                 <p className="text-sm font-medium text-gray-500">Usually responds within 24 hours</p>
               </div>
