@@ -153,7 +153,7 @@ export const Profile: React.FC = () => {
 
                         <div className="md:ml-auto flex flex-col gap-3 w-full md:w-auto mt-4 md:mt-0">
                             <button className="flex-1 md:flex-none px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors border border-gray-700 shadow-sm cursor-pointer">
-                                <Link to="edit-profile" state={{ profileData }} className="no-underline text-white block">
+                                <Link to="edit-profile" className="no-underline text-white block">
                                     Edit Profile
                                 </Link>
                             </button>

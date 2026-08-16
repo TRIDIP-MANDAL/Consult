@@ -91,7 +91,7 @@ enum PaymentMethod {
 }
 
 enum ServiceStatus {
-  PENDING
+  INITIATED
   SCHEDULED
   CANCELED
   DONE
@@ -246,20 +246,26 @@ model Consultancy_service {
   mentor_id BigInt
   user_id   BigInt
 
-  duration       String
-  amount         Decimal       @default(0) @db.Decimal(10, 2)
-  currency       Currency      @default(INR)
-  scheduled_time DateTime
-  rating         Decimal?      @db.Decimal(2, 1)
-  status         ServiceStatus @default(PENDING)
-  opinion        String?
-
-  created_at DateTime @default(now())
+  duration           String
+  cost               Decimal       @default(0) @db.Decimal(10, 2)
+  currency           Currency      @default(INR)
+  scheduled_date     DateTime      @db.Date
+  scheduled_time     DateTime      @db.Time
+  rating             Decimal?      @db.Decimal(2, 1)
+  status             ServiceStatus @default(INITIATED) //if payment is done, then only scheduled
+  opinion            String?
+  approved_by_mentor Boolean       @default(false)
+  payment_done       Boolean       @default(false)
+  created_at         DateTime      @default(now())
 
   mentorRef Users      @relation("mentor", fields: [mentor_id], references: [id])
   userRef   Users      @relation("user", fields: [user_id], references: [id])
   payments  Payments[]
   reports   Report[]
+
+  @@index([status])
+  @@index([mentor_id, status])
+  @@index([user_id, status])
 }
 
 model Chat {

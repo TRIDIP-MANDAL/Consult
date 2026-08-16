@@ -165,12 +165,15 @@ exports.Prisma.Consultancy_serviceScalarFieldEnum = {
   mentor_id: 'mentor_id',
   user_id: 'user_id',
   duration: 'duration',
-  amount: 'amount',
+  cost: 'cost',
   currency: 'currency',
+  scheduled_date: 'scheduled_date',
   scheduled_time: 'scheduled_time',
   rating: 'rating',
   status: 'status',
   opinion: 'opinion',
+  approved_by_mentor: 'approved_by_mentor',
+  payment_done: 'payment_done',
   created_at: 'created_at'
 };
 
@@ -401,7 +404,7 @@ exports.Currency = exports.$Enums.Currency = {
 };
 
 exports.ServiceStatus = exports.$Enums.ServiceStatus = {
-  PENDING: 'PENDING',
+  INITIATED: 'INITIATED',
   SCHEDULED: 'SCHEDULED',
   CANCELED: 'CANCELED',
   DONE: 'DONE',

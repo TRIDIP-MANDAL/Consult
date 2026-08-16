@@ -92,7 +92,6 @@ enum PaymentMethod {
 
 enum ServiceStatus {
   INITIATED
-  PENDING
   SCHEDULED
   CANCELED
   DONE
@@ -253,10 +252,11 @@ model Consultancy_service {
   scheduled_date DateTime      @db.Date
   scheduled_time DateTime      @db.Time
   rating         Decimal?      @db.Decimal(2, 1)
-  status         ServiceStatus @default(PENDING)
+  status         ServiceStatus @default(INITIATED) //if payment is done, then only scheduled
   opinion        String?
-
-  created_at DateTime @default(now())
+  approved_by_mentor Boolean   @default(false)
+  payment_done   Boolean       @default(false)
+  created_at     DateTime      @default(now())
 
   mentorRef Users      @relation("mentor", fields: [mentor_id], references: [id])
   userRef   Users      @relation("user", fields: [user_id], references: [id])

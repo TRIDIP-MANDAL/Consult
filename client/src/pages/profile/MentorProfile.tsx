@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callApi } from '../../config/api';
+import { encodeId, decodeId } from '../../lib/HashIds';
 
 interface MentorDetailed {
   id: string;
@@ -31,7 +32,8 @@ interface MentorDetailed {
 }
 
 export const MentorProfile: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { hash } = useParams<{ hash: string }>();
+  const id = decodeId(hash);
   const navigate = useNavigate();
 
   const [mentor, setMentor] = useState<MentorDetailed | null>(null);
@@ -43,7 +45,7 @@ export const MentorProfile: React.FC = () => {
       setError("Something went wrong during booking session");
       return;
     }
-    navigate(`/book-session/${mentor.id}`, {
+    navigate(`/book-session/${encodeId(mentor.id)}`, {
       state: {
         mentorName: mentor.user.full_name,
         mentorImage: mentor.user.image,

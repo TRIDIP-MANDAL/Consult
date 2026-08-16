@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
 
                 {/* Nav links */}
                 <div className="hidden md:flex items-center gap-6">
-                    <Link to="/" className="text-gray-300 hover:text-violet-400 text-sm font-medium transition-colors duration-200">Home</Link>
+                    <Link to="/my-sessions" className="text-gray-300 hover:text-violet-400 text-sm font-medium transition-colors duration-200">My Sessions</Link>
                     <Link to="/find-talent" className="text-gray-300 hover:text-violet-400 text-sm font-medium transition-colors duration-200">Find Talent</Link>
                     <Link to="/how-it-works" className="text-gray-300 hover:text-violet-400 text-sm font-medium transition-colors duration-200">How It Works</Link>
                     <Link to="/aboutus" className="text-gray-300 hover:text-violet-400 text-sm font-medium transition-colors duration-200">About Us</Link>

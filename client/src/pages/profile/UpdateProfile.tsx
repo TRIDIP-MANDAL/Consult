@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import countryList from "country-list";
 import { professionCategories } from "../../assets/data/profession.json";
@@ -33,62 +33,88 @@ interface MentorForm {
 export const UpdateProfile: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { profileData } = location.state || {};
     const userId = useUser((state) => state.id);
     const loggedInUserRole = useUser((state)=>state.role)
     const setLogin = useUser((state) => state.setLogin);
     const [showCnfModal, setShowCnfModal] = useState<boolean>(false);
     const [pendingRole, setPendingRole] = useState<"USER" | "MENTOR" | null>(null);
 
-    const initialCategory = profileData?.profession_category || "";
-    const initialProfessions = initialCategory ? (professionCategories as Record<string, string[]>)[initialCategory] || [] : [];
-    
-    // Check if the user's saved profession is standard or custom
-    const savedProfession = profileData?.profession || "";
-    const isCustomProfession = savedProfession && !initialProfessions.includes(savedProfession);
+    const [pageLoading, setPageLoading] = useState<boolean>(true);
 
-    const [userData, setUserData] = useState<UserForm>({
-        full_name: profileData?.full_name || "",
-        email: profileData?.email || "",
-        phone: profileData?.phone || "",
-        dob: profileData?.dob ? profileData.dob.split("T")[0] : "",
-        gender: profileData?.gender || "",
-        role: profileData?.role || "USER",
-        profession: isCustomProfession ? "Other" : savedProfession,
-        profession_category: initialCategory,
-        country: profileData?.country || "",
-        postal_code: profileData?.postal_code || "",
-    });
-
-    const [mentorData, setMentorData] = useState<MentorForm>({
-        experience: profileData?.experience?.toString() || "",
-        about: profileData?.about || "",
-        available_from: profileData?.available_from ? new Date(profileData.available_from).toTimeString().slice(0, 5) : "",
-        available_to: profileData?.available_to ? new Date(profileData.available_to).toTimeString().slice(0, 5) : "",
-        charge: profileData?.charge?.toString() || "",
-        currency: profileData?.currency || "",
-        achievements: profileData?.achievements || "",
-    });
+    const [userData, setUserData] = useState<UserForm | null>(null);
+    const [mentorData, setMentorData] = useState<MentorForm | null>(null);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
     
-    const [prfsn, setPrfsn] = useState<string>(isCustomProfession ? savedProfession : "");
-    const [professions, setProfessions] = useState<Array<string>>(initialProfessions);
+    const [prfsn, setPrfsn] = useState<string>("");
+    const [professions, setProfessions] = useState<Array<string>>([]);
 
-    const isMentor = userData.role === "MENTOR";
+    const [originalRole, setOriginalRole] = useState<string>("USER");
+
+    useEffect(() => {
+        if (userId) {
+            callApi(`/auth/profile/${userId}`, "GET")
+                .then((result) => {
+                    if (result?.success) {
+                        const data = result.data;
+                        setOriginalRole(data.role || "USER");
+
+                        const initialCategory = data.profession_category || "";
+                        const initialProfessions = initialCategory ? (professionCategories as Record<string, string[]>)[initialCategory] || [] : [];
+                        const savedProfession = data.profession || "";
+                        const isCustomProfession = savedProfession && !initialProfessions.includes(savedProfession);
+
+                        setUserData({
+                            full_name: data.full_name || "",
+                            email: data.email || "",
+                            phone: data.phone || "",
+                            dob: data.dob ? data.dob.split("T")[0] : "",
+                            gender: data.gender || "",
+                            role: data.role || "USER",
+                            profession: isCustomProfession ? "Other" : savedProfession,
+                            profession_category: initialCategory,
+                            country: data.country || "",
+                            postal_code: data.postal_code || "",
+                        });
+
+                        setMentorData({
+                            experience: data.experience?.toString() || "",
+                            about: data.about || "",
+                            available_from: data.available_from ? new Date(data.available_from).toTimeString().slice(0, 5) : "",
+                            available_to: data.available_to ? new Date(data.available_to).toTimeString().slice(0, 5) : "",
+                            charge: data.charge?.toString() || "",
+                            currency: data.currency || "",
+                            achievements: data.achievements || "",
+                        });
+
+                        setPrfsn(isCustomProfession ? savedProfession : "");
+                        setProfessions(initialProfessions);
+                    } else {
+                        setError(result?.message || "Failed to fetch profile");
+                    }
+                    setPageLoading(false);
+                })
+                .catch((err) => {
+                    setError(err.message || "An error occurred");
+                    setPageLoading(false);
+                });
+        }
+    }, [userId]);
+
+    const isMentor = userData?.role === "MENTOR";
 
     const handleUserChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         if(name === "role"){  // check the behaviour during refresh
-            if(profileData?.role !== value) {
+            if(originalRole !== value) {
              setPendingRole(value as "USER" | "MENTOR");
              setShowCnfModal(true)
              return;
             }
         }
-        setUserData(prev => ({ ...prev, [name]: value }));
+        setUserData(prev => prev ? ({ ...prev, [name]: value }) : prev);
         if (name === "profession_category") {
             setProfessions((professionCategories as Record<string, string[]>)[value] || []);
         }
@@ -96,7 +122,7 @@ export const UpdateProfile: React.FC = () => {
 
     const handleMentorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setMentorData(prev => ({ ...prev, [name]: value }));
+        setMentorData(prev => prev ? ({ ...prev, [name]: value }) : prev);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -104,12 +130,13 @@ export const UpdateProfile: React.FC = () => {
         setError("");
         setSuccess("");
 
-        if (isMentor && mentorData.charge && !mentorData.currency) {
+        if (isMentor && mentorData?.charge && !mentorData?.currency) {
             setError("Please select currency to accept credit");
             return;
         }
 
         setLoading(true);
+        if (!userData) return;
 
         const userPayload = {
             ...userData,
@@ -117,7 +144,7 @@ export const UpdateProfile: React.FC = () => {
         };
 
         const payload: { user: typeof userPayload; mentor?: MentorForm } = { user: userPayload };
-        if (isMentor) payload.mentor = mentorData;
+        if (isMentor && mentorData) payload.mentor = mentorData;
 
         console.log("Update payload ", payload);
         const sendData = {...payload, audit:{
@@ -152,7 +179,7 @@ export const UpdateProfile: React.FC = () => {
     
     const handleRoleChange = ()=>{
         if (pendingRole) {
-            setUserData(prev => ({ ...prev, role: pendingRole! }));
+            setUserData(prev => prev ? ({ ...prev, role: pendingRole! }) : prev);
             setPendingRole(null);
         }
         setShowCnfModal(false)
@@ -160,11 +187,16 @@ export const UpdateProfile: React.FC = () => {
 
     const handleUndoRoleChange = ()=>{
         setPendingRole(null);
-        setUserData(prev => ({ ...prev, role: profileData?.role as "USER" | "MENTOR" }));
+        setUserData(prev => prev ? ({ ...prev, role: originalRole as "USER" | "MENTOR" }) : prev);
         setShowCnfModal(false)
     }
 
-    if (!profileData) return <div>No profile data found. Please go back to profile.</div>;
+    if (pageLoading) return (
+        <div className="min-h-[calc(100vh-4rem)] bg-gray-950 flex items-center justify-center">
+            <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    );
+    if (!userData || !mentorData) return <div className="text-white text-center mt-20">No profile data found. Please go back to profile.</div>;
 
     const inputClasses = "w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all disabled:opacity-50 disabled:bg-gray-800 disabled:cursor-not-allowed";
     const labelClasses = "block text-sm font-semibold text-gray-400 mb-1.5 uppercase tracking-wide";

@@ -7,10 +7,11 @@ import { otpverification } from './routes/otpVerify.route.js';
 import { contact_us } from './routes/contactus.route.js';
 import {mobOtpRouter} from './routes/mobOtp.route.js';
 import imageRoute from './controller/imageUpload.controller.js'
+import bookService from './routes/bookService.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
-// Patch for BigInt serialization in JSON (Prisma BigInt support)
-BigInt.prototype.toJSON = function () { // now every where BIgint problem is ersolved 
+
+BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
@@ -40,6 +41,7 @@ app.use('/otp', otpverification);
 app.use('/otp-mob',mobOtpRouter);
 app.use('/contactus', contact_us);
 app.use('/image',imageRoute);
+app.use('/bookservice', bookService);
 
 app.listen(PORT, (err) => {
   if (!err) console.log("Server started ");

@@ -188,7 +188,7 @@ export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
 export const ServiceStatus: {
-  PENDING: 'PENDING',
+  INITIATED: 'INITIATED',
   SCHEDULED: 'SCHEDULED',
   CANCELED: 'CANCELED',
   DONE: 'DONE',
@@ -5632,7 +5632,7 @@ export namespace Prisma {
     id: number | null
     mentor_id: number | null
     user_id: number | null
-    amount: Decimal | null
+    cost: Decimal | null
     rating: Decimal | null
   }
 
@@ -5640,7 +5640,7 @@ export namespace Prisma {
     id: bigint | null
     mentor_id: bigint | null
     user_id: bigint | null
-    amount: Decimal | null
+    cost: Decimal | null
     rating: Decimal | null
   }
 
@@ -5649,12 +5649,15 @@ export namespace Prisma {
     mentor_id: bigint | null
     user_id: bigint | null
     duration: string | null
-    amount: Decimal | null
+    cost: Decimal | null
     currency: $Enums.Currency | null
+    scheduled_date: Date | null
     scheduled_time: Date | null
     rating: Decimal | null
     status: $Enums.ServiceStatus | null
     opinion: string | null
+    approved_by_mentor: boolean | null
+    payment_done: boolean | null
     created_at: Date | null
   }
 
@@ -5663,12 +5666,15 @@ export namespace Prisma {
     mentor_id: bigint | null
     user_id: bigint | null
     duration: string | null
-    amount: Decimal | null
+    cost: Decimal | null
     currency: $Enums.Currency | null
+    scheduled_date: Date | null
     scheduled_time: Date | null
     rating: Decimal | null
     status: $Enums.ServiceStatus | null
     opinion: string | null
+    approved_by_mentor: boolean | null
+    payment_done: boolean | null
     created_at: Date | null
   }
 
@@ -5677,12 +5683,15 @@ export namespace Prisma {
     mentor_id: number
     user_id: number
     duration: number
-    amount: number
+    cost: number
     currency: number
+    scheduled_date: number
     scheduled_time: number
     rating: number
     status: number
     opinion: number
+    approved_by_mentor: number
+    payment_done: number
     created_at: number
     _all: number
   }
@@ -5692,7 +5701,7 @@ export namespace Prisma {
     id?: true
     mentor_id?: true
     user_id?: true
-    amount?: true
+    cost?: true
     rating?: true
   }
 
@@ -5700,7 +5709,7 @@ export namespace Prisma {
     id?: true
     mentor_id?: true
     user_id?: true
-    amount?: true
+    cost?: true
     rating?: true
   }
 
@@ -5709,12 +5718,15 @@ export namespace Prisma {
     mentor_id?: true
     user_id?: true
     duration?: true
-    amount?: true
+    cost?: true
     currency?: true
+    scheduled_date?: true
     scheduled_time?: true
     rating?: true
     status?: true
     opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
     created_at?: true
   }
 
@@ -5723,12 +5735,15 @@ export namespace Prisma {
     mentor_id?: true
     user_id?: true
     duration?: true
-    amount?: true
+    cost?: true
     currency?: true
+    scheduled_date?: true
     scheduled_time?: true
     rating?: true
     status?: true
     opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
     created_at?: true
   }
 
@@ -5737,12 +5752,15 @@ export namespace Prisma {
     mentor_id?: true
     user_id?: true
     duration?: true
-    amount?: true
+    cost?: true
     currency?: true
+    scheduled_date?: true
     scheduled_time?: true
     rating?: true
     status?: true
     opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
     created_at?: true
     _all?: true
   }
@@ -5838,12 +5856,15 @@ export namespace Prisma {
     mentor_id: bigint
     user_id: bigint
     duration: string
-    amount: Decimal
+    cost: Decimal
     currency: $Enums.Currency
+    scheduled_date: Date
     scheduled_time: Date
     rating: Decimal | null
     status: $Enums.ServiceStatus
     opinion: string | null
+    approved_by_mentor: boolean
+    payment_done: boolean
     created_at: Date
     _count: Consultancy_serviceCountAggregateOutputType | null
     _avg: Consultancy_serviceAvgAggregateOutputType | null
@@ -5871,12 +5892,15 @@ export namespace Prisma {
     mentor_id?: boolean
     user_id?: boolean
     duration?: boolean
-    amount?: boolean
+    cost?: boolean
     currency?: boolean
+    scheduled_date?: boolean
     scheduled_time?: boolean
     rating?: boolean
     status?: boolean
     opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: boolean
     mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
@@ -5890,12 +5914,15 @@ export namespace Prisma {
     mentor_id?: boolean
     user_id?: boolean
     duration?: boolean
-    amount?: boolean
+    cost?: boolean
     currency?: boolean
+    scheduled_date?: boolean
     scheduled_time?: boolean
     rating?: boolean
     status?: boolean
     opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: boolean
     mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
@@ -5906,12 +5933,15 @@ export namespace Prisma {
     mentor_id?: boolean
     user_id?: boolean
     duration?: boolean
-    amount?: boolean
+    cost?: boolean
     currency?: boolean
+    scheduled_date?: boolean
     scheduled_time?: boolean
     rating?: boolean
     status?: boolean
     opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: boolean
     mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
@@ -5922,16 +5952,19 @@ export namespace Prisma {
     mentor_id?: boolean
     user_id?: boolean
     duration?: boolean
-    amount?: boolean
+    cost?: boolean
     currency?: boolean
+    scheduled_date?: boolean
     scheduled_time?: boolean
     rating?: boolean
     status?: boolean
     opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: boolean
   }
 
-  export type Consultancy_serviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mentor_id" | "user_id" | "duration" | "amount" | "currency" | "scheduled_time" | "rating" | "status" | "opinion" | "created_at", ExtArgs["result"]["consultancy_service"]>
+  export type Consultancy_serviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mentor_id" | "user_id" | "duration" | "cost" | "currency" | "scheduled_date" | "scheduled_time" | "rating" | "status" | "opinion" | "approved_by_mentor" | "payment_done" | "created_at", ExtArgs["result"]["consultancy_service"]>
   export type Consultancy_serviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
@@ -5961,12 +5994,15 @@ export namespace Prisma {
       mentor_id: bigint
       user_id: bigint
       duration: string
-      amount: Prisma.Decimal
+      cost: Prisma.Decimal
       currency: $Enums.Currency
+      scheduled_date: Date
       scheduled_time: Date
       rating: Prisma.Decimal | null
       status: $Enums.ServiceStatus
       opinion: string | null
+      approved_by_mentor: boolean
+      payment_done: boolean
       created_at: Date
     }, ExtArgs["result"]["consultancy_service"]>
     composites: {}
@@ -6399,12 +6435,15 @@ export namespace Prisma {
     readonly mentor_id: FieldRef<"Consultancy_service", 'BigInt'>
     readonly user_id: FieldRef<"Consultancy_service", 'BigInt'>
     readonly duration: FieldRef<"Consultancy_service", 'String'>
-    readonly amount: FieldRef<"Consultancy_service", 'Decimal'>
+    readonly cost: FieldRef<"Consultancy_service", 'Decimal'>
     readonly currency: FieldRef<"Consultancy_service", 'Currency'>
+    readonly scheduled_date: FieldRef<"Consultancy_service", 'DateTime'>
     readonly scheduled_time: FieldRef<"Consultancy_service", 'DateTime'>
     readonly rating: FieldRef<"Consultancy_service", 'Decimal'>
     readonly status: FieldRef<"Consultancy_service", 'ServiceStatus'>
     readonly opinion: FieldRef<"Consultancy_service", 'String'>
+    readonly approved_by_mentor: FieldRef<"Consultancy_service", 'Boolean'>
+    readonly payment_done: FieldRef<"Consultancy_service", 'Boolean'>
     readonly created_at: FieldRef<"Consultancy_service", 'DateTime'>
   }
     
@@ -20675,12 +20714,15 @@ export namespace Prisma {
     mentor_id: 'mentor_id',
     user_id: 'user_id',
     duration: 'duration',
-    amount: 'amount',
+    cost: 'cost',
     currency: 'currency',
+    scheduled_date: 'scheduled_date',
     scheduled_time: 'scheduled_time',
     rating: 'rating',
     status: 'status',
     opinion: 'opinion',
+    approved_by_mentor: 'approved_by_mentor',
+    payment_done: 'payment_done',
     created_at: 'created_at'
   };
 
@@ -21544,12 +21586,15 @@ export namespace Prisma {
     mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     duration?: StringFilter<"Consultancy_service"> | string
-    amount?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
     scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
     rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
     opinion?: StringNullableFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolFilter<"Consultancy_service"> | boolean
     created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
     mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
@@ -21562,12 +21607,15 @@ export namespace Prisma {
     mentor_id?: SortOrder
     user_id?: SortOrder
     duration?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     currency?: SortOrder
+    scheduled_date?: SortOrder
     scheduled_time?: SortOrder
     rating?: SortOrderInput | SortOrder
     status?: SortOrder
     opinion?: SortOrderInput | SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
     created_at?: SortOrder
     mentorRef?: UsersOrderByWithRelationInput
     userRef?: UsersOrderByWithRelationInput
@@ -21583,12 +21631,15 @@ export namespace Prisma {
     mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     duration?: StringFilter<"Consultancy_service"> | string
-    amount?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
     scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
     rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
     opinion?: StringNullableFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolFilter<"Consultancy_service"> | boolean
     created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
     mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
@@ -21601,12 +21652,15 @@ export namespace Prisma {
     mentor_id?: SortOrder
     user_id?: SortOrder
     duration?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     currency?: SortOrder
+    scheduled_date?: SortOrder
     scheduled_time?: SortOrder
     rating?: SortOrderInput | SortOrder
     status?: SortOrder
     opinion?: SortOrderInput | SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
     created_at?: SortOrder
     _count?: Consultancy_serviceCountOrderByAggregateInput
     _avg?: Consultancy_serviceAvgOrderByAggregateInput
@@ -21623,12 +21677,15 @@ export namespace Prisma {
     mentor_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
     user_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
     duration?: StringWithAggregatesFilter<"Consultancy_service"> | string
-    amount?: DecimalWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    cost?: DecimalWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyWithAggregatesFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
     scheduled_time?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
     rating?: DecimalNullableWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusWithAggregatesFilter<"Consultancy_service"> | $Enums.ServiceStatus
     opinion?: StringNullableWithAggregatesFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
   }
 
@@ -22858,12 +22915,15 @@ export namespace Prisma {
   export type Consultancy_serviceCreateInput = {
     id?: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
@@ -22876,12 +22936,15 @@ export namespace Prisma {
     mentor_id: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
@@ -22890,12 +22953,15 @@ export namespace Prisma {
   export type Consultancy_serviceUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
@@ -22908,12 +22974,15 @@ export namespace Prisma {
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
@@ -22924,24 +22993,30 @@ export namespace Prisma {
     mentor_id: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
   }
 
   export type Consultancy_serviceUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22950,12 +23025,15 @@ export namespace Prisma {
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -24478,12 +24556,15 @@ export namespace Prisma {
     mentor_id?: SortOrder
     user_id?: SortOrder
     duration?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     currency?: SortOrder
+    scheduled_date?: SortOrder
     scheduled_time?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
     created_at?: SortOrder
   }
 
@@ -24491,7 +24572,7 @@ export namespace Prisma {
     id?: SortOrder
     mentor_id?: SortOrder
     user_id?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     rating?: SortOrder
   }
 
@@ -24500,12 +24581,15 @@ export namespace Prisma {
     mentor_id?: SortOrder
     user_id?: SortOrder
     duration?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     currency?: SortOrder
+    scheduled_date?: SortOrder
     scheduled_time?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
     created_at?: SortOrder
   }
 
@@ -24514,12 +24598,15 @@ export namespace Prisma {
     mentor_id?: SortOrder
     user_id?: SortOrder
     duration?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     currency?: SortOrder
+    scheduled_date?: SortOrder
     scheduled_time?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
     created_at?: SortOrder
   }
 
@@ -24527,7 +24614,7 @@ export namespace Prisma {
     id?: SortOrder
     mentor_id?: SortOrder
     user_id?: SortOrder
-    amount?: SortOrder
+    cost?: SortOrder
     rating?: SortOrder
   }
 
@@ -27383,12 +27470,15 @@ export namespace Prisma {
   export type Consultancy_serviceCreateWithoutMentorRefInput = {
     id?: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
     payments?: PaymentsCreateNestedManyWithoutServiceRefInput
@@ -27399,12 +27489,15 @@ export namespace Prisma {
     id?: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
@@ -27423,12 +27516,15 @@ export namespace Prisma {
   export type Consultancy_serviceCreateWithoutUserRefInput = {
     id?: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
     payments?: PaymentsCreateNestedManyWithoutServiceRefInput
@@ -27439,12 +27535,15 @@ export namespace Prisma {
     id?: bigint | number
     mentor_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
@@ -27884,12 +27983,15 @@ export namespace Prisma {
     mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     duration?: StringFilter<"Consultancy_service"> | string
-    amount?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
     scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
     rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
     opinion?: StringNullableFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolFilter<"Consultancy_service"> | boolean
     created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
   }
 
@@ -29742,12 +29844,15 @@ export namespace Prisma {
   export type Consultancy_serviceCreateWithoutReportsInput = {
     id?: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
@@ -29759,12 +29864,15 @@ export namespace Prisma {
     mentor_id: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
   }
@@ -29950,12 +30058,15 @@ export namespace Prisma {
   export type Consultancy_serviceUpdateWithoutReportsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
@@ -29967,12 +30078,15 @@ export namespace Prisma {
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
   }
@@ -30294,12 +30408,15 @@ export namespace Prisma {
   export type Consultancy_serviceCreateWithoutPaymentsInput = {
     id?: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
@@ -30311,12 +30428,15 @@ export namespace Prisma {
     mentor_id: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
   }
@@ -30452,12 +30572,15 @@ export namespace Prisma {
   export type Consultancy_serviceUpdateWithoutPaymentsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
@@ -30469,12 +30592,15 @@ export namespace Prisma {
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
   }
@@ -31132,12 +31258,15 @@ export namespace Prisma {
     id?: bigint | number
     user_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
   }
 
@@ -31145,12 +31274,15 @@ export namespace Prisma {
     id?: bigint | number
     mentor_id: bigint | number
     duration: string
-    amount?: Decimal | DecimalJsLike | number | string
+    cost?: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
+    scheduled_date: Date | string
     scheduled_time: Date | string
     rating?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ServiceStatus
     opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
     created_at?: Date | string
   }
 
@@ -31327,12 +31459,15 @@ export namespace Prisma {
   export type Consultancy_serviceUpdateWithoutMentorRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
     payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
@@ -31343,12 +31478,15 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
@@ -31358,24 +31496,30 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Consultancy_serviceUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
     payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
@@ -31386,12 +31530,15 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
@@ -31401,12 +31548,15 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
     opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

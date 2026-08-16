@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { encodeId } from '../../lib/HashIds';
 export interface MentorData {
   id: string;
   experience: number;
@@ -87,7 +87,7 @@ export const MentorCard: React.FC<MentorCardProps> = ({ mentor }) => {
         <div className="w-[60%] flex items-center justify-center bg-gray-800/80 border border-gray-700 rounded-lg py-2.5 group-hover:border-gray-600 transition-colors">
           <span className="text-xs font-semibold text-gray-300 uppercase tracking-widest">{mentor.expertise || 'BEGINNER'}</span>
         </div>
-        <button onClick={() => navigate(`/mentor/${user.id}`)} className="w-[40%] py-2.5 bg-violet-600/10 hover:bg-violet-600 text-violet-400 hover:text-white border border-violet-500/20 hover:border-violet-500 rounded-lg font-medium transition-all duration-300 text-sm">
+        <button onClick={() => navigate(`/mentor/${encodeId(user.id)}`)} className="w-[40%] py-2.5 bg-violet-600/10 hover:bg-violet-600 text-violet-400 hover:text-white border border-violet-500/20 hover:border-violet-500 rounded-lg font-medium transition-all duration-300 text-sm">
           Profile
         </button>
       </div>
