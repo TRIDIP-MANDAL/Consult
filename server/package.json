@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
     "nodemailer": "^9.0.3",
+    "paytmchecksum": "^1.5.1",
     "prisma": "^7.2.0",
     "twilio": "^6.0.2"
   },

@@ -188,10 +188,11 @@ const DetailedSession: React.FC = () => {
     const [session, setSession] = useState<DetailedSessionData | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [approving, setApproving] = useState(false);
-    const [canceling, setCanceling] = useState(false);
-    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+    const [showEditModal, setShowEditModal] = useState<boolean>(false);
+    const [approving, setApproving] = useState<boolean>(false);
+    const [canceling, setCanceling] = useState<boolean>(false);
+    const [showCancelConfirm, setShowCancelConfirm] = useState<boolean>(false);
+    const [initingPymt, setInitingPymt] = useState<boolean>(false);
 
     const { hash } = useParams<{ hash: string }>();
     const currentUserId = useUser((state) => state.id);
@@ -291,7 +292,7 @@ const DetailedSession: React.FC = () => {
             });
             if (res?.data) {
                 setSession(prev =>
-                    prev ? { ...prev, approved_by_mentor: true, status: "SCHEDULED" } : prev
+                    prev ? { ...prev, approved_by_mentor: true} : prev
                 );
             }
         } catch (err) {
@@ -319,6 +320,31 @@ const DetailedSession: React.FC = () => {
         }
     };
 
+    const handlePayAndBook = async () =>{
+        if(!session) {
+            setError("No session data found");
+            return;
+        }
+          setInitingPymt(true);
+        // call the initiate payment api by sending them some data { amount, crncy, session id}
+
+        try{
+            const res = await callApi("/payment/initiate", "POST", {
+                amount: session.cost,
+                currency: "INR",
+                sessionId: sessionNumericId,
+            });
+            console.log("initiate payment response: ", res);
+            // if (res?.data) {
+            //     setSession(prev => prev ? { ...prev, payment_status: "PENDING" } : prev);
+            // }
+        }catch(err){
+            console.log("Payment Error: ", err.message);
+            setError(err.message);
+        } finally{
+            setInitingPymt(false);
+        }
+    }
     // ── Render guards ──────────────────────────────────────────────────────────────
 
     if (loading) return <Loading text="Loading session details..." />;
@@ -502,6 +528,7 @@ const DetailedSession: React.FC = () => {
                                 {/* Pay & Confirm Button — non-mentor only, disabled until approved */}
                                 {!isMentor && !session.payment_done && (
                                     <button
+                                        onClick={handlePayAndBook}
                                         disabled={!session.approved_by_mentor}
                                         className={`ml-auto px-8 py-2.5 font-bold rounded-lg transition-all transform ${
                                             session.approved_by_mentor
@@ -509,9 +536,9 @@ const DetailedSession: React.FC = () => {
                                                 : "bg-gray-700 text-gray-500 cursor-not-allowed opacity-70"
                                         }`}
                                     >
-                                        {session.approved_by_mentor
+                                        {initingPymt?("Initiating Payment..."):(session.approved_by_mentor
                                             ? `Pay and Confirm ${session.cost} ${session.currency}`
-                                            : "Waiting for Approval"}
+                                            : "Waiting for Approval")}
                                     </button>
                                 )}
                             </div>

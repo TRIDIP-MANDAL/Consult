@@ -6,6 +6,7 @@ import { feedback } from './routes/feedback.route.js';
 import { otpverification } from './routes/otpVerify.route.js';
 import { contact_us } from './routes/contactus.route.js';
 import {mobOtpRouter} from './routes/mobOtp.route.js';
+import paymentRoute from './routes/payment.route.js';
 import imageRoute from './controller/imageUpload.controller.js'
 import bookService from './routes/bookService.route.js';
 import cookieParser from 'cookie-parser';
@@ -42,7 +43,7 @@ app.use('/otp-mob',mobOtpRouter);
 app.use('/contactus', contact_us);
 app.use('/image',imageRoute);
 app.use('/bookservice', bookService);
-
+app.use('/payment', paymentRoute);
 app.listen(PORT, (err) => {
   if (!err) console.log("Server started ");
   else console.log("there is an error in server", err);
