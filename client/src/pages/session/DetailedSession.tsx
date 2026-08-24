@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ConfirmationModal } from "../../component/ConfirmationModal";
-import Loading from "../../component/Loading";
-import { callApi } from "../../config/api";
-import { decodeId } from "../../lib/HashIds";
+import { ConfirmationModal } from "../../component/ConfirmationModal.tsx";
+import Loading from "../../component/Loading.tsx";
+import { callApi } from "../../config/api.tsx";
+import { decodeId } from "../../lib/HashIds.tsx";
 import { type SessionData, statusColors } from "../../component/cards/Session.tsx";
-import useUser from "../../lib/UserState";
+import useUser from "../../lib/UserState.tsx";
 
 interface DetailedSessionData extends SessionData {
     approved_by_mentor: boolean;
