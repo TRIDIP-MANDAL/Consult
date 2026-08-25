@@ -347,9 +347,8 @@ model Report {
 
 model Feedback {
   id         BigInt   @id @default(autoincrement())
-  user_id    BigInt
+  user_id    BigInt   @unique
   rating     Int
-  image      String?
   content    String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

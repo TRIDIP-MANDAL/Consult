@@ -1,10 +1,13 @@
 import axios, { type AxiosRequestConfig, type Method } from 'axios';
-
+import { type FeedbackData } from '../component/cards/Feedback';
 interface ApiResponse {
     success: boolean;
     message: string;
     error?: boolean;
     data?:any;
+    feedbacks?:FeedbackData[];
+    myFeedback?:FeedbackData;
+    hasMore?:boolean;
 }
 
 // 1. Create a centralized Axios instance

@@ -4,7 +4,9 @@ import { Home } from "./pages/static/Home"
 import { FindTalent } from "./pages/FindTalent"
 import { HowItWorks } from "./pages/static/HowItWorks"
 import { ContactUs } from "./pages/ContactUs"
-import { Feedbacks } from "./pages/Feedbacks"
+import Feedbacks from "./pages/Feedbacks.tsx"
+// import DetailedFeedback from "./pages/feedback/DetailedFeedback.tsx"
+// import UpdateFeedback from "./pages/feedback/UpdateFeedback.tsx"
 import { Login } from "./pages/auth/Login"
 import { Signup } from "./pages/auth/Signup"
 import { Profile } from "./pages/profile/Profile"
@@ -30,6 +32,9 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/feedbacks" element={<Feedbacks />} />
+          {/* <Route path="/feedback/:id" element={<DetailedFeedback />} />
+          <Route path="/feedback/new" element={<DetailedFeedback />} /> */}
+          {/* <Route path="/feedback/:id/edit" element={<UpdateFeedback />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ResetPassword />} />
