@@ -2,8 +2,8 @@
 import type React from "react";
 import { useState ,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useUser from "../lib/UserState";
-import { callApi } from "../config/api";
+import useUser from "../lib/UserState.ts";
+import { callApi } from "../config/api.ts";
 
 export const Header: React.FC = () => {
     const userStore = useUser((state) => state);

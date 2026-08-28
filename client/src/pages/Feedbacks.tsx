@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FeedbackCard, type FeedbackData } from '../component/cards/Feedback.tsx';
 import useUser from '../lib/UserState.ts';
 import { callApi } from '../config/api.ts';
@@ -196,21 +196,22 @@ const Feedbacks: React.FC = () => {
     const LIMIT = 6;
 
     // ── Fetch a page of feedbacks ─────────────────────────────────────────────
-    const fetchFeedbacks = async (pageNum: number, append = false) => {
+    const fetchFeedbacks = useCallback(async (pageNum: number, append = false) => {
         try {
             if (append) setLoadingMore(true);
             else setLoading(true);
 
             const res = await callApi(`/feedback/fetchall?page=${pageNum}&limit=${LIMIT}&order=desc`, 'GET');
-            
+
             console.log("Rep om fdbck api call", res)
             if (res.success) {
                 // Page 1: server sends back myFeedback separately (the pinned-to-top user row)
-                if (pageNum === 1 && res.myFeedback) {
-                    setMyFeedback(res.myFeedback);
+                // Always update myFeedback on page 1 — including null (e.g. after delete)
+                if (pageNum === 1) {
+                    setMyFeedback(res.myFeedback ?? null);
                 }
-                setFeedbacks((prev) => append ? [...prev, ...res.feedbacks] : res.feedbacks);
-                setHasMore(res.hasMore);
+                setFeedbacks((prev) => append ? [...prev, ...(res.feedbacks ?? [])] : (res.feedbacks ?? []));
+                setHasMore(res.hasMore ?? false);
                 setPage(pageNum);
             }
         } catch (err) {
@@ -219,12 +220,12 @@ const Feedbacks: React.FC = () => {
             setLoading(false);
             setLoadingMore(false);
         }
-    };
+    }, []);
 
     // Fetch on mount
     React.useEffect(() => {
         fetchFeedbacks(1);
-    }, []);
+    }, [fetchFeedbacks]);
 
     const showToast = (msg: string) => {
         setToast(msg);
@@ -253,9 +254,10 @@ const Feedbacks: React.FC = () => {
                 setShowDeleteConfirm(false);
                 showToast('Feedback deleted successfully!');
                 fetchFeedbacks(1);
-            } else {
-                alert(res.message || 'Error deleting feedback');
             }
+            //  else {
+            //     setErr(res.message || 'Error deleting feedback');
+            // }
         } catch (error) {
             console.error('Delete error', error);
             alert('Unable to delete feedback. Please try again.');

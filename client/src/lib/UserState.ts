@@ -43,6 +43,7 @@ const userState = (set) => {
                     role: "",
                     image: "",
                     id: "",
+                    profession_category: null,
                 }
             })
         }

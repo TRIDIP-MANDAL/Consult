@@ -3,6 +3,18 @@ import { Prisma } from "@prisma/client";
 import { createAuditLog } from "../lib/others.js";
 import redis from '../lib/redis.js';
 
+// Invalidate all cached pages for a given user after any write operation
+const invalidateFeedbackCache = async (userId) => {
+  const patterns = [
+    `feedbacks:p*:l*:o*:u${userId}`,  // logged-in user's pages
+    `feedbacks:p*:l*:o*:uguest`       // guest pages also stale
+  ];
+  for (const pattern of patterns) {
+    const keys = await redis.keys(pattern);
+    if (keys.length) await redis.del(...keys);
+  }
+};
+
 const getFeedback = async (req, res) => {
   try {
     const { id } = req.user;
@@ -37,7 +49,18 @@ const createFeedback = async (req, res) => {
         rating: Number(rating) || 5
       }
     });
-    console.log(feedback)
+    // Fire-and-forget: audit log + cache invalidation
+    createAuditLog({
+      table_name: "Feedback",
+      record_id: feedback.id,
+      action: "CREATE",
+      updated_data: { content, rating },
+      user_id: authUserId,
+      role: req.user.role,
+      ip_address: req.ip,
+      device: req.headers['user-agent']
+    });
+    invalidateFeedbackCache(authUserId).catch(console.error);
     return res.status(201).json({ success: true, message: "Your feedback is added, thank you for your feedback" });
   }
   catch (error) {
@@ -94,7 +117,7 @@ const getAllFeedbacks = async (req, res) => {
 
     const payload = {
       success: true, page, limit, total, hasMore,
-      myFeedback,   // null on page 2+, client keeps it from page 1
+      myFeedback,
       feedbacks
     };
 
@@ -133,6 +156,20 @@ const updateFeedback = async (req, res) => {
       user_id: feedback.user_id?.toString() || null
     };
 
+    // Fire-and-forget: audit log + cache invalidation
+    createAuditLog({
+      table_name: "Feedback",
+      record_id: feedback.id,
+      action: "UPDATE",
+      previous_data: existing,
+      updated_data: obj,
+      user_id: callerId,
+      role: req.user?.role,
+      ip_address: req.ip,
+      device: req.headers['user-agent']
+    });
+    invalidateFeedbackCache(callerId).catch(console.error);
+
     return res.status(200).json({ success: true, message: "Updated successfully !", data: feedbackData });
   }
   catch (error) {
@@ -158,6 +195,19 @@ const deleteFeedback = async (req, res) => {
     if (!isOwner && !isAdmin) return res.status(403).json({ success: false, message: 'Not authorized to delete this feedback' });
 
     await prisma.feedback.delete({ where: { id: BigInt(id) } });
+
+    // Fire-and-forget: audit log + cache invalidation
+    createAuditLog({
+      table_name: "Feedback",
+      record_id: feedback.id,
+      action: "DELETE",
+      previous_data: feedback,
+      user_id: callerId,
+      role: req.user?.role,
+      ip_address: req.ip,
+      device: req.headers['user-agent']
+    });
+    invalidateFeedbackCache(callerId).catch(console.error);
 
     return res.status(200).json({ success: true, message: "Feedback deleted successfully" });
 
