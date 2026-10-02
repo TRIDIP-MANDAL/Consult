@@ -1,0 +1,81 @@
+{
+    "base_path": "/feedback",
+    "test_data": [
+        {
+            "name": "Get User Feedback",
+            "enabled": true,
+            "description": "Fetch feedback for the currently authenticated user",
+            "method": "GET",
+            "endpoint": "/fetch/35",
+            "header": {
+                "Authorization": "Bearer [token]",
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        },
+        {
+            "name": "Create Feedback",
+            "enabled": true,
+            "description": "Create new feedback",
+            "method": "POST",
+            "endpoint": "/create",
+            "header": {
+                "Authorization": "Bearer [token]",
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": {
+                "content": "This is a great application!",
+                "rating": 5
+            },
+            "expected_status": 201
+        },
+        {
+            "name": "Get All Feedbacks",
+            "enabled": true,
+            "description": "Fetch paginated list of all feedbacks",
+            "method": "GET",
+            "endpoint": "/fetchall?page=1&limit=4&order=desc",
+            "header": {
+                "Authorization": "Bearer [token]",
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        },
+        {
+            "name": "Update Feedback",
+            "enabled": true,
+            "description": "Update an existing feedback by ID",
+            "method": "PATCH",
+            "endpoint": "/update/35",
+            "header": {
+                "Authorization": "Bearer [token]",
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": {
+                "content": "Updated my feedback content",
+                "rating": 4
+            },
+            "expected_status": 200
+        },
+        {
+            "name": "Delete Feedback",
+            "enabled": true,
+            "description": "Delete an existing feedback by ID",
+            "method": "DELETE",
+            "endpoint": "/delete/2",
+            "header": {
+                "Authorization": "Bearer [token]",
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        }
+    ]
+}
