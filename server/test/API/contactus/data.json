@@ -1,0 +1,76 @@
+{
+    "base_path": "/contact_us",
+    "test_data": [
+        {
+            "name": "Create Contact Us",
+            "enabled": true,
+            "description": "Submit a new contact us form",
+            "method": "POST",
+            "endpoint": "/create",
+            "header": {
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": {
+                "name": "Test User",
+                "email": "test@example.com",
+                "message": "I need help with the platform."
+            },
+            "expected_status": 201
+        },
+        {
+            "name": "Get All Contacts",
+            "enabled": true,
+            "description": "Admin: Fetch all contact submissions",
+            "method": "GET",
+            "endpoint": "/getall",
+            "header": {
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        },
+        {
+            "name": "Get Contact By ID",
+            "enabled": true,
+            "description": "Admin: Fetch specific contact by ID",
+            "method": "GET",
+            "endpoint": "/get/1",
+            "header": {
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        },
+        {
+            "name": "Update Contact",
+            "enabled": true,
+            "description": "Admin: Update a contact's status",
+            "method": "PATCH",
+            "endpoint": "/update/1",
+            "header": {
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": {
+                "status": "RESOLVED"
+            },
+            "expected_status": 200
+        },
+        {
+            "name": "Delete Contact",
+            "enabled": false,
+            "description": "Admin: Delete a contact",
+            "method": "DELETE",
+            "endpoint": "/delete/1",
+            "header": {
+                "Content-Type": "application/json"
+            },
+            "params": {},
+            "payload": null,
+            "expected_status": 200
+        }
+    ]
+}
