@@ -1,5 +1,5 @@
 {
-    "base_path": "/contact_us",
+    "base_path": "/contactus",
     "test_data": [
         {
             "name": "Create Contact Us",
@@ -20,7 +20,7 @@
         },
         {
             "name": "Get All Contacts",
-            "enabled": true,
+            "enabled": false,
             "description": "Admin: Fetch all contact submissions",
             "method": "GET",
             "endpoint": "/getall",
@@ -33,7 +33,7 @@
         },
         {
             "name": "Get Contact By ID",
-            "enabled": true,
+            "enabled": false,
             "description": "Admin: Fetch specific contact by ID",
             "method": "GET",
             "endpoint": "/get/1",
@@ -46,7 +46,7 @@
         },
         {
             "name": "Update Contact",
-            "enabled": true,
+            "enabled": false,
             "description": "Admin: Update a contact's status",
             "method": "PATCH",
             "endpoint": "/update/1",
