@@ -2,12 +2,13 @@ import express from 'express';
 import 'dotenv/config';
 import morgan from "morgan";
 import { authentication } from './routes/auth.route.js';
+import { user } from './routes/user.route.js';
 import { feedback } from './routes/feedback.route.js';
 import { otpverification } from './routes/otpVerify.route.js';
 import { contact_us } from './routes/contactus.route.js';
 import {mobOtpRouter} from './routes/mobOtp.route.js';
 import paymentRoute from './routes/payment.route.js';
-import imageRoute from './controller/imageUpload.controller.js'
+import imageRoute from './routes/image.route.js'
 import bookService from './routes/bookService.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
@@ -37,6 +38,7 @@ if (NODE_ENV === "production") {
 }
 
 app.use('/auth', authentication);
+app.use('/user', user);
 app.use('/feedback', feedback);
 app.use('/otp', otpverification);
 app.use('/otp-mob',mobOtpRouter);
