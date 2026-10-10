@@ -1,44 +1,48 @@
-import prisma from "../model/db.js"
-import redis from "../lib/redis.js"
-export const contactus = async (req, res) =>{
-  try{
-      const data = req.body
-      const result = await prisma.contactUs.create({
-        data
-      })
-      await redis.del(`otp:${req.body.email}:verified`);
-      return res.status(201).json({message: "Message sent successfully, our team will soon contact you", success: true, result});
-  }catch(err){
-      console.log(err)
-      return res.status(500).json({message: "Internal server error", success: false, error: err.message})
-  }
-}
+import { AppError, ValidationError } from '../exception/AppError.js';
+import { createContact } from '../service/contactus.service.js';
 
-export const getContacts = async (req, res)=>{
-  try{
-      
-  }catch(err){
-    
+const handleError = (res, error, fallbackMsg) => {
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({ message: error.message, success: false });
   }
-}
-export const getContact = async (req, res)=>{
-  try{
-      
-  }catch(err){
-    
+  return res.status(500).json({ message: fallbackMsg, success: false, error: error.message });
+};
+
+export const contactus = async (req, res) => {
+  try {
+    if(!req.body) throw new ValidationError("Can't proceed with empty data")
+    const result = await createContact(req.body);
+    return res.status(201).json({ message: 'Message sent successfully, our team will soon contact you', success: true, result });
+  } catch (err) {
+    return handleError(res, err, 'Internal server error');
   }
-}
-export const updateContact = async (req, res)=>{
-  try{
-      
-  }catch(err){
-    
+};
+ 
+export const getContacts = async (req, res) => {
+  try {
+
+  } catch (err) {
+
   }
-}
-export const deleteContact = async (req, res)=>{
-  try{
-      
-  }catch(err){
-    
+};
+export const getContact = async (req, res) => {
+  try {
+
+  } catch (err) {
+
   }
-}
+};
+export const updateContact = async (req, res) => {
+  try {
+
+  } catch (err) {
+
+  }
+};
+export const deleteContact = async (req, res) => {
+  try {
+
+  } catch (err) {
+
+  }
+};
