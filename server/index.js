@@ -46,7 +46,10 @@ app.use('/contactus', contact_us);
 app.use('/image',imageRoute);
 app.use('/bookservice', bookService);
 app.use('/payment', paymentRoute);
+
 app.listen(PORT, (err) => {
   if (!err) console.log("Server started ");
   else console.log("there is an error in server", err);
 })
+
+export default app;
