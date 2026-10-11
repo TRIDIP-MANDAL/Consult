@@ -1,0 +1,11 @@
+{
+    "user": {
+        "email": "integration_test_user@test.com",
+        "phone": "+919999999901",
+        "full_name": "Integration Test User",
+        "password": "TestPass@1234",
+        "role": "USER",
+        "gender": "MALE",
+        "country": "IN"
+    }
+}

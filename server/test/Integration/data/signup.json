@@ -1,0 +1,20 @@
+{
+    "user": {
+        "email": "success32@test.com",
+        "phone": "+919431518538",
+        "full_name": "Integration Test Mentor",
+        "password": "Abcd@1234",
+        "role": "MENTOR",
+        "gender": "MALE",
+        "country": "IN",
+        "profession_category": "TECHNOLOGY",
+        "profession": "Senior Engineer"
+    },
+    "mentor": {
+        "experience": 5,
+        "expertise": "EXPERT",
+        "about": "I am an integration test mentor",
+        "charge": 500,
+        "currency": "INR"
+    }
+}
