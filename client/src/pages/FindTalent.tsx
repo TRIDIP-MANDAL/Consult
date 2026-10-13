@@ -91,7 +91,7 @@ export const FindTalent: React.FC = () => {
         suggDebounce.current = setTimeout(async () => {
             setSuggLoading(true);
             try {
-                const res: any = await callApi(`/auth/our-mentors/suggestions?q=${encodeURIComponent(val.trim())}`, 'GET');
+                const res: any = await callApi(`/user/our-mentors/suggestions?q=${encodeURIComponent(val.trim())}`, 'GET');
                 setSuggestions(res?.data || []);
             } catch {
                 setSuggestions([]);
@@ -190,7 +190,7 @@ export const FindTalent: React.FC = () => {
             }
 
             console.log('created params before api call ', params.toString());
-            const response: any = await callApi(`/auth/our-mentors?${params.toString()}`, 'GET');
+            const response: any = await callApi(`/user/our-mentors?${params.toString()}`, 'GET');
             const newMentors: MentorData[] = response?.data || response || [];
 
             setHasMore(newMentors.length >= limit);

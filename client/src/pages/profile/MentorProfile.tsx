@@ -60,7 +60,7 @@ export const MentorProfile: React.FC = () => {
   useEffect(() => {
     const fetchMentor = async () => {
       try {
-        const response: any = await callApi(`/auth/mentor/${id}`, 'GET');
+        const response: any = await callApi(`/user/mentor/${id}`, 'GET');
         if (response.success && response.data) {
           setMentor(response.data);
         } else {

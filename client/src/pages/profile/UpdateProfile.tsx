@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import countryList from "country-list";
 import { professionCategories } from "../../assets/data/profession.json";
 import { currencies } from "../../assets/data/currency.json";
 import { callApi } from "../../config/api";
 import useUser from "../../lib/UserState";
-import {ConfirmationModal} from "../../component/ConfirmationModal";
+import { ConfirmationModal } from "../../component/ConfirmationModal";
+import FormAlert from "../../component/ui/FormAlert";
+import SubmitButton from "../../component/ui/SubmitButton";
 
 interface UserForm {
     full_name: string;
@@ -31,7 +33,6 @@ interface MentorForm {
 }
 
 export const UpdateProfile: React.FC = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     const userId = useUser((state) => state.id);
     const loggedInUserRole = useUser((state)=>state.role)
@@ -55,7 +56,7 @@ export const UpdateProfile: React.FC = () => {
 
     useEffect(() => {
         if (userId) {
-            callApi(`/auth/profile/${userId}`, "GET")
+            callApi(`/user/profile/${userId}`, "GET")
                 .then((result) => {
                     if (result?.success) {
                         const data = result.data;
@@ -107,7 +108,7 @@ export const UpdateProfile: React.FC = () => {
 
     const handleUserChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        if(name === "role"){  // check the behaviour during refresh
+        if(name === "role"){
             if(originalRole !== value) {
              setPendingRole(value as "USER" | "MENTOR");
              setShowCnfModal(true)
@@ -151,7 +152,7 @@ export const UpdateProfile: React.FC = () => {
             user_id: userId,
             role: loggedInUserRole
         }}
-        const response = await callApi(`/auth/editprofile/${userId}`, "PATCH", sendData);
+        const response = await callApi(`/user/editprofile/${userId}`, "PATCH", sendData);
         console.log("Update response ", response);
 
         if (response.success) {
@@ -358,26 +359,16 @@ export const UpdateProfile: React.FC = () => {
                     )}
 
                     <div className="pt-6 border-t border-gray-800 flex flex-col items-end">
-                        <button type="submit" disabled={loading} className="px-8 py-3 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white font-bold rounded-lg transition-all shadow-lg shadow-violet-500/30 disabled:opacity-50 disabled:cursor-not-allowed">
-                            {loading ? (
-                                <span className="flex items-center gap-2">
-                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                    Updating...
-                                </span>
-                            ) : "Save Changes"}
-                        </button>
-                        {error && (
-                            <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg w-full text-red-400 flex items-center gap-3">
-                                <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <p className="text-sm font-medium">{error}</p>
-                            </div>
-                        )}
-                        {success && (
-                            <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg w-full text-green-400 flex items-center gap-3">
-                                <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                <p className="text-sm font-medium">{success}</p>
-                            </div>
-                        )}
+                        <SubmitButton
+                            loading={loading}
+                            label="Save Changes"
+                            loadingLabel="Updating..."
+                            className={`px-8 py-3 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white font-bold rounded-lg transition-all shadow-lg shadow-violet-500/30 disabled:opacity-50 disabled:cursor-not-allowed`}
+                        />
+                        <div className="w-full">
+                            <FormAlert message={error} type="error" variant="dark" />
+                            <FormAlert message={success} type="success" variant="dark" />
+                        </div>
                     </div>
                 </form>
             </div>

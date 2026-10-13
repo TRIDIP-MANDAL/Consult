@@ -45,7 +45,7 @@ export const Profile: React.FC = () => {
     useEffect(() => {
         async function fetchUserProfile() {
             try {
-                const result = await callApi(`/auth/profile/${userId}`, "GET");
+                const result = await callApi(`/user/profile/${userId}`, "GET");
                 if (!result?.success) {
                     throw new Error(result?.message);
                 }
