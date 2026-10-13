@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 type State = {
     isloggedin: boolean;
@@ -51,8 +50,6 @@ const userState = (set) => {
     return userObject;
 }
 
-const useUser = create<State & Action>()(persist(userState, {
-    name: "user-storage"
-}));
+const useUser = create<State & Action>()(userState);
 
 export default useUser;

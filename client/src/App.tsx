@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom"
+import { useEffect } from "react"
 import { Layout } from "./pages/static/Layout"
 import { Home } from "./pages/static/Home"
 import { FindTalent } from "./pages/FindTalent"
@@ -19,8 +20,22 @@ import { AboutUs } from "./pages/static/AboutUs"
 import { MentorProfile } from "./pages/profile/MentorProfile"
 import ResetPassword from "./pages/auth/ResetPassword"
 import PageNotFound from "./pages/static/PageNotFound.tsx"
+import { callApi } from "./config/api.ts"
+import useUser from "./lib/UserState"
 // import { OtpVerification } from "./component/cards/OtpVerification"
 function App() {
+  const setLogin = useUser((state) => state.setLogin);
+
+  useEffect(() => {
+    callApi('/auth/me', 'GET').then((res) => {
+      if (res?.success && res.data) {
+        setLogin(res.data);
+      }
+    }).catch(() => {
+      // Network error or 401 — stay unauthenticated, no action needed
+    });
+  }, []);
+
   return (
     <>
       {/* Route definitions — renders page content below nav */}
