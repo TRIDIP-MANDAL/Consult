@@ -64,7 +64,7 @@ const deActivateProfile = async (req, res) => {
 
 const loadMentors = async (req, res) => {
   try {
-    const mentors = await userService.loadMentors(req.query);
+    const mentors = await userService.loadMentors(req.query,req.user);
     return res.status(200).json({ success: true, message: 'Mentors loaded successfully', data: mentors });
   } catch (error) {
     return handleError(res, error, 'Unable to load mentors');

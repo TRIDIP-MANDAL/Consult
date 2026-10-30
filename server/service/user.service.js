@@ -170,7 +170,7 @@ const deActivateProfile = async (id) => {
   return updateUser(id, { isactive: false });
 };
 
-const loadMentors = async (query) => {
+const loadMentors = async (query, authUser) => {
   // redis caching required
   // client side caching required
   // profession category, profession, country, price, rating, experience, expertise
@@ -178,7 +178,7 @@ const loadMentors = async (query) => {
   const limit = Number(query.limit) || 8;
 
   const whereCondition = { active_mentor: true };
-
+  if (authUser && authUser.id) whereCondition.NOT = { id: authUser.id };
   if (query.verified !== undefined) whereCondition.verified = query.verified === 'true';
   if (query.expertise) whereCondition.expertise = query.expertise;
   if (query.experience) whereCondition.experience = { gte: Number(query.experience) };

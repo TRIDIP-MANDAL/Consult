@@ -95,6 +95,7 @@ const findMentorByIdWithEmail = async (id) => {
 };
 
 const findMentors = async ({ whereCondition, page, limit }) => {
+  console.log("Filter for getting mentors ", whereCondition);
   return prisma.mentor.findMany({
     skip: (page - 1) * limit,
     take: limit,
