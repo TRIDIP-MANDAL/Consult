@@ -160,23 +160,6 @@ exports.Prisma.MentorScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
-exports.Prisma.Consultancy_serviceScalarFieldEnum = {
-  id: 'id',
-  mentor_id: 'mentor_id',
-  user_id: 'user_id',
-  duration: 'duration',
-  cost: 'cost',
-  currency: 'currency',
-  scheduled_date: 'scheduled_date',
-  scheduled_time: 'scheduled_time',
-  rating: 'rating',
-  status: 'status',
-  opinion: 'opinion',
-  approved_by_mentor: 'approved_by_mentor',
-  payment_done: 'payment_done',
-  created_at: 'created_at'
-};
-
 exports.Prisma.ChatScalarFieldEnum = {
   id: 'id',
   user1_id: 'user1_id',
@@ -222,7 +205,6 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   rating: 'rating',
-  image: 'image',
   content: 'content',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -230,29 +212,77 @@ exports.Prisma.FeedbackScalarFieldEnum = {
 
 exports.Prisma.MembershipsScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  price: 'price',
-  currency: 'currency',
+  order_id: 'order_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  isactive: 'isactive'
+  plan_id: 'plan_id'
+};
+
+exports.Prisma.Consultancy_serviceScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  mentor_id: 'mentor_id',
+  user_id: 'user_id',
+  duration: 'duration',
+  cost: 'cost',
+  currency: 'currency',
+  scheduled_date: 'scheduled_date',
+  scheduled_time: 'scheduled_time',
+  rating: 'rating',
+  status: 'status',
+  opinion: 'opinion',
+  approved_by_mentor: 'approved_by_mentor',
+  payment_done: 'payment_done',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  public_id: 'public_id',
+  user_id: 'user_id',
+  order_type: 'order_type',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.PaymentsScalarFieldEnum = {
   id: 'id',
+  order_id: 'order_id',
   user_id: 'user_id',
-  membership_id: 'membership_id',
-  service_id: 'service_id',
   amount: 'amount',
   currency: 'currency',
   status: 'status',
-  international: 'international',
-  method: 'method',
-  fee: 'fee',
-  tax: 'tax',
-  paymentfor: 'paymentfor',
-  transaction_id: 'transaction_id',
-  created_at: 'created_at'
+  gateway_txn_id: 'gateway_txn_id',
+  paytm_response: 'paytm_response',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RefundsScalarFieldEnum = {
+  id: 'id',
+  payment_id: 'payment_id',
+  amount: 'amount',
+  status: 'status',
+  reason: 'reason',
+  gateway_refund_id: 'gateway_refund_id',
+  paytm_response: 'paytm_response',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  description: 'description',
+  currency: 'currency',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  isactive: 'isactive'
 };
 
 exports.Prisma.AdminActionScalarFieldEnum = {
@@ -311,6 +341,10 @@ exports.Prisma.AuditLogScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullableJsonNullValueInput = {
@@ -403,14 +437,6 @@ exports.Currency = exports.$Enums.Currency = {
   ILS: 'ILS'
 };
 
-exports.ServiceStatus = exports.$Enums.ServiceStatus = {
-  INITIATED: 'INITIATED',
-  SCHEDULED: 'SCHEDULED',
-  CANCELED: 'CANCELED',
-  DONE: 'DONE',
-  ONGOING: 'ONGOING'
-};
-
 exports.MessageStatus = exports.$Enums.MessageStatus = {
   SENDING: 'SENDING',
   SENT: 'SENT',
@@ -429,23 +455,38 @@ exports.ReportStatus = exports.$Enums.ReportStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.ServiceStatus = exports.$Enums.ServiceStatus = {
+  INITIATED: 'INITIATED',
+  SCHEDULED: 'SCHEDULED',
+  CANCELED: 'CANCELED',
+  DONE: 'DONE',
+  ONGOING: 'ONGOING'
+};
+
+exports.OrderType = exports.$Enums.OrderType = {
+  MEMBERSHIP: 'MEMBERSHIP',
+  CONSULTANCY_SERVICE: 'CONSULTANCY_SERVICE'
+};
+
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED'
 };
 
-exports.PaymentMethod = exports.$Enums.PaymentMethod = {
-  UPI: 'UPI',
-  CARD: 'CARD',
-  NETBANKING: 'NETBANKING',
-  WALLET: 'WALLET'
-};
-
-exports.PaymentFor = exports.$Enums.PaymentFor = {
-  MEMBERSHIP: 'MEMBERSHIP',
-  SERVICE: 'SERVICE'
+exports.RefundStatus = exports.$Enums.RefundStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
 };
 
 exports.AdminActionType = exports.$Enums.AdminActionType = {
@@ -494,14 +535,17 @@ exports.ActionType = exports.$Enums.ActionType = {
 exports.Prisma.ModelName = {
   Users: 'Users',
   Mentor: 'Mentor',
-  Consultancy_service: 'Consultancy_service',
   Chat: 'Chat',
   Message: 'Message',
   Call: 'Call',
   Report: 'Report',
   Feedback: 'Feedback',
   Memberships: 'Memberships',
+  Consultancy_service: 'Consultancy_service',
+  Order: 'Order',
   Payments: 'Payments',
+  Refunds: 'Refunds',
+  Plan: 'Plan',
   AdminAction: 'AdminAction',
   Document: 'Document',
   ContactUs: 'ContactUs',

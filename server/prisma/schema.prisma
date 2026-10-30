@@ -15,8 +15,6 @@ datasource db {
   extensions = [pg_trgm, unaccent, fuzzystrmatch]
 }
 
-//// ENUMS ////
-
 enum Gender {
   MALE
   FEMALE
@@ -81,6 +79,13 @@ enum PaymentStatus {
   SUCCESS
   FAILED
   REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum RefundStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
 enum PaymentMethod {
@@ -160,12 +165,27 @@ enum TableName {
   ContactUs
   Relationship
   AuditLog
+  Order
+  Refunds
+  Plan
 }
 
 enum ActionType {
   CREATE
   UPDATE
   DELETE
+}
+
+enum OrderType {
+  MEMBERSHIP
+  CONSULTANCY_SERVICE
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
 }
 
 //// MODELS ////
@@ -216,6 +236,8 @@ model Users {
   user1 Relationship[] @relation("user1")
   user2 Relationship[] @relation("user2")
 
+  orders Order[]
+
   @@index([full_name_search(ops: raw("gin_trgm_ops"))], type: Gin)
   @@index([isactive])
 }
@@ -238,35 +260,6 @@ model Mentor {
   active_mentor     Boolean         @default(true) // in case if someone changes profile from mentor to user
   created_at        DateTime        @default(now())
   updated_at        DateTime        @updatedAt
-}
-
-model Consultancy_service {
-  id BigInt @id @default(autoincrement())
-
-  mentor_id BigInt
-  user_id   BigInt
-
-  duration       String
-  cost           Decimal       @default(0) @db.Decimal(10, 2)
-  currency       Currency      @default(INR)
-  scheduled_date DateTime      @db.Date
-  scheduled_time DateTime      @db.Time
-  rating         Decimal?      @db.Decimal(2, 1)
-  status         ServiceStatus @default(INITIATED) //if payment is done, then only scheduled
-  opinion        String?
-  approved_by_mentor Boolean   @default(false)
-  payment_done   Boolean       @default(false)
-  created_at     DateTime      @default(now())
-
-  mentorRef Users      @relation("mentor", fields: [mentor_id], references: [id])
-  userRef   Users      @relation("user", fields: [user_id], references: [id])
-  payments  Payments[]
-  reports   Report[]
-
-@@index([status])
-@@index([mentor_id, status])
-@@index([user_id, status])
-
 }
 
 model Chat {
@@ -357,44 +350,114 @@ model Feedback {
 }
 
 model Memberships {
-  id         BigInt     @id @default(autoincrement())
-  name       String
-  price      Decimal    @db.Decimal(10, 2)
-  currency   Currency   @default(INR)
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  isactive   Boolean    @default(true)
+  id         BigInt   @id @default(autoincrement())
+  order_id   BigInt   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  plan_id    BigInt
+
+  planRef  Plan  @relation(fields: [plan_id], references: [id])
+  orderRef Order @relation(fields: [order_id], references: [id])
+}
+
+model Consultancy_service {
+  id       BigInt  @id @default(autoincrement())
+  order_id BigInt? @unique
+
+  mentor_id          BigInt
+  user_id            BigInt
+  duration           String
+  cost               Decimal       @default(0) @db.Decimal(10, 2)
+  currency           Currency      @default(INR)
+  scheduled_date     DateTime      @db.Date
+  scheduled_time     DateTime      @db.Time
+  rating             Decimal?      @db.Decimal(2, 1)
+  status             ServiceStatus @default(INITIATED) //if payment is done, then only scheduled
+  opinion            String?
+  approved_by_mentor Boolean       @default(false)
+  payment_done       Boolean       @default(false) // denormalized fast-read flag
+  created_at         DateTime      @default(now())
+  updated_at         DateTime      @updatedAt @default(now())
+
+  orderRef  Order?   @relation(fields: [order_id], references: [id], onDelete: Restrict)
+  mentorRef Users    @relation("mentor", fields: [mentor_id], references: [id])
+  userRef   Users    @relation("user", fields: [user_id], references: [id])
+  reports   Report[]
+
+  @@index([status])
+  @@index([mentor_id, status])
+  @@index([user_id, status])
+}
+
+model Order {
+  id        BigInt @id @default(autoincrement())
+  public_id String @unique @default(uuid())
+
+  user_id    BigInt
+  order_type OrderType
+  amount     Decimal     @db.Decimal(10, 2)
+  currency   Currency    @default(INR)
+  status     OrderStatus @default(PENDING)
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+
+  userRef    Users                @relation(fields: [user_id], references: [id])
   payments   Payments[]
+  membership Memberships?
+  service    Consultancy_service?
+
+  @@index([user_id, status])
+  @@index([order_type])
 }
 
 model Payments {
-  id BigInt @id @default(autoincrement())
+  id             BigInt        @id @default(autoincrement())
+  order_id       BigInt
+  user_id        BigInt
+  amount         Decimal       @db.Decimal(10, 2)
+  currency       Currency      @default(INR)
+  status         PaymentStatus
+  gateway_txn_id String        @unique // idempotency key from Paytm
+  paytm_response Json          @db.JsonB
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  
+  refunds  Refunds[]
+  orderRef Order @relation(fields: [order_id], references: [id], onDelete: Restrict)
+  userRef  Users @relation(fields: [user_id], references: [id])
 
-  user_id       BigInt
-  membership_id BigInt? //fk
-  service_id    BigInt? //fk
+  @@index([order_id])
+  @@index([user_id])
+  @@index([status])
+}
 
-  amount   Decimal       @db.Decimal(10, 2)
-  currency Currency      @default(INR)
-  status   PaymentStatus
+model Refunds {
+  id                BigInt       @id @default(autoincrement())
+  payment_id        BigInt
+  amount            Decimal      @db.Decimal(10, 2)
+  status            RefundStatus
+  reason            String?
+  gateway_refund_id String?      @unique
+  paytm_response    Json?        @db.JsonB
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
 
-  international Boolean
-  method        PaymentMethod
-  fee           Decimal       @db.Decimal(10, 2)
-  tax           Decimal       @db.Decimal(10, 2)
-  paymentfor    PaymentFor
+  paymentRef Payments @relation(fields: [payment_id], references: [id], onDelete: Restrict)
 
-  transaction_id String   @unique
-  created_at     DateTime @default(now())
+  @@index([payment_id])
+}
 
-  userRef       Users                @relation(fields: [user_id], references: [id])
-  membershipRef Memberships?         @relation(fields: [membership_id], references: [id], onDelete: SetNull)
-  serviceRef    Consultancy_service? @relation(fields: [service_id], references: [id], onDelete: SetNull)
+model Plan {
+  id          BigInt   @id @default(autoincrement())
+  name        String
+  price       Decimal  @db.Decimal(10, 2)
+  description String
+  currency    Currency @default(INR)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  isactive    Boolean  @default(true)
 
-  // @@check(
-  //   (membership_id IS NOT NULL AND service_id IS NULL) OR   => I will manually add this logic
-  //   (membership_id IS NULL AND service_id IS NOT NULL)
-  // )
+  memberships Memberships[]
 }
 
 enum AdminActionType {

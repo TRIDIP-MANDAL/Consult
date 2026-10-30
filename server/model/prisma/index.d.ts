@@ -24,11 +24,6 @@ export type Users = $Result.DefaultSelection<Prisma.$UsersPayload>
  */
 export type Mentor = $Result.DefaultSelection<Prisma.$MentorPayload>
 /**
- * Model Consultancy_service
- * 
- */
-export type Consultancy_service = $Result.DefaultSelection<Prisma.$Consultancy_servicePayload>
-/**
  * Model Chat
  * 
  */
@@ -59,10 +54,30 @@ export type Feedback = $Result.DefaultSelection<Prisma.$FeedbackPayload>
  */
 export type Memberships = $Result.DefaultSelection<Prisma.$MembershipsPayload>
 /**
+ * Model Consultancy_service
+ * 
+ */
+export type Consultancy_service = $Result.DefaultSelection<Prisma.$Consultancy_servicePayload>
+/**
+ * Model Order
+ * 
+ */
+export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
+/**
  * Model Payments
  * 
  */
 export type Payments = $Result.DefaultSelection<Prisma.$PaymentsPayload>
+/**
+ * Model Refunds
+ * 
+ */
+export type Refunds = $Result.DefaultSelection<Prisma.$RefundsPayload>
+/**
+ * Model Plan
+ * 
+ */
+export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
 /**
  * Model AdminAction
  * 
@@ -171,10 +186,20 @@ export const PaymentStatus: {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED'
 };
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const RefundStatus: {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
+
+export type RefundStatus = (typeof RefundStatus)[keyof typeof RefundStatus]
 
 
 export const PaymentMethod: {
@@ -295,6 +320,24 @@ export const ActionType: {
 export type ActionType = (typeof ActionType)[keyof typeof ActionType]
 
 
+export const OrderType: {
+  MEMBERSHIP: 'MEMBERSHIP',
+  CONSULTANCY_SERVICE: 'CONSULTANCY_SERVICE'
+};
+
+export type OrderType = (typeof OrderType)[keyof typeof OrderType]
+
+
+export const OrderStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
 export const AdminActionType: {
   CREATE: 'CREATE',
   READ: 'READ',
@@ -329,6 +372,10 @@ export const Currency: typeof $Enums.Currency
 export type PaymentStatus = $Enums.PaymentStatus
 
 export const PaymentStatus: typeof $Enums.PaymentStatus
+
+export type RefundStatus = $Enums.RefundStatus
+
+export const RefundStatus: typeof $Enums.RefundStatus
 
 export type PaymentMethod = $Enums.PaymentMethod
 
@@ -373,6 +420,14 @@ export const TableName: typeof $Enums.TableName
 export type ActionType = $Enums.ActionType
 
 export const ActionType: typeof $Enums.ActionType
+
+export type OrderType = $Enums.OrderType
+
+export const OrderType: typeof $Enums.OrderType
+
+export type OrderStatus = $Enums.OrderStatus
+
+export const OrderStatus: typeof $Enums.OrderStatus
 
 export type AdminActionType = $Enums.AdminActionType
 
@@ -516,16 +571,6 @@ export class PrismaClient<
   get mentor(): Prisma.MentorDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.consultancy_service`: Exposes CRUD operations for the **Consultancy_service** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Consultancy_services
-    * const consultancy_services = await prisma.consultancy_service.findMany()
-    * ```
-    */
-  get consultancy_service(): Prisma.Consultancy_serviceDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.chat`: Exposes CRUD operations for the **Chat** model.
     * Example usage:
     * ```ts
@@ -586,6 +631,26 @@ export class PrismaClient<
   get memberships(): Prisma.MembershipsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.consultancy_service`: Exposes CRUD operations for the **Consultancy_service** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Consultancy_services
+    * const consultancy_services = await prisma.consultancy_service.findMany()
+    * ```
+    */
+  get consultancy_service(): Prisma.Consultancy_serviceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.order`: Exposes CRUD operations for the **Order** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Orders
+    * const orders = await prisma.order.findMany()
+    * ```
+    */
+  get order(): Prisma.OrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.payments`: Exposes CRUD operations for the **Payments** model.
     * Example usage:
     * ```ts
@@ -594,6 +659,26 @@ export class PrismaClient<
     * ```
     */
   get payments(): Prisma.PaymentsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.refunds`: Exposes CRUD operations for the **Refunds** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Refunds
+    * const refunds = await prisma.refunds.findMany()
+    * ```
+    */
+  get refunds(): Prisma.RefundsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.plan`: Exposes CRUD operations for the **Plan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Plans
+    * const plans = await prisma.plan.findMany()
+    * ```
+    */
+  get plan(): Prisma.PlanDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.adminAction`: Exposes CRUD operations for the **AdminAction** model.
@@ -1080,14 +1165,17 @@ export namespace Prisma {
   export const ModelName: {
     Users: 'Users',
     Mentor: 'Mentor',
-    Consultancy_service: 'Consultancy_service',
     Chat: 'Chat',
     Message: 'Message',
     Call: 'Call',
     Report: 'Report',
     Feedback: 'Feedback',
     Memberships: 'Memberships',
+    Consultancy_service: 'Consultancy_service',
+    Order: 'Order',
     Payments: 'Payments',
+    Refunds: 'Refunds',
+    Plan: 'Plan',
     AdminAction: 'AdminAction',
     Document: 'Document',
     ContactUs: 'ContactUs',
@@ -1108,7 +1196,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "users" | "mentor" | "consultancy_service" | "chat" | "message" | "call" | "report" | "feedback" | "memberships" | "payments" | "adminAction" | "document" | "contactUs" | "relationship" | "auditLog"
+      modelProps: "users" | "mentor" | "chat" | "message" | "call" | "report" | "feedback" | "memberships" | "consultancy_service" | "order" | "payments" | "refunds" | "plan" | "adminAction" | "document" | "contactUs" | "relationship" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1257,80 +1345,6 @@ export namespace Prisma {
           count: {
             args: Prisma.MentorCountArgs<ExtArgs>
             result: $Utils.Optional<MentorCountAggregateOutputType> | number
-          }
-        }
-      }
-      Consultancy_service: {
-        payload: Prisma.$Consultancy_servicePayload<ExtArgs>
-        fields: Prisma.Consultancy_serviceFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.Consultancy_serviceFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          findFirst: {
-            args: Prisma.Consultancy_serviceFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.Consultancy_serviceFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          findMany: {
-            args: Prisma.Consultancy_serviceFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
-          }
-          create: {
-            args: Prisma.Consultancy_serviceCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          createMany: {
-            args: Prisma.Consultancy_serviceCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.Consultancy_serviceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
-          }
-          delete: {
-            args: Prisma.Consultancy_serviceDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          update: {
-            args: Prisma.Consultancy_serviceUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          deleteMany: {
-            args: Prisma.Consultancy_serviceDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.Consultancy_serviceUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
-          }
-          upsert: {
-            args: Prisma.Consultancy_serviceUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
-          }
-          aggregate: {
-            args: Prisma.Consultancy_serviceAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateConsultancy_service>
-          }
-          groupBy: {
-            args: Prisma.Consultancy_serviceGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Consultancy_serviceGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.Consultancy_serviceCountArgs<ExtArgs>
-            result: $Utils.Optional<Consultancy_serviceCountAggregateOutputType> | number
           }
         }
       }
@@ -1778,6 +1792,154 @@ export namespace Prisma {
           }
         }
       }
+      Consultancy_service: {
+        payload: Prisma.$Consultancy_servicePayload<ExtArgs>
+        fields: Prisma.Consultancy_serviceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.Consultancy_serviceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          findFirst: {
+            args: Prisma.Consultancy_serviceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.Consultancy_serviceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          findMany: {
+            args: Prisma.Consultancy_serviceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
+          }
+          create: {
+            args: Prisma.Consultancy_serviceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          createMany: {
+            args: Prisma.Consultancy_serviceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.Consultancy_serviceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
+          }
+          delete: {
+            args: Prisma.Consultancy_serviceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          update: {
+            args: Prisma.Consultancy_serviceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          deleteMany: {
+            args: Prisma.Consultancy_serviceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.Consultancy_serviceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>[]
+          }
+          upsert: {
+            args: Prisma.Consultancy_serviceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Consultancy_servicePayload>
+          }
+          aggregate: {
+            args: Prisma.Consultancy_serviceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConsultancy_service>
+          }
+          groupBy: {
+            args: Prisma.Consultancy_serviceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Consultancy_serviceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.Consultancy_serviceCountArgs<ExtArgs>
+            result: $Utils.Optional<Consultancy_serviceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Order: {
+        payload: Prisma.$OrderPayload<ExtArgs>
+        fields: Prisma.OrderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OrderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OrderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          findFirst: {
+            args: Prisma.OrderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OrderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          findMany: {
+            args: Prisma.OrderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+          }
+          create: {
+            args: Prisma.OrderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          createMany: {
+            args: Prisma.OrderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OrderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+          }
+          delete: {
+            args: Prisma.OrderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          update: {
+            args: Prisma.OrderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          deleteMany: {
+            args: Prisma.OrderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OrderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OrderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+          }
+          upsert: {
+            args: Prisma.OrderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+          }
+          aggregate: {
+            args: Prisma.OrderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrder>
+          }
+          groupBy: {
+            args: Prisma.OrderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OrderCountArgs<ExtArgs>
+            result: $Utils.Optional<OrderCountAggregateOutputType> | number
+          }
+        }
+      }
       Payments: {
         payload: Prisma.$PaymentsPayload<ExtArgs>
         fields: Prisma.PaymentsFieldRefs
@@ -1849,6 +2011,154 @@ export namespace Prisma {
           count: {
             args: Prisma.PaymentsCountArgs<ExtArgs>
             result: $Utils.Optional<PaymentsCountAggregateOutputType> | number
+          }
+        }
+      }
+      Refunds: {
+        payload: Prisma.$RefundsPayload<ExtArgs>
+        fields: Prisma.RefundsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RefundsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RefundsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          findFirst: {
+            args: Prisma.RefundsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RefundsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          findMany: {
+            args: Prisma.RefundsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>[]
+          }
+          create: {
+            args: Prisma.RefundsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          createMany: {
+            args: Prisma.RefundsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RefundsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>[]
+          }
+          delete: {
+            args: Prisma.RefundsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          update: {
+            args: Prisma.RefundsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          deleteMany: {
+            args: Prisma.RefundsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RefundsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RefundsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>[]
+          }
+          upsert: {
+            args: Prisma.RefundsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundsPayload>
+          }
+          aggregate: {
+            args: Prisma.RefundsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRefunds>
+          }
+          groupBy: {
+            args: Prisma.RefundsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RefundsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RefundsCountArgs<ExtArgs>
+            result: $Utils.Optional<RefundsCountAggregateOutputType> | number
+          }
+        }
+      }
+      Plan: {
+        payload: Prisma.$PlanPayload<ExtArgs>
+        fields: Prisma.PlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          findFirst: {
+            args: Prisma.PlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          findMany: {
+            args: Prisma.PlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>[]
+          }
+          create: {
+            args: Prisma.PlanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          createMany: {
+            args: Prisma.PlanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>[]
+          }
+          delete: {
+            args: Prisma.PlanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          update: {
+            args: Prisma.PlanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlanPayload>
+          }
+          aggregate: {
+            args: Prisma.PlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlan>
+          }
+          groupBy: {
+            args: Prisma.PlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlanCountArgs<ExtArgs>
+            result: $Utils.Optional<PlanCountAggregateOutputType> | number
           }
         }
       }
@@ -2332,14 +2642,17 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     users?: UsersOmit
     mentor?: MentorOmit
-    consultancy_service?: Consultancy_serviceOmit
     chat?: ChatOmit
     message?: MessageOmit
     call?: CallOmit
     report?: ReportOmit
     feedback?: FeedbackOmit
     memberships?: MembershipsOmit
+    consultancy_service?: Consultancy_serviceOmit
+    order?: OrderOmit
     payments?: PaymentsOmit
+    refunds?: RefundsOmit
+    plan?: PlanOmit
     adminAction?: AdminActionOmit
     document?: DocumentOmit
     contactUs?: ContactUsOmit
@@ -2439,6 +2752,7 @@ export namespace Prisma {
     documents: number
     user1: number
     user2: number
+    orders: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2456,6 +2770,7 @@ export namespace Prisma {
     documents?: boolean | UsersCountOutputTypeCountDocumentsArgs
     user1?: boolean | UsersCountOutputTypeCountUser1Args
     user2?: boolean | UsersCountOutputTypeCountUser2Args
+    orders?: boolean | UsersCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -2567,44 +2882,11 @@ export namespace Prisma {
     where?: RelationshipWhereInput
   }
 
-
   /**
-   * Count Type Consultancy_serviceCountOutputType
+   * UsersCountOutputType without action
    */
-
-  export type Consultancy_serviceCountOutputType = {
-    payments: number
-    reports: number
-  }
-
-  export type Consultancy_serviceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    payments?: boolean | Consultancy_serviceCountOutputTypeCountPaymentsArgs
-    reports?: boolean | Consultancy_serviceCountOutputTypeCountReportsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * Consultancy_serviceCountOutputType without action
-   */
-  export type Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_serviceCountOutputType
-     */
-    select?: Consultancy_serviceCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * Consultancy_serviceCountOutputType without action
-   */
-  export type Consultancy_serviceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PaymentsWhereInput
-  }
-
-  /**
-   * Consultancy_serviceCountOutputType without action
-   */
-  export type Consultancy_serviceCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReportWhereInput
+  export type UsersCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -2671,33 +2953,126 @@ export namespace Prisma {
 
 
   /**
-   * Count Type MembershipsCountOutputType
+   * Count Type Consultancy_serviceCountOutputType
    */
 
-  export type MembershipsCountOutputType = {
-    payments: number
+  export type Consultancy_serviceCountOutputType = {
+    reports: number
   }
 
-  export type MembershipsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    payments?: boolean | MembershipsCountOutputTypeCountPaymentsArgs
+  export type Consultancy_serviceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reports?: boolean | Consultancy_serviceCountOutputTypeCountReportsArgs
   }
 
   // Custom InputTypes
   /**
-   * MembershipsCountOutputType without action
+   * Consultancy_serviceCountOutputType without action
    */
-  export type MembershipsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the MembershipsCountOutputType
+     * Select specific fields to fetch from the Consultancy_serviceCountOutputType
      */
-    select?: MembershipsCountOutputTypeSelect<ExtArgs> | null
+    select?: Consultancy_serviceCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * MembershipsCountOutputType without action
+   * Consultancy_serviceCountOutputType without action
    */
-  export type MembershipsCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Consultancy_serviceCountOutputTypeCountReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
+  }
+
+
+  /**
+   * Count Type OrderCountOutputType
+   */
+
+  export type OrderCountOutputType = {
+    payments: number
+  }
+
+  export type OrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payments?: boolean | OrderCountOutputTypeCountPaymentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OrderCountOutputType without action
+   */
+  export type OrderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderCountOutputType
+     */
+    select?: OrderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OrderCountOutputType without action
+   */
+  export type OrderCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentsWhereInput
+  }
+
+
+  /**
+   * Count Type PaymentsCountOutputType
+   */
+
+  export type PaymentsCountOutputType = {
+    refunds: number
+  }
+
+  export type PaymentsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    refunds?: boolean | PaymentsCountOutputTypeCountRefundsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PaymentsCountOutputType without action
+   */
+  export type PaymentsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentsCountOutputType
+     */
+    select?: PaymentsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PaymentsCountOutputType without action
+   */
+  export type PaymentsCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundsWhereInput
+  }
+
+
+  /**
+   * Count Type PlanCountOutputType
+   */
+
+  export type PlanCountOutputType = {
+    memberships: number
+  }
+
+  export type PlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    memberships?: boolean | PlanCountOutputTypeCountMembershipsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PlanCountOutputType without action
+   */
+  export type PlanCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlanCountOutputType
+     */
+    select?: PlanCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PlanCountOutputType without action
+   */
+  export type PlanCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MembershipsWhereInput
   }
 
 
@@ -3022,6 +3397,7 @@ export namespace Prisma {
     mentor?: boolean | Users$mentorArgs<ExtArgs>
     user1?: boolean | Users$user1Args<ExtArgs>
     user2?: boolean | Users$user2Args<ExtArgs>
+    orders?: boolean | Users$ordersArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
@@ -3105,6 +3481,7 @@ export namespace Prisma {
     mentor?: boolean | Users$mentorArgs<ExtArgs>
     user1?: boolean | Users$user1Args<ExtArgs>
     user2?: boolean | Users$user2Args<ExtArgs>
+    orders?: boolean | Users$ordersArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3128,6 +3505,7 @@ export namespace Prisma {
       mentor: Prisma.$MentorPayload<ExtArgs> | null
       user1: Prisma.$RelationshipPayload<ExtArgs>[]
       user2: Prisma.$RelationshipPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -3557,6 +3935,7 @@ export namespace Prisma {
     mentor<T extends Users$mentorArgs<ExtArgs> = {}>(args?: Subset<T, Users$mentorArgs<ExtArgs>>): Prisma__MentorClient<$Result.GetResult<Prisma.$MentorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user1<T extends Users$user1Args<ExtArgs> = {}>(args?: Subset<T, Users$user1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user2<T extends Users$user2Args<ExtArgs> = {}>(args?: Subset<T, Users$user2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends Users$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Users$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4344,6 +4723,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RelationshipScalarFieldEnum | RelationshipScalarFieldEnum[]
+  }
+
+  /**
+   * Users.orders
+   */
+  export type Users$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -5613,1297 +6016,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MentorInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Consultancy_service
-   */
-
-  export type AggregateConsultancy_service = {
-    _count: Consultancy_serviceCountAggregateOutputType | null
-    _avg: Consultancy_serviceAvgAggregateOutputType | null
-    _sum: Consultancy_serviceSumAggregateOutputType | null
-    _min: Consultancy_serviceMinAggregateOutputType | null
-    _max: Consultancy_serviceMaxAggregateOutputType | null
-  }
-
-  export type Consultancy_serviceAvgAggregateOutputType = {
-    id: number | null
-    mentor_id: number | null
-    user_id: number | null
-    cost: Decimal | null
-    rating: Decimal | null
-  }
-
-  export type Consultancy_serviceSumAggregateOutputType = {
-    id: bigint | null
-    mentor_id: bigint | null
-    user_id: bigint | null
-    cost: Decimal | null
-    rating: Decimal | null
-  }
-
-  export type Consultancy_serviceMinAggregateOutputType = {
-    id: bigint | null
-    mentor_id: bigint | null
-    user_id: bigint | null
-    duration: string | null
-    cost: Decimal | null
-    currency: $Enums.Currency | null
-    scheduled_date: Date | null
-    scheduled_time: Date | null
-    rating: Decimal | null
-    status: $Enums.ServiceStatus | null
-    opinion: string | null
-    approved_by_mentor: boolean | null
-    payment_done: boolean | null
-    created_at: Date | null
-  }
-
-  export type Consultancy_serviceMaxAggregateOutputType = {
-    id: bigint | null
-    mentor_id: bigint | null
-    user_id: bigint | null
-    duration: string | null
-    cost: Decimal | null
-    currency: $Enums.Currency | null
-    scheduled_date: Date | null
-    scheduled_time: Date | null
-    rating: Decimal | null
-    status: $Enums.ServiceStatus | null
-    opinion: string | null
-    approved_by_mentor: boolean | null
-    payment_done: boolean | null
-    created_at: Date | null
-  }
-
-  export type Consultancy_serviceCountAggregateOutputType = {
-    id: number
-    mentor_id: number
-    user_id: number
-    duration: number
-    cost: number
-    currency: number
-    scheduled_date: number
-    scheduled_time: number
-    rating: number
-    status: number
-    opinion: number
-    approved_by_mentor: number
-    payment_done: number
-    created_at: number
-    _all: number
-  }
-
-
-  export type Consultancy_serviceAvgAggregateInputType = {
-    id?: true
-    mentor_id?: true
-    user_id?: true
-    cost?: true
-    rating?: true
-  }
-
-  export type Consultancy_serviceSumAggregateInputType = {
-    id?: true
-    mentor_id?: true
-    user_id?: true
-    cost?: true
-    rating?: true
-  }
-
-  export type Consultancy_serviceMinAggregateInputType = {
-    id?: true
-    mentor_id?: true
-    user_id?: true
-    duration?: true
-    cost?: true
-    currency?: true
-    scheduled_date?: true
-    scheduled_time?: true
-    rating?: true
-    status?: true
-    opinion?: true
-    approved_by_mentor?: true
-    payment_done?: true
-    created_at?: true
-  }
-
-  export type Consultancy_serviceMaxAggregateInputType = {
-    id?: true
-    mentor_id?: true
-    user_id?: true
-    duration?: true
-    cost?: true
-    currency?: true
-    scheduled_date?: true
-    scheduled_time?: true
-    rating?: true
-    status?: true
-    opinion?: true
-    approved_by_mentor?: true
-    payment_done?: true
-    created_at?: true
-  }
-
-  export type Consultancy_serviceCountAggregateInputType = {
-    id?: true
-    mentor_id?: true
-    user_id?: true
-    duration?: true
-    cost?: true
-    currency?: true
-    scheduled_date?: true
-    scheduled_time?: true
-    rating?: true
-    status?: true
-    opinion?: true
-    approved_by_mentor?: true
-    payment_done?: true
-    created_at?: true
-    _all?: true
-  }
-
-  export type Consultancy_serviceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Consultancy_service to aggregate.
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Consultancy_services to fetch.
-     */
-    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: Consultancy_serviceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Consultancy_services from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Consultancy_services.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Consultancy_services
-    **/
-    _count?: true | Consultancy_serviceCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Consultancy_serviceAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Consultancy_serviceSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Consultancy_serviceMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Consultancy_serviceMaxAggregateInputType
-  }
-
-  export type GetConsultancy_serviceAggregateType<T extends Consultancy_serviceAggregateArgs> = {
-        [P in keyof T & keyof AggregateConsultancy_service]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateConsultancy_service[P]>
-      : GetScalarType<T[P], AggregateConsultancy_service[P]>
-  }
-
-
-
-
-  export type Consultancy_serviceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: Consultancy_serviceWhereInput
-    orderBy?: Consultancy_serviceOrderByWithAggregationInput | Consultancy_serviceOrderByWithAggregationInput[]
-    by: Consultancy_serviceScalarFieldEnum[] | Consultancy_serviceScalarFieldEnum
-    having?: Consultancy_serviceScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Consultancy_serviceCountAggregateInputType | true
-    _avg?: Consultancy_serviceAvgAggregateInputType
-    _sum?: Consultancy_serviceSumAggregateInputType
-    _min?: Consultancy_serviceMinAggregateInputType
-    _max?: Consultancy_serviceMaxAggregateInputType
-  }
-
-  export type Consultancy_serviceGroupByOutputType = {
-    id: bigint
-    mentor_id: bigint
-    user_id: bigint
-    duration: string
-    cost: Decimal
-    currency: $Enums.Currency
-    scheduled_date: Date
-    scheduled_time: Date
-    rating: Decimal | null
-    status: $Enums.ServiceStatus
-    opinion: string | null
-    approved_by_mentor: boolean
-    payment_done: boolean
-    created_at: Date
-    _count: Consultancy_serviceCountAggregateOutputType | null
-    _avg: Consultancy_serviceAvgAggregateOutputType | null
-    _sum: Consultancy_serviceSumAggregateOutputType | null
-    _min: Consultancy_serviceMinAggregateOutputType | null
-    _max: Consultancy_serviceMaxAggregateOutputType | null
-  }
-
-  type GetConsultancy_serviceGroupByPayload<T extends Consultancy_serviceGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Consultancy_serviceGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Consultancy_serviceGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Consultancy_serviceGroupByOutputType[P]>
-            : GetScalarType<T[P], Consultancy_serviceGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type Consultancy_serviceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    mentor_id?: boolean
-    user_id?: boolean
-    duration?: boolean
-    cost?: boolean
-    currency?: boolean
-    scheduled_date?: boolean
-    scheduled_time?: boolean
-    rating?: boolean
-    status?: boolean
-    opinion?: boolean
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: boolean
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    payments?: boolean | Consultancy_service$paymentsArgs<ExtArgs>
-    reports?: boolean | Consultancy_service$reportsArgs<ExtArgs>
-    _count?: boolean | Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["consultancy_service"]>
-
-  export type Consultancy_serviceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    mentor_id?: boolean
-    user_id?: boolean
-    duration?: boolean
-    cost?: boolean
-    currency?: boolean
-    scheduled_date?: boolean
-    scheduled_time?: boolean
-    rating?: boolean
-    status?: boolean
-    opinion?: boolean
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: boolean
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["consultancy_service"]>
-
-  export type Consultancy_serviceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    mentor_id?: boolean
-    user_id?: boolean
-    duration?: boolean
-    cost?: boolean
-    currency?: boolean
-    scheduled_date?: boolean
-    scheduled_time?: boolean
-    rating?: boolean
-    status?: boolean
-    opinion?: boolean
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: boolean
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["consultancy_service"]>
-
-  export type Consultancy_serviceSelectScalar = {
-    id?: boolean
-    mentor_id?: boolean
-    user_id?: boolean
-    duration?: boolean
-    cost?: boolean
-    currency?: boolean
-    scheduled_date?: boolean
-    scheduled_time?: boolean
-    rating?: boolean
-    status?: boolean
-    opinion?: boolean
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: boolean
-  }
-
-  export type Consultancy_serviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mentor_id" | "user_id" | "duration" | "cost" | "currency" | "scheduled_date" | "scheduled_time" | "rating" | "status" | "opinion" | "approved_by_mentor" | "payment_done" | "created_at", ExtArgs["result"]["consultancy_service"]>
-  export type Consultancy_serviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    payments?: boolean | Consultancy_service$paymentsArgs<ExtArgs>
-    reports?: boolean | Consultancy_service$reportsArgs<ExtArgs>
-    _count?: boolean | Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type Consultancy_serviceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-  }
-  export type Consultancy_serviceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
-    userRef?: boolean | UsersDefaultArgs<ExtArgs>
-  }
-
-  export type $Consultancy_servicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Consultancy_service"
-    objects: {
-      mentorRef: Prisma.$UsersPayload<ExtArgs>
-      userRef: Prisma.$UsersPayload<ExtArgs>
-      payments: Prisma.$PaymentsPayload<ExtArgs>[]
-      reports: Prisma.$ReportPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: bigint
-      mentor_id: bigint
-      user_id: bigint
-      duration: string
-      cost: Prisma.Decimal
-      currency: $Enums.Currency
-      scheduled_date: Date
-      scheduled_time: Date
-      rating: Prisma.Decimal | null
-      status: $Enums.ServiceStatus
-      opinion: string | null
-      approved_by_mentor: boolean
-      payment_done: boolean
-      created_at: Date
-    }, ExtArgs["result"]["consultancy_service"]>
-    composites: {}
-  }
-
-  type Consultancy_serviceGetPayload<S extends boolean | null | undefined | Consultancy_serviceDefaultArgs> = $Result.GetResult<Prisma.$Consultancy_servicePayload, S>
-
-  type Consultancy_serviceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<Consultancy_serviceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Consultancy_serviceCountAggregateInputType | true
-    }
-
-  export interface Consultancy_serviceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Consultancy_service'], meta: { name: 'Consultancy_service' } }
-    /**
-     * Find zero or one Consultancy_service that matches the filter.
-     * @param {Consultancy_serviceFindUniqueArgs} args - Arguments to find a Consultancy_service
-     * @example
-     * // Get one Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends Consultancy_serviceFindUniqueArgs>(args: SelectSubset<T, Consultancy_serviceFindUniqueArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Consultancy_service that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {Consultancy_serviceFindUniqueOrThrowArgs} args - Arguments to find a Consultancy_service
-     * @example
-     * // Get one Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends Consultancy_serviceFindUniqueOrThrowArgs>(args: SelectSubset<T, Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Consultancy_service that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceFindFirstArgs} args - Arguments to find a Consultancy_service
-     * @example
-     * // Get one Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends Consultancy_serviceFindFirstArgs>(args?: SelectSubset<T, Consultancy_serviceFindFirstArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Consultancy_service that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceFindFirstOrThrowArgs} args - Arguments to find a Consultancy_service
-     * @example
-     * // Get one Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends Consultancy_serviceFindFirstOrThrowArgs>(args?: SelectSubset<T, Consultancy_serviceFindFirstOrThrowArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Consultancy_services that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Consultancy_services
-     * const consultancy_services = await prisma.consultancy_service.findMany()
-     * 
-     * // Get first 10 Consultancy_services
-     * const consultancy_services = await prisma.consultancy_service.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends Consultancy_serviceFindManyArgs>(args?: SelectSubset<T, Consultancy_serviceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Consultancy_service.
-     * @param {Consultancy_serviceCreateArgs} args - Arguments to create a Consultancy_service.
-     * @example
-     * // Create one Consultancy_service
-     * const Consultancy_service = await prisma.consultancy_service.create({
-     *   data: {
-     *     // ... data to create a Consultancy_service
-     *   }
-     * })
-     * 
-     */
-    create<T extends Consultancy_serviceCreateArgs>(args: SelectSubset<T, Consultancy_serviceCreateArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Consultancy_services.
-     * @param {Consultancy_serviceCreateManyArgs} args - Arguments to create many Consultancy_services.
-     * @example
-     * // Create many Consultancy_services
-     * const consultancy_service = await prisma.consultancy_service.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends Consultancy_serviceCreateManyArgs>(args?: SelectSubset<T, Consultancy_serviceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Consultancy_services and returns the data saved in the database.
-     * @param {Consultancy_serviceCreateManyAndReturnArgs} args - Arguments to create many Consultancy_services.
-     * @example
-     * // Create many Consultancy_services
-     * const consultancy_service = await prisma.consultancy_service.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Consultancy_services and only return the `id`
-     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends Consultancy_serviceCreateManyAndReturnArgs>(args?: SelectSubset<T, Consultancy_serviceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Consultancy_service.
-     * @param {Consultancy_serviceDeleteArgs} args - Arguments to delete one Consultancy_service.
-     * @example
-     * // Delete one Consultancy_service
-     * const Consultancy_service = await prisma.consultancy_service.delete({
-     *   where: {
-     *     // ... filter to delete one Consultancy_service
-     *   }
-     * })
-     * 
-     */
-    delete<T extends Consultancy_serviceDeleteArgs>(args: SelectSubset<T, Consultancy_serviceDeleteArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Consultancy_service.
-     * @param {Consultancy_serviceUpdateArgs} args - Arguments to update one Consultancy_service.
-     * @example
-     * // Update one Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends Consultancy_serviceUpdateArgs>(args: SelectSubset<T, Consultancy_serviceUpdateArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Consultancy_services.
-     * @param {Consultancy_serviceDeleteManyArgs} args - Arguments to filter Consultancy_services to delete.
-     * @example
-     * // Delete a few Consultancy_services
-     * const { count } = await prisma.consultancy_service.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends Consultancy_serviceDeleteManyArgs>(args?: SelectSubset<T, Consultancy_serviceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Consultancy_services.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Consultancy_services
-     * const consultancy_service = await prisma.consultancy_service.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends Consultancy_serviceUpdateManyArgs>(args: SelectSubset<T, Consultancy_serviceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Consultancy_services and returns the data updated in the database.
-     * @param {Consultancy_serviceUpdateManyAndReturnArgs} args - Arguments to update many Consultancy_services.
-     * @example
-     * // Update many Consultancy_services
-     * const consultancy_service = await prisma.consultancy_service.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Consultancy_services and only return the `id`
-     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends Consultancy_serviceUpdateManyAndReturnArgs>(args: SelectSubset<T, Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Consultancy_service.
-     * @param {Consultancy_serviceUpsertArgs} args - Arguments to update or create a Consultancy_service.
-     * @example
-     * // Update or create a Consultancy_service
-     * const consultancy_service = await prisma.consultancy_service.upsert({
-     *   create: {
-     *     // ... data to create a Consultancy_service
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Consultancy_service we want to update
-     *   }
-     * })
-     */
-    upsert<T extends Consultancy_serviceUpsertArgs>(args: SelectSubset<T, Consultancy_serviceUpsertArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Consultancy_services.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceCountArgs} args - Arguments to filter Consultancy_services to count.
-     * @example
-     * // Count the number of Consultancy_services
-     * const count = await prisma.consultancy_service.count({
-     *   where: {
-     *     // ... the filter for the Consultancy_services we want to count
-     *   }
-     * })
-    **/
-    count<T extends Consultancy_serviceCountArgs>(
-      args?: Subset<T, Consultancy_serviceCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Consultancy_serviceCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Consultancy_service.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Consultancy_serviceAggregateArgs>(args: Subset<T, Consultancy_serviceAggregateArgs>): Prisma.PrismaPromise<GetConsultancy_serviceAggregateType<T>>
-
-    /**
-     * Group by Consultancy_service.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Consultancy_serviceGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends Consultancy_serviceGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Consultancy_serviceGroupByArgs['orderBy'] }
-        : { orderBy?: Consultancy_serviceGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, Consultancy_serviceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsultancy_serviceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Consultancy_service model
-   */
-  readonly fields: Consultancy_serviceFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Consultancy_service.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__Consultancy_serviceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    mentorRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    userRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    payments<T extends Consultancy_service$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Consultancy_service$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reports<T extends Consultancy_service$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Consultancy_service$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Consultancy_service model
-   */
-  interface Consultancy_serviceFieldRefs {
-    readonly id: FieldRef<"Consultancy_service", 'BigInt'>
-    readonly mentor_id: FieldRef<"Consultancy_service", 'BigInt'>
-    readonly user_id: FieldRef<"Consultancy_service", 'BigInt'>
-    readonly duration: FieldRef<"Consultancy_service", 'String'>
-    readonly cost: FieldRef<"Consultancy_service", 'Decimal'>
-    readonly currency: FieldRef<"Consultancy_service", 'Currency'>
-    readonly scheduled_date: FieldRef<"Consultancy_service", 'DateTime'>
-    readonly scheduled_time: FieldRef<"Consultancy_service", 'DateTime'>
-    readonly rating: FieldRef<"Consultancy_service", 'Decimal'>
-    readonly status: FieldRef<"Consultancy_service", 'ServiceStatus'>
-    readonly opinion: FieldRef<"Consultancy_service", 'String'>
-    readonly approved_by_mentor: FieldRef<"Consultancy_service", 'Boolean'>
-    readonly payment_done: FieldRef<"Consultancy_service", 'Boolean'>
-    readonly created_at: FieldRef<"Consultancy_service", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Consultancy_service findUnique
-   */
-  export type Consultancy_serviceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter, which Consultancy_service to fetch.
-     */
-    where: Consultancy_serviceWhereUniqueInput
-  }
-
-  /**
-   * Consultancy_service findUniqueOrThrow
-   */
-  export type Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter, which Consultancy_service to fetch.
-     */
-    where: Consultancy_serviceWhereUniqueInput
-  }
-
-  /**
-   * Consultancy_service findFirst
-   */
-  export type Consultancy_serviceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter, which Consultancy_service to fetch.
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Consultancy_services to fetch.
-     */
-    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Consultancy_services.
-     */
-    cursor?: Consultancy_serviceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Consultancy_services from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Consultancy_services.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Consultancy_services.
-     */
-    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
-  }
-
-  /**
-   * Consultancy_service findFirstOrThrow
-   */
-  export type Consultancy_serviceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter, which Consultancy_service to fetch.
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Consultancy_services to fetch.
-     */
-    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Consultancy_services.
-     */
-    cursor?: Consultancy_serviceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Consultancy_services from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Consultancy_services.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Consultancy_services.
-     */
-    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
-  }
-
-  /**
-   * Consultancy_service findMany
-   */
-  export type Consultancy_serviceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter, which Consultancy_services to fetch.
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Consultancy_services to fetch.
-     */
-    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Consultancy_services.
-     */
-    cursor?: Consultancy_serviceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Consultancy_services from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Consultancy_services.
-     */
-    skip?: number
-    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
-  }
-
-  /**
-   * Consultancy_service create
-   */
-  export type Consultancy_serviceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Consultancy_service.
-     */
-    data: XOR<Consultancy_serviceCreateInput, Consultancy_serviceUncheckedCreateInput>
-  }
-
-  /**
-   * Consultancy_service createMany
-   */
-  export type Consultancy_serviceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Consultancy_services.
-     */
-    data: Consultancy_serviceCreateManyInput | Consultancy_serviceCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Consultancy_service createManyAndReturn
-   */
-  export type Consultancy_serviceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * The data used to create many Consultancy_services.
-     */
-    data: Consultancy_serviceCreateManyInput | Consultancy_serviceCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Consultancy_service update
-   */
-  export type Consultancy_serviceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Consultancy_service.
-     */
-    data: XOR<Consultancy_serviceUpdateInput, Consultancy_serviceUncheckedUpdateInput>
-    /**
-     * Choose, which Consultancy_service to update.
-     */
-    where: Consultancy_serviceWhereUniqueInput
-  }
-
-  /**
-   * Consultancy_service updateMany
-   */
-  export type Consultancy_serviceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Consultancy_services.
-     */
-    data: XOR<Consultancy_serviceUpdateManyMutationInput, Consultancy_serviceUncheckedUpdateManyInput>
-    /**
-     * Filter which Consultancy_services to update
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * Limit how many Consultancy_services to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Consultancy_service updateManyAndReturn
-   */
-  export type Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * The data used to update Consultancy_services.
-     */
-    data: XOR<Consultancy_serviceUpdateManyMutationInput, Consultancy_serviceUncheckedUpdateManyInput>
-    /**
-     * Filter which Consultancy_services to update
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * Limit how many Consultancy_services to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Consultancy_service upsert
-   */
-  export type Consultancy_serviceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Consultancy_service to update in case it exists.
-     */
-    where: Consultancy_serviceWhereUniqueInput
-    /**
-     * In case the Consultancy_service found by the `where` argument doesn't exist, create a new Consultancy_service with this data.
-     */
-    create: XOR<Consultancy_serviceCreateInput, Consultancy_serviceUncheckedCreateInput>
-    /**
-     * In case the Consultancy_service was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<Consultancy_serviceUpdateInput, Consultancy_serviceUncheckedUpdateInput>
-  }
-
-  /**
-   * Consultancy_service delete
-   */
-  export type Consultancy_serviceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    /**
-     * Filter which Consultancy_service to delete.
-     */
-    where: Consultancy_serviceWhereUniqueInput
-  }
-
-  /**
-   * Consultancy_service deleteMany
-   */
-  export type Consultancy_serviceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Consultancy_services to delete
-     */
-    where?: Consultancy_serviceWhereInput
-    /**
-     * Limit how many Consultancy_services to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Consultancy_service.payments
-   */
-  export type Consultancy_service$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Payments
-     */
-    select?: PaymentsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Payments
-     */
-    omit?: PaymentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PaymentsInclude<ExtArgs> | null
-    where?: PaymentsWhereInput
-    orderBy?: PaymentsOrderByWithRelationInput | PaymentsOrderByWithRelationInput[]
-    cursor?: PaymentsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PaymentsScalarFieldEnum | PaymentsScalarFieldEnum[]
-  }
-
-  /**
-   * Consultancy_service.reports
-   */
-  export type Consultancy_service$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Report
-     */
-    select?: ReportSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Report
-     */
-    omit?: ReportOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReportInclude<ExtArgs> | null
-    where?: ReportWhereInput
-    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
-    cursor?: ReportWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
-  }
-
-  /**
-   * Consultancy_service without action
-   */
-  export type Consultancy_serviceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
   }
 
 
@@ -11584,7 +10696,6 @@ export namespace Prisma {
     id: bigint | null
     user_id: bigint | null
     rating: number | null
-    image: string | null
     content: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -11594,7 +10705,6 @@ export namespace Prisma {
     id: bigint | null
     user_id: bigint | null
     rating: number | null
-    image: string | null
     content: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -11604,7 +10714,6 @@ export namespace Prisma {
     id: number
     user_id: number
     rating: number
-    image: number
     content: number
     created_at: number
     updated_at: number
@@ -11628,7 +10737,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     rating?: true
-    image?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11638,7 +10746,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     rating?: true
-    image?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11648,7 +10755,6 @@ export namespace Prisma {
     id?: true
     user_id?: true
     rating?: true
-    image?: true
     content?: true
     created_at?: true
     updated_at?: true
@@ -11745,7 +10851,6 @@ export namespace Prisma {
     id: bigint
     user_id: bigint
     rating: number
-    image: string | null
     content: string | null
     created_at: Date
     updated_at: Date
@@ -11774,7 +10879,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     rating?: boolean
-    image?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11785,7 +10889,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     rating?: boolean
-    image?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11796,7 +10899,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     rating?: boolean
-    image?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11807,13 +10909,12 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     rating?: boolean
-    image?: boolean
     content?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "rating" | "image" | "content" | "created_at" | "updated_at", ExtArgs["result"]["feedback"]>
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "rating" | "content" | "created_at" | "updated_at", ExtArgs["result"]["feedback"]>
   export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userRef?: boolean | Feedback$userRefArgs<ExtArgs>
   }
@@ -11833,7 +10934,6 @@ export namespace Prisma {
       id: bigint
       user_id: bigint
       rating: number
-      image: string | null
       content: string | null
       created_at: Date
       updated_at: Date
@@ -12264,7 +11364,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Feedback", 'BigInt'>
     readonly user_id: FieldRef<"Feedback", 'BigInt'>
     readonly rating: FieldRef<"Feedback", 'Int'>
-    readonly image: FieldRef<"Feedback", 'String'>
     readonly content: FieldRef<"Feedback", 'String'>
     readonly created_at: FieldRef<"Feedback", 'DateTime'>
     readonly updated_at: FieldRef<"Feedback", 'DateTime'>
@@ -12715,84 +11814,76 @@ export namespace Prisma {
 
   export type MembershipsAvgAggregateOutputType = {
     id: number | null
-    price: Decimal | null
+    order_id: number | null
+    plan_id: number | null
   }
 
   export type MembershipsSumAggregateOutputType = {
     id: bigint | null
-    price: Decimal | null
+    order_id: bigint | null
+    plan_id: bigint | null
   }
 
   export type MembershipsMinAggregateOutputType = {
     id: bigint | null
-    name: string | null
-    price: Decimal | null
-    currency: $Enums.Currency | null
+    order_id: bigint | null
     created_at: Date | null
     updated_at: Date | null
-    isactive: boolean | null
+    plan_id: bigint | null
   }
 
   export type MembershipsMaxAggregateOutputType = {
     id: bigint | null
-    name: string | null
-    price: Decimal | null
-    currency: $Enums.Currency | null
+    order_id: bigint | null
     created_at: Date | null
     updated_at: Date | null
-    isactive: boolean | null
+    plan_id: bigint | null
   }
 
   export type MembershipsCountAggregateOutputType = {
     id: number
-    name: number
-    price: number
-    currency: number
+    order_id: number
     created_at: number
     updated_at: number
-    isactive: number
+    plan_id: number
     _all: number
   }
 
 
   export type MembershipsAvgAggregateInputType = {
     id?: true
-    price?: true
+    order_id?: true
+    plan_id?: true
   }
 
   export type MembershipsSumAggregateInputType = {
     id?: true
-    price?: true
+    order_id?: true
+    plan_id?: true
   }
 
   export type MembershipsMinAggregateInputType = {
     id?: true
-    name?: true
-    price?: true
-    currency?: true
+    order_id?: true
     created_at?: true
     updated_at?: true
-    isactive?: true
+    plan_id?: true
   }
 
   export type MembershipsMaxAggregateInputType = {
     id?: true
-    name?: true
-    price?: true
-    currency?: true
+    order_id?: true
     created_at?: true
     updated_at?: true
-    isactive?: true
+    plan_id?: true
   }
 
   export type MembershipsCountAggregateInputType = {
     id?: true
-    name?: true
-    price?: true
-    currency?: true
+    order_id?: true
     created_at?: true
     updated_at?: true
-    isactive?: true
+    plan_id?: true
     _all?: true
   }
 
@@ -12884,12 +11975,10 @@ export namespace Prisma {
 
   export type MembershipsGroupByOutputType = {
     id: bigint
-    name: string
-    price: Decimal
-    currency: $Enums.Currency
+    order_id: bigint
     created_at: Date
     updated_at: Date
-    isactive: boolean
+    plan_id: bigint
     _count: MembershipsCountAggregateOutputType | null
     _avg: MembershipsAvgAggregateOutputType | null
     _sum: MembershipsSumAggregateOutputType | null
@@ -12913,67 +12002,68 @@ export namespace Prisma {
 
   export type MembershipsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    price?: boolean
-    currency?: boolean
+    order_id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    isactive?: boolean
-    payments?: boolean | Memberships$paymentsArgs<ExtArgs>
-    _count?: boolean | MembershipsCountOutputTypeDefaultArgs<ExtArgs>
+    plan_id?: boolean
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["memberships"]>
 
   export type MembershipsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    price?: boolean
-    currency?: boolean
+    order_id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    isactive?: boolean
+    plan_id?: boolean
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["memberships"]>
 
   export type MembershipsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    price?: boolean
-    currency?: boolean
+    order_id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    isactive?: boolean
+    plan_id?: boolean
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["memberships"]>
 
   export type MembershipsSelectScalar = {
     id?: boolean
-    name?: boolean
-    price?: boolean
-    currency?: boolean
+    order_id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    isactive?: boolean
+    plan_id?: boolean
   }
 
-  export type MembershipsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "currency" | "created_at" | "updated_at" | "isactive", ExtArgs["result"]["memberships"]>
+  export type MembershipsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "created_at" | "updated_at" | "plan_id", ExtArgs["result"]["memberships"]>
   export type MembershipsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    payments?: boolean | Memberships$paymentsArgs<ExtArgs>
-    _count?: boolean | MembershipsCountOutputTypeDefaultArgs<ExtArgs>
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
   }
-  export type MembershipsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type MembershipsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type MembershipsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
+  }
+  export type MembershipsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    planRef?: boolean | PlanDefaultArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
+  }
 
   export type $MembershipsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Memberships"
     objects: {
-      payments: Prisma.$PaymentsPayload<ExtArgs>[]
+      planRef: Prisma.$PlanPayload<ExtArgs>
+      orderRef: Prisma.$OrderPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      name: string
-      price: Prisma.Decimal
-      currency: $Enums.Currency
+      order_id: bigint
       created_at: Date
       updated_at: Date
-      isactive: boolean
+      plan_id: bigint
     }, ExtArgs["result"]["memberships"]>
     composites: {}
   }
@@ -13368,7 +12458,8 @@ export namespace Prisma {
    */
   export interface Prisma__MembershipsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    payments<T extends Memberships$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Memberships$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    planRef<T extends PlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlanDefaultArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    orderRef<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13399,12 +12490,10 @@ export namespace Prisma {
    */
   interface MembershipsFieldRefs {
     readonly id: FieldRef<"Memberships", 'BigInt'>
-    readonly name: FieldRef<"Memberships", 'String'>
-    readonly price: FieldRef<"Memberships", 'Decimal'>
-    readonly currency: FieldRef<"Memberships", 'Currency'>
+    readonly order_id: FieldRef<"Memberships", 'BigInt'>
     readonly created_at: FieldRef<"Memberships", 'DateTime'>
     readonly updated_at: FieldRef<"Memberships", 'DateTime'>
-    readonly isactive: FieldRef<"Memberships", 'Boolean'>
+    readonly plan_id: FieldRef<"Memberships", 'BigInt'>
   }
     
 
@@ -13654,6 +12743,10 @@ export namespace Prisma {
      */
     data: MembershipsCreateManyInput | MembershipsCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MembershipsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13724,6 +12817,10 @@ export namespace Prisma {
      * Limit how many Memberships to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MembershipsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13793,9 +12890,2495 @@ export namespace Prisma {
   }
 
   /**
-   * Memberships.payments
+   * Memberships without action
    */
-  export type Memberships$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type MembershipsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Memberships
+     */
+    select?: MembershipsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Memberships
+     */
+    omit?: MembershipsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MembershipsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Consultancy_service
+   */
+
+  export type AggregateConsultancy_service = {
+    _count: Consultancy_serviceCountAggregateOutputType | null
+    _avg: Consultancy_serviceAvgAggregateOutputType | null
+    _sum: Consultancy_serviceSumAggregateOutputType | null
+    _min: Consultancy_serviceMinAggregateOutputType | null
+    _max: Consultancy_serviceMaxAggregateOutputType | null
+  }
+
+  export type Consultancy_serviceAvgAggregateOutputType = {
+    id: number | null
+    order_id: number | null
+    mentor_id: number | null
+    user_id: number | null
+    cost: Decimal | null
+    rating: Decimal | null
+  }
+
+  export type Consultancy_serviceSumAggregateOutputType = {
+    id: bigint | null
+    order_id: bigint | null
+    mentor_id: bigint | null
+    user_id: bigint | null
+    cost: Decimal | null
+    rating: Decimal | null
+  }
+
+  export type Consultancy_serviceMinAggregateOutputType = {
+    id: bigint | null
+    order_id: bigint | null
+    mentor_id: bigint | null
+    user_id: bigint | null
+    duration: string | null
+    cost: Decimal | null
+    currency: $Enums.Currency | null
+    scheduled_date: Date | null
+    scheduled_time: Date | null
+    rating: Decimal | null
+    status: $Enums.ServiceStatus | null
+    opinion: string | null
+    approved_by_mentor: boolean | null
+    payment_done: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Consultancy_serviceMaxAggregateOutputType = {
+    id: bigint | null
+    order_id: bigint | null
+    mentor_id: bigint | null
+    user_id: bigint | null
+    duration: string | null
+    cost: Decimal | null
+    currency: $Enums.Currency | null
+    scheduled_date: Date | null
+    scheduled_time: Date | null
+    rating: Decimal | null
+    status: $Enums.ServiceStatus | null
+    opinion: string | null
+    approved_by_mentor: boolean | null
+    payment_done: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Consultancy_serviceCountAggregateOutputType = {
+    id: number
+    order_id: number
+    mentor_id: number
+    user_id: number
+    duration: number
+    cost: number
+    currency: number
+    scheduled_date: number
+    scheduled_time: number
+    rating: number
+    status: number
+    opinion: number
+    approved_by_mentor: number
+    payment_done: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Consultancy_serviceAvgAggregateInputType = {
+    id?: true
+    order_id?: true
+    mentor_id?: true
+    user_id?: true
+    cost?: true
+    rating?: true
+  }
+
+  export type Consultancy_serviceSumAggregateInputType = {
+    id?: true
+    order_id?: true
+    mentor_id?: true
+    user_id?: true
+    cost?: true
+    rating?: true
+  }
+
+  export type Consultancy_serviceMinAggregateInputType = {
+    id?: true
+    order_id?: true
+    mentor_id?: true
+    user_id?: true
+    duration?: true
+    cost?: true
+    currency?: true
+    scheduled_date?: true
+    scheduled_time?: true
+    rating?: true
+    status?: true
+    opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Consultancy_serviceMaxAggregateInputType = {
+    id?: true
+    order_id?: true
+    mentor_id?: true
+    user_id?: true
+    duration?: true
+    cost?: true
+    currency?: true
+    scheduled_date?: true
+    scheduled_time?: true
+    rating?: true
+    status?: true
+    opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Consultancy_serviceCountAggregateInputType = {
+    id?: true
+    order_id?: true
+    mentor_id?: true
+    user_id?: true
+    duration?: true
+    cost?: true
+    currency?: true
+    scheduled_date?: true
+    scheduled_time?: true
+    rating?: true
+    status?: true
+    opinion?: true
+    approved_by_mentor?: true
+    payment_done?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Consultancy_serviceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consultancy_service to aggregate.
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultancy_services to fetch.
+     */
+    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: Consultancy_serviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultancy_services from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultancy_services.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Consultancy_services
+    **/
+    _count?: true | Consultancy_serviceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Consultancy_serviceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Consultancy_serviceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Consultancy_serviceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Consultancy_serviceMaxAggregateInputType
+  }
+
+  export type GetConsultancy_serviceAggregateType<T extends Consultancy_serviceAggregateArgs> = {
+        [P in keyof T & keyof AggregateConsultancy_service]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConsultancy_service[P]>
+      : GetScalarType<T[P], AggregateConsultancy_service[P]>
+  }
+
+
+
+
+  export type Consultancy_serviceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Consultancy_serviceWhereInput
+    orderBy?: Consultancy_serviceOrderByWithAggregationInput | Consultancy_serviceOrderByWithAggregationInput[]
+    by: Consultancy_serviceScalarFieldEnum[] | Consultancy_serviceScalarFieldEnum
+    having?: Consultancy_serviceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Consultancy_serviceCountAggregateInputType | true
+    _avg?: Consultancy_serviceAvgAggregateInputType
+    _sum?: Consultancy_serviceSumAggregateInputType
+    _min?: Consultancy_serviceMinAggregateInputType
+    _max?: Consultancy_serviceMaxAggregateInputType
+  }
+
+  export type Consultancy_serviceGroupByOutputType = {
+    id: bigint
+    order_id: bigint | null
+    mentor_id: bigint
+    user_id: bigint
+    duration: string
+    cost: Decimal
+    currency: $Enums.Currency
+    scheduled_date: Date
+    scheduled_time: Date
+    rating: Decimal | null
+    status: $Enums.ServiceStatus
+    opinion: string | null
+    approved_by_mentor: boolean
+    payment_done: boolean
+    created_at: Date
+    updated_at: Date
+    _count: Consultancy_serviceCountAggregateOutputType | null
+    _avg: Consultancy_serviceAvgAggregateOutputType | null
+    _sum: Consultancy_serviceSumAggregateOutputType | null
+    _min: Consultancy_serviceMinAggregateOutputType | null
+    _max: Consultancy_serviceMaxAggregateOutputType | null
+  }
+
+  type GetConsultancy_serviceGroupByPayload<T extends Consultancy_serviceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Consultancy_serviceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Consultancy_serviceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Consultancy_serviceGroupByOutputType[P]>
+            : GetScalarType<T[P], Consultancy_serviceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Consultancy_serviceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order_id?: boolean
+    mentor_id?: boolean
+    user_id?: boolean
+    duration?: boolean
+    cost?: boolean
+    currency?: boolean
+    scheduled_date?: boolean
+    scheduled_time?: boolean
+    rating?: boolean
+    status?: boolean
+    opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+    reports?: boolean | Consultancy_service$reportsArgs<ExtArgs>
+    _count?: boolean | Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consultancy_service"]>
+
+  export type Consultancy_serviceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order_id?: boolean
+    mentor_id?: boolean
+    user_id?: boolean
+    duration?: boolean
+    cost?: boolean
+    currency?: boolean
+    scheduled_date?: boolean
+    scheduled_time?: boolean
+    rating?: boolean
+    status?: boolean
+    opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consultancy_service"]>
+
+  export type Consultancy_serviceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    order_id?: boolean
+    mentor_id?: boolean
+    user_id?: boolean
+    duration?: boolean
+    cost?: boolean
+    currency?: boolean
+    scheduled_date?: boolean
+    scheduled_time?: boolean
+    rating?: boolean
+    status?: boolean
+    opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consultancy_service"]>
+
+  export type Consultancy_serviceSelectScalar = {
+    id?: boolean
+    order_id?: boolean
+    mentor_id?: boolean
+    user_id?: boolean
+    duration?: boolean
+    cost?: boolean
+    currency?: boolean
+    scheduled_date?: boolean
+    scheduled_time?: boolean
+    rating?: boolean
+    status?: boolean
+    opinion?: boolean
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type Consultancy_serviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "mentor_id" | "user_id" | "duration" | "cost" | "currency" | "scheduled_date" | "scheduled_time" | "rating" | "status" | "opinion" | "approved_by_mentor" | "payment_done" | "created_at" | "updated_at", ExtArgs["result"]["consultancy_service"]>
+  export type Consultancy_serviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+    reports?: boolean | Consultancy_service$reportsArgs<ExtArgs>
+    _count?: boolean | Consultancy_serviceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type Consultancy_serviceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type Consultancy_serviceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderRef?: boolean | Consultancy_service$orderRefArgs<ExtArgs>
+    mentorRef?: boolean | UsersDefaultArgs<ExtArgs>
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+
+  export type $Consultancy_servicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Consultancy_service"
+    objects: {
+      orderRef: Prisma.$OrderPayload<ExtArgs> | null
+      mentorRef: Prisma.$UsersPayload<ExtArgs>
+      userRef: Prisma.$UsersPayload<ExtArgs>
+      reports: Prisma.$ReportPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      order_id: bigint | null
+      mentor_id: bigint
+      user_id: bigint
+      duration: string
+      cost: Prisma.Decimal
+      currency: $Enums.Currency
+      scheduled_date: Date
+      scheduled_time: Date
+      rating: Prisma.Decimal | null
+      status: $Enums.ServiceStatus
+      opinion: string | null
+      approved_by_mentor: boolean
+      payment_done: boolean
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["consultancy_service"]>
+    composites: {}
+  }
+
+  type Consultancy_serviceGetPayload<S extends boolean | null | undefined | Consultancy_serviceDefaultArgs> = $Result.GetResult<Prisma.$Consultancy_servicePayload, S>
+
+  type Consultancy_serviceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<Consultancy_serviceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Consultancy_serviceCountAggregateInputType | true
+    }
+
+  export interface Consultancy_serviceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Consultancy_service'], meta: { name: 'Consultancy_service' } }
+    /**
+     * Find zero or one Consultancy_service that matches the filter.
+     * @param {Consultancy_serviceFindUniqueArgs} args - Arguments to find a Consultancy_service
+     * @example
+     * // Get one Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends Consultancy_serviceFindUniqueArgs>(args: SelectSubset<T, Consultancy_serviceFindUniqueArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Consultancy_service that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {Consultancy_serviceFindUniqueOrThrowArgs} args - Arguments to find a Consultancy_service
+     * @example
+     * // Get one Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends Consultancy_serviceFindUniqueOrThrowArgs>(args: SelectSubset<T, Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consultancy_service that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceFindFirstArgs} args - Arguments to find a Consultancy_service
+     * @example
+     * // Get one Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends Consultancy_serviceFindFirstArgs>(args?: SelectSubset<T, Consultancy_serviceFindFirstArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consultancy_service that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceFindFirstOrThrowArgs} args - Arguments to find a Consultancy_service
+     * @example
+     * // Get one Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends Consultancy_serviceFindFirstOrThrowArgs>(args?: SelectSubset<T, Consultancy_serviceFindFirstOrThrowArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Consultancy_services that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Consultancy_services
+     * const consultancy_services = await prisma.consultancy_service.findMany()
+     * 
+     * // Get first 10 Consultancy_services
+     * const consultancy_services = await prisma.consultancy_service.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends Consultancy_serviceFindManyArgs>(args?: SelectSubset<T, Consultancy_serviceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Consultancy_service.
+     * @param {Consultancy_serviceCreateArgs} args - Arguments to create a Consultancy_service.
+     * @example
+     * // Create one Consultancy_service
+     * const Consultancy_service = await prisma.consultancy_service.create({
+     *   data: {
+     *     // ... data to create a Consultancy_service
+     *   }
+     * })
+     * 
+     */
+    create<T extends Consultancy_serviceCreateArgs>(args: SelectSubset<T, Consultancy_serviceCreateArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Consultancy_services.
+     * @param {Consultancy_serviceCreateManyArgs} args - Arguments to create many Consultancy_services.
+     * @example
+     * // Create many Consultancy_services
+     * const consultancy_service = await prisma.consultancy_service.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends Consultancy_serviceCreateManyArgs>(args?: SelectSubset<T, Consultancy_serviceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Consultancy_services and returns the data saved in the database.
+     * @param {Consultancy_serviceCreateManyAndReturnArgs} args - Arguments to create many Consultancy_services.
+     * @example
+     * // Create many Consultancy_services
+     * const consultancy_service = await prisma.consultancy_service.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Consultancy_services and only return the `id`
+     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends Consultancy_serviceCreateManyAndReturnArgs>(args?: SelectSubset<T, Consultancy_serviceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Consultancy_service.
+     * @param {Consultancy_serviceDeleteArgs} args - Arguments to delete one Consultancy_service.
+     * @example
+     * // Delete one Consultancy_service
+     * const Consultancy_service = await prisma.consultancy_service.delete({
+     *   where: {
+     *     // ... filter to delete one Consultancy_service
+     *   }
+     * })
+     * 
+     */
+    delete<T extends Consultancy_serviceDeleteArgs>(args: SelectSubset<T, Consultancy_serviceDeleteArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Consultancy_service.
+     * @param {Consultancy_serviceUpdateArgs} args - Arguments to update one Consultancy_service.
+     * @example
+     * // Update one Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends Consultancy_serviceUpdateArgs>(args: SelectSubset<T, Consultancy_serviceUpdateArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Consultancy_services.
+     * @param {Consultancy_serviceDeleteManyArgs} args - Arguments to filter Consultancy_services to delete.
+     * @example
+     * // Delete a few Consultancy_services
+     * const { count } = await prisma.consultancy_service.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends Consultancy_serviceDeleteManyArgs>(args?: SelectSubset<T, Consultancy_serviceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consultancy_services.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Consultancy_services
+     * const consultancy_service = await prisma.consultancy_service.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends Consultancy_serviceUpdateManyArgs>(args: SelectSubset<T, Consultancy_serviceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consultancy_services and returns the data updated in the database.
+     * @param {Consultancy_serviceUpdateManyAndReturnArgs} args - Arguments to update many Consultancy_services.
+     * @example
+     * // Update many Consultancy_services
+     * const consultancy_service = await prisma.consultancy_service.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Consultancy_services and only return the `id`
+     * const consultancy_serviceWithIdOnly = await prisma.consultancy_service.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends Consultancy_serviceUpdateManyAndReturnArgs>(args: SelectSubset<T, Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Consultancy_service.
+     * @param {Consultancy_serviceUpsertArgs} args - Arguments to update or create a Consultancy_service.
+     * @example
+     * // Update or create a Consultancy_service
+     * const consultancy_service = await prisma.consultancy_service.upsert({
+     *   create: {
+     *     // ... data to create a Consultancy_service
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Consultancy_service we want to update
+     *   }
+     * })
+     */
+    upsert<T extends Consultancy_serviceUpsertArgs>(args: SelectSubset<T, Consultancy_serviceUpsertArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Consultancy_services.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceCountArgs} args - Arguments to filter Consultancy_services to count.
+     * @example
+     * // Count the number of Consultancy_services
+     * const count = await prisma.consultancy_service.count({
+     *   where: {
+     *     // ... the filter for the Consultancy_services we want to count
+     *   }
+     * })
+    **/
+    count<T extends Consultancy_serviceCountArgs>(
+      args?: Subset<T, Consultancy_serviceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Consultancy_serviceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Consultancy_service.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Consultancy_serviceAggregateArgs>(args: Subset<T, Consultancy_serviceAggregateArgs>): Prisma.PrismaPromise<GetConsultancy_serviceAggregateType<T>>
+
+    /**
+     * Group by Consultancy_service.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Consultancy_serviceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Consultancy_serviceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Consultancy_serviceGroupByArgs['orderBy'] }
+        : { orderBy?: Consultancy_serviceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Consultancy_serviceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsultancy_serviceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Consultancy_service model
+   */
+  readonly fields: Consultancy_serviceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Consultancy_service.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__Consultancy_serviceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    orderRef<T extends Consultancy_service$orderRefArgs<ExtArgs> = {}>(args?: Subset<T, Consultancy_service$orderRefArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    mentorRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    userRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reports<T extends Consultancy_service$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Consultancy_service$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Consultancy_service model
+   */
+  interface Consultancy_serviceFieldRefs {
+    readonly id: FieldRef<"Consultancy_service", 'BigInt'>
+    readonly order_id: FieldRef<"Consultancy_service", 'BigInt'>
+    readonly mentor_id: FieldRef<"Consultancy_service", 'BigInt'>
+    readonly user_id: FieldRef<"Consultancy_service", 'BigInt'>
+    readonly duration: FieldRef<"Consultancy_service", 'String'>
+    readonly cost: FieldRef<"Consultancy_service", 'Decimal'>
+    readonly currency: FieldRef<"Consultancy_service", 'Currency'>
+    readonly scheduled_date: FieldRef<"Consultancy_service", 'DateTime'>
+    readonly scheduled_time: FieldRef<"Consultancy_service", 'DateTime'>
+    readonly rating: FieldRef<"Consultancy_service", 'Decimal'>
+    readonly status: FieldRef<"Consultancy_service", 'ServiceStatus'>
+    readonly opinion: FieldRef<"Consultancy_service", 'String'>
+    readonly approved_by_mentor: FieldRef<"Consultancy_service", 'Boolean'>
+    readonly payment_done: FieldRef<"Consultancy_service", 'Boolean'>
+    readonly created_at: FieldRef<"Consultancy_service", 'DateTime'>
+    readonly updated_at: FieldRef<"Consultancy_service", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Consultancy_service findUnique
+   */
+  export type Consultancy_serviceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Consultancy_service to fetch.
+     */
+    where: Consultancy_serviceWhereUniqueInput
+  }
+
+  /**
+   * Consultancy_service findUniqueOrThrow
+   */
+  export type Consultancy_serviceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Consultancy_service to fetch.
+     */
+    where: Consultancy_serviceWhereUniqueInput
+  }
+
+  /**
+   * Consultancy_service findFirst
+   */
+  export type Consultancy_serviceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Consultancy_service to fetch.
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultancy_services to fetch.
+     */
+    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consultancy_services.
+     */
+    cursor?: Consultancy_serviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultancy_services from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultancy_services.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consultancy_services.
+     */
+    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
+  }
+
+  /**
+   * Consultancy_service findFirstOrThrow
+   */
+  export type Consultancy_serviceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Consultancy_service to fetch.
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultancy_services to fetch.
+     */
+    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consultancy_services.
+     */
+    cursor?: Consultancy_serviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultancy_services from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultancy_services.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consultancy_services.
+     */
+    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
+  }
+
+  /**
+   * Consultancy_service findMany
+   */
+  export type Consultancy_serviceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter, which Consultancy_services to fetch.
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultancy_services to fetch.
+     */
+    orderBy?: Consultancy_serviceOrderByWithRelationInput | Consultancy_serviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Consultancy_services.
+     */
+    cursor?: Consultancy_serviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultancy_services from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultancy_services.
+     */
+    skip?: number
+    distinct?: Consultancy_serviceScalarFieldEnum | Consultancy_serviceScalarFieldEnum[]
+  }
+
+  /**
+   * Consultancy_service create
+   */
+  export type Consultancy_serviceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Consultancy_service.
+     */
+    data: XOR<Consultancy_serviceCreateInput, Consultancy_serviceUncheckedCreateInput>
+  }
+
+  /**
+   * Consultancy_service createMany
+   */
+  export type Consultancy_serviceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Consultancy_services.
+     */
+    data: Consultancy_serviceCreateManyInput | Consultancy_serviceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Consultancy_service createManyAndReturn
+   */
+  export type Consultancy_serviceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Consultancy_services.
+     */
+    data: Consultancy_serviceCreateManyInput | Consultancy_serviceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Consultancy_service update
+   */
+  export type Consultancy_serviceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Consultancy_service.
+     */
+    data: XOR<Consultancy_serviceUpdateInput, Consultancy_serviceUncheckedUpdateInput>
+    /**
+     * Choose, which Consultancy_service to update.
+     */
+    where: Consultancy_serviceWhereUniqueInput
+  }
+
+  /**
+   * Consultancy_service updateMany
+   */
+  export type Consultancy_serviceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Consultancy_services.
+     */
+    data: XOR<Consultancy_serviceUpdateManyMutationInput, Consultancy_serviceUncheckedUpdateManyInput>
+    /**
+     * Filter which Consultancy_services to update
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * Limit how many Consultancy_services to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consultancy_service updateManyAndReturn
+   */
+  export type Consultancy_serviceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * The data used to update Consultancy_services.
+     */
+    data: XOR<Consultancy_serviceUpdateManyMutationInput, Consultancy_serviceUncheckedUpdateManyInput>
+    /**
+     * Filter which Consultancy_services to update
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * Limit how many Consultancy_services to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Consultancy_service upsert
+   */
+  export type Consultancy_serviceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Consultancy_service to update in case it exists.
+     */
+    where: Consultancy_serviceWhereUniqueInput
+    /**
+     * In case the Consultancy_service found by the `where` argument doesn't exist, create a new Consultancy_service with this data.
+     */
+    create: XOR<Consultancy_serviceCreateInput, Consultancy_serviceUncheckedCreateInput>
+    /**
+     * In case the Consultancy_service was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<Consultancy_serviceUpdateInput, Consultancy_serviceUncheckedUpdateInput>
+  }
+
+  /**
+   * Consultancy_service delete
+   */
+  export type Consultancy_serviceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    /**
+     * Filter which Consultancy_service to delete.
+     */
+    where: Consultancy_serviceWhereUniqueInput
+  }
+
+  /**
+   * Consultancy_service deleteMany
+   */
+  export type Consultancy_serviceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consultancy_services to delete
+     */
+    where?: Consultancy_serviceWhereInput
+    /**
+     * Limit how many Consultancy_services to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consultancy_service.orderRef
+   */
+  export type Consultancy_service$orderRefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+  }
+
+  /**
+   * Consultancy_service.reports
+   */
+  export type Consultancy_service$reportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Report
+     */
+    select?: ReportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Report
+     */
+    omit?: ReportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
+  }
+
+  /**
+   * Consultancy_service without action
+   */
+  export type Consultancy_serviceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Order
+   */
+
+  export type AggregateOrder = {
+    _count: OrderCountAggregateOutputType | null
+    _avg: OrderAvgAggregateOutputType | null
+    _sum: OrderSumAggregateOutputType | null
+    _min: OrderMinAggregateOutputType | null
+    _max: OrderMaxAggregateOutputType | null
+  }
+
+  export type OrderAvgAggregateOutputType = {
+    id: number | null
+    user_id: number | null
+    amount: Decimal | null
+  }
+
+  export type OrderSumAggregateOutputType = {
+    id: bigint | null
+    user_id: bigint | null
+    amount: Decimal | null
+  }
+
+  export type OrderMinAggregateOutputType = {
+    id: bigint | null
+    public_id: string | null
+    user_id: bigint | null
+    order_type: $Enums.OrderType | null
+    amount: Decimal | null
+    currency: $Enums.Currency | null
+    status: $Enums.OrderStatus | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type OrderMaxAggregateOutputType = {
+    id: bigint | null
+    public_id: string | null
+    user_id: bigint | null
+    order_type: $Enums.OrderType | null
+    amount: Decimal | null
+    currency: $Enums.Currency | null
+    status: $Enums.OrderStatus | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type OrderCountAggregateOutputType = {
+    id: number
+    public_id: number
+    user_id: number
+    order_type: number
+    amount: number
+    currency: number
+    status: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type OrderAvgAggregateInputType = {
+    id?: true
+    user_id?: true
+    amount?: true
+  }
+
+  export type OrderSumAggregateInputType = {
+    id?: true
+    user_id?: true
+    amount?: true
+  }
+
+  export type OrderMinAggregateInputType = {
+    id?: true
+    public_id?: true
+    user_id?: true
+    order_type?: true
+    amount?: true
+    currency?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type OrderMaxAggregateInputType = {
+    id?: true
+    public_id?: true
+    user_id?: true
+    order_type?: true
+    amount?: true
+    currency?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type OrderCountAggregateInputType = {
+    id?: true
+    public_id?: true
+    user_id?: true
+    order_type?: true
+    amount?: true
+    currency?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type OrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Order to aggregate.
+     */
+    where?: OrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orders to fetch.
+     */
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Orders
+    **/
+    _count?: true | OrderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OrderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OrderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OrderMaxAggregateInputType
+  }
+
+  export type GetOrderAggregateType<T extends OrderAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrder[P]>
+      : GetScalarType<T[P], AggregateOrder[P]>
+  }
+
+
+
+
+  export type OrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithAggregationInput | OrderOrderByWithAggregationInput[]
+    by: OrderScalarFieldEnum[] | OrderScalarFieldEnum
+    having?: OrderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OrderCountAggregateInputType | true
+    _avg?: OrderAvgAggregateInputType
+    _sum?: OrderSumAggregateInputType
+    _min?: OrderMinAggregateInputType
+    _max?: OrderMaxAggregateInputType
+  }
+
+  export type OrderGroupByOutputType = {
+    id: bigint
+    public_id: string
+    user_id: bigint
+    order_type: $Enums.OrderType
+    amount: Decimal
+    currency: $Enums.Currency
+    status: $Enums.OrderStatus
+    created_at: Date
+    updated_at: Date
+    _count: OrderCountAggregateOutputType | null
+    _avg: OrderAvgAggregateOutputType | null
+    _sum: OrderSumAggregateOutputType | null
+    _min: OrderMinAggregateOutputType | null
+    _max: OrderMaxAggregateOutputType | null
+  }
+
+  type GetOrderGroupByPayload<T extends OrderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OrderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OrderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OrderGroupByOutputType[P]>
+            : GetScalarType<T[P], OrderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    public_id?: boolean
+    user_id?: boolean
+    order_type?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+    payments?: boolean | Order$paymentsArgs<ExtArgs>
+    membership?: boolean | Order$membershipArgs<ExtArgs>
+    service?: boolean | Order$serviceArgs<ExtArgs>
+    _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["order"]>
+
+  export type OrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    public_id?: boolean
+    user_id?: boolean
+    order_type?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["order"]>
+
+  export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    public_id?: boolean
+    user_id?: boolean
+    order_type?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["order"]>
+
+  export type OrderSelectScalar = {
+    id?: boolean
+    public_id?: boolean
+    user_id?: boolean
+    order_type?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "public_id" | "user_id" | "order_type" | "amount" | "currency" | "status" | "created_at" | "updated_at", ExtArgs["result"]["order"]>
+  export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+    payments?: boolean | Order$paymentsArgs<ExtArgs>
+    membership?: boolean | Order$membershipArgs<ExtArgs>
+    service?: boolean | Order$serviceArgs<ExtArgs>
+    _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userRef?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+
+  export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Order"
+    objects: {
+      userRef: Prisma.$UsersPayload<ExtArgs>
+      payments: Prisma.$PaymentsPayload<ExtArgs>[]
+      membership: Prisma.$MembershipsPayload<ExtArgs> | null
+      service: Prisma.$Consultancy_servicePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      public_id: string
+      user_id: bigint
+      order_type: $Enums.OrderType
+      amount: Prisma.Decimal
+      currency: $Enums.Currency
+      status: $Enums.OrderStatus
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["order"]>
+    composites: {}
+  }
+
+  type OrderGetPayload<S extends boolean | null | undefined | OrderDefaultArgs> = $Result.GetResult<Prisma.$OrderPayload, S>
+
+  type OrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrderCountAggregateInputType | true
+    }
+
+  export interface OrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Order'], meta: { name: 'Order' } }
+    /**
+     * Find zero or one Order that matches the filter.
+     * @param {OrderFindUniqueArgs} args - Arguments to find a Order
+     * @example
+     * // Get one Order
+     * const order = await prisma.order.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OrderFindUniqueArgs>(args: SelectSubset<T, OrderFindUniqueArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Order that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OrderFindUniqueOrThrowArgs} args - Arguments to find a Order
+     * @example
+     * // Get one Order
+     * const order = await prisma.order.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OrderFindUniqueOrThrowArgs>(args: SelectSubset<T, OrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Order that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderFindFirstArgs} args - Arguments to find a Order
+     * @example
+     * // Get one Order
+     * const order = await prisma.order.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OrderFindFirstArgs>(args?: SelectSubset<T, OrderFindFirstArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Order that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderFindFirstOrThrowArgs} args - Arguments to find a Order
+     * @example
+     * // Get one Order
+     * const order = await prisma.order.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OrderFindFirstOrThrowArgs>(args?: SelectSubset<T, OrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Orders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Orders
+     * const orders = await prisma.order.findMany()
+     * 
+     * // Get first 10 Orders
+     * const orders = await prisma.order.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const orderWithIdOnly = await prisma.order.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OrderFindManyArgs>(args?: SelectSubset<T, OrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Order.
+     * @param {OrderCreateArgs} args - Arguments to create a Order.
+     * @example
+     * // Create one Order
+     * const Order = await prisma.order.create({
+     *   data: {
+     *     // ... data to create a Order
+     *   }
+     * })
+     * 
+     */
+    create<T extends OrderCreateArgs>(args: SelectSubset<T, OrderCreateArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Orders.
+     * @param {OrderCreateManyArgs} args - Arguments to create many Orders.
+     * @example
+     * // Create many Orders
+     * const order = await prisma.order.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OrderCreateManyArgs>(args?: SelectSubset<T, OrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Orders and returns the data saved in the database.
+     * @param {OrderCreateManyAndReturnArgs} args - Arguments to create many Orders.
+     * @example
+     * // Create many Orders
+     * const order = await prisma.order.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Orders and only return the `id`
+     * const orderWithIdOnly = await prisma.order.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OrderCreateManyAndReturnArgs>(args?: SelectSubset<T, OrderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Order.
+     * @param {OrderDeleteArgs} args - Arguments to delete one Order.
+     * @example
+     * // Delete one Order
+     * const Order = await prisma.order.delete({
+     *   where: {
+     *     // ... filter to delete one Order
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OrderDeleteArgs>(args: SelectSubset<T, OrderDeleteArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Order.
+     * @param {OrderUpdateArgs} args - Arguments to update one Order.
+     * @example
+     * // Update one Order
+     * const order = await prisma.order.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OrderUpdateArgs>(args: SelectSubset<T, OrderUpdateArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Orders.
+     * @param {OrderDeleteManyArgs} args - Arguments to filter Orders to delete.
+     * @example
+     * // Delete a few Orders
+     * const { count } = await prisma.order.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OrderDeleteManyArgs>(args?: SelectSubset<T, OrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Orders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Orders
+     * const order = await prisma.order.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OrderUpdateManyArgs>(args: SelectSubset<T, OrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Orders and returns the data updated in the database.
+     * @param {OrderUpdateManyAndReturnArgs} args - Arguments to update many Orders.
+     * @example
+     * // Update many Orders
+     * const order = await prisma.order.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Orders and only return the `id`
+     * const orderWithIdOnly = await prisma.order.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OrderUpdateManyAndReturnArgs>(args: SelectSubset<T, OrderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Order.
+     * @param {OrderUpsertArgs} args - Arguments to update or create a Order.
+     * @example
+     * // Update or create a Order
+     * const order = await prisma.order.upsert({
+     *   create: {
+     *     // ... data to create a Order
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Order we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OrderUpsertArgs>(args: SelectSubset<T, OrderUpsertArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Orders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderCountArgs} args - Arguments to filter Orders to count.
+     * @example
+     * // Count the number of Orders
+     * const count = await prisma.order.count({
+     *   where: {
+     *     // ... the filter for the Orders we want to count
+     *   }
+     * })
+    **/
+    count<T extends OrderCountArgs>(
+      args?: Subset<T, OrderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OrderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Order.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OrderAggregateArgs>(args: Subset<T, OrderAggregateArgs>): Prisma.PrismaPromise<GetOrderAggregateType<T>>
+
+    /**
+     * Group by Order.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OrderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OrderGroupByArgs['orderBy'] }
+        : { orderBy?: OrderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Order model
+   */
+  readonly fields: OrderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Order.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    userRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    payments<T extends Order$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Order$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    membership<T extends Order$membershipArgs<ExtArgs> = {}>(args?: Subset<T, Order$membershipArgs<ExtArgs>>): Prisma__MembershipsClient<$Result.GetResult<Prisma.$MembershipsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    service<T extends Order$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Order$serviceArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Order model
+   */
+  interface OrderFieldRefs {
+    readonly id: FieldRef<"Order", 'BigInt'>
+    readonly public_id: FieldRef<"Order", 'String'>
+    readonly user_id: FieldRef<"Order", 'BigInt'>
+    readonly order_type: FieldRef<"Order", 'OrderType'>
+    readonly amount: FieldRef<"Order", 'Decimal'>
+    readonly currency: FieldRef<"Order", 'Currency'>
+    readonly status: FieldRef<"Order", 'OrderStatus'>
+    readonly created_at: FieldRef<"Order", 'DateTime'>
+    readonly updated_at: FieldRef<"Order", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Order findUnique
+   */
+  export type OrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter, which Order to fetch.
+     */
+    where: OrderWhereUniqueInput
+  }
+
+  /**
+   * Order findUniqueOrThrow
+   */
+  export type OrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter, which Order to fetch.
+     */
+    where: OrderWhereUniqueInput
+  }
+
+  /**
+   * Order findFirst
+   */
+  export type OrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter, which Order to fetch.
+     */
+    where?: OrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orders to fetch.
+     */
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Orders.
+     */
+    cursor?: OrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orders.
+     */
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * Order findFirstOrThrow
+   */
+  export type OrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter, which Order to fetch.
+     */
+    where?: OrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orders to fetch.
+     */
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Orders.
+     */
+    cursor?: OrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orders.
+     */
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * Order findMany
+   */
+  export type OrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter, which Orders to fetch.
+     */
+    where?: OrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Orders to fetch.
+     */
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Orders.
+     */
+    cursor?: OrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Orders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Orders.
+     */
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * Order create
+   */
+  export type OrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Order.
+     */
+    data: XOR<OrderCreateInput, OrderUncheckedCreateInput>
+  }
+
+  /**
+   * Order createMany
+   */
+  export type OrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Orders.
+     */
+    data: OrderCreateManyInput | OrderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Order createManyAndReturn
+   */
+  export type OrderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * The data used to create many Orders.
+     */
+    data: OrderCreateManyInput | OrderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Order update
+   */
+  export type OrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Order.
+     */
+    data: XOR<OrderUpdateInput, OrderUncheckedUpdateInput>
+    /**
+     * Choose, which Order to update.
+     */
+    where: OrderWhereUniqueInput
+  }
+
+  /**
+   * Order updateMany
+   */
+  export type OrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Orders.
+     */
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyInput>
+    /**
+     * Filter which Orders to update
+     */
+    where?: OrderWhereInput
+    /**
+     * Limit how many Orders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Order updateManyAndReturn
+   */
+  export type OrderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * The data used to update Orders.
+     */
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyInput>
+    /**
+     * Filter which Orders to update
+     */
+    where?: OrderWhereInput
+    /**
+     * Limit how many Orders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Order upsert
+   */
+  export type OrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Order to update in case it exists.
+     */
+    where: OrderWhereUniqueInput
+    /**
+     * In case the Order found by the `where` argument doesn't exist, create a new Order with this data.
+     */
+    create: XOR<OrderCreateInput, OrderUncheckedCreateInput>
+    /**
+     * In case the Order was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrderUpdateInput, OrderUncheckedUpdateInput>
+  }
+
+  /**
+   * Order delete
+   */
+  export type OrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    /**
+     * Filter which Order to delete.
+     */
+    where: OrderWhereUniqueInput
+  }
+
+  /**
+   * Order deleteMany
+   */
+  export type OrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Orders to delete
+     */
+    where?: OrderWhereInput
+    /**
+     * Limit how many Orders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Order.payments
+   */
+  export type Order$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Payments
      */
@@ -13817,9 +15400,9 @@ export namespace Prisma {
   }
 
   /**
-   * Memberships without action
+   * Order.membership
    */
-  export type MembershipsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Order$membershipArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Memberships
      */
@@ -13832,6 +15415,44 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MembershipsInclude<ExtArgs> | null
+    where?: MembershipsWhereInput
+  }
+
+  /**
+   * Order.service
+   */
+  export type Order$serviceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultancy_service
+     */
+    select?: Consultancy_serviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultancy_service
+     */
+    omit?: Consultancy_serviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Consultancy_serviceInclude<ExtArgs> | null
+    where?: Consultancy_serviceWhereInput
+  }
+
+  /**
+   * Order without action
+   */
+  export type OrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
   }
 
 
@@ -13849,146 +15470,106 @@ export namespace Prisma {
 
   export type PaymentsAvgAggregateOutputType = {
     id: number | null
+    order_id: number | null
     user_id: number | null
-    membership_id: number | null
-    service_id: number | null
     amount: Decimal | null
-    fee: Decimal | null
-    tax: Decimal | null
   }
 
   export type PaymentsSumAggregateOutputType = {
     id: bigint | null
+    order_id: bigint | null
     user_id: bigint | null
-    membership_id: bigint | null
-    service_id: bigint | null
     amount: Decimal | null
-    fee: Decimal | null
-    tax: Decimal | null
   }
 
   export type PaymentsMinAggregateOutputType = {
     id: bigint | null
+    order_id: bigint | null
     user_id: bigint | null
-    membership_id: bigint | null
-    service_id: bigint | null
     amount: Decimal | null
     currency: $Enums.Currency | null
     status: $Enums.PaymentStatus | null
-    international: boolean | null
-    method: $Enums.PaymentMethod | null
-    fee: Decimal | null
-    tax: Decimal | null
-    paymentfor: $Enums.PaymentFor | null
-    transaction_id: string | null
+    gateway_txn_id: string | null
     created_at: Date | null
+    updated_at: Date | null
   }
 
   export type PaymentsMaxAggregateOutputType = {
     id: bigint | null
+    order_id: bigint | null
     user_id: bigint | null
-    membership_id: bigint | null
-    service_id: bigint | null
     amount: Decimal | null
     currency: $Enums.Currency | null
     status: $Enums.PaymentStatus | null
-    international: boolean | null
-    method: $Enums.PaymentMethod | null
-    fee: Decimal | null
-    tax: Decimal | null
-    paymentfor: $Enums.PaymentFor | null
-    transaction_id: string | null
+    gateway_txn_id: string | null
     created_at: Date | null
+    updated_at: Date | null
   }
 
   export type PaymentsCountAggregateOutputType = {
     id: number
+    order_id: number
     user_id: number
-    membership_id: number
-    service_id: number
     amount: number
     currency: number
     status: number
-    international: number
-    method: number
-    fee: number
-    tax: number
-    paymentfor: number
-    transaction_id: number
+    gateway_txn_id: number
+    paytm_response: number
     created_at: number
+    updated_at: number
     _all: number
   }
 
 
   export type PaymentsAvgAggregateInputType = {
     id?: true
+    order_id?: true
     user_id?: true
-    membership_id?: true
-    service_id?: true
     amount?: true
-    fee?: true
-    tax?: true
   }
 
   export type PaymentsSumAggregateInputType = {
     id?: true
+    order_id?: true
     user_id?: true
-    membership_id?: true
-    service_id?: true
     amount?: true
-    fee?: true
-    tax?: true
   }
 
   export type PaymentsMinAggregateInputType = {
     id?: true
+    order_id?: true
     user_id?: true
-    membership_id?: true
-    service_id?: true
     amount?: true
     currency?: true
     status?: true
-    international?: true
-    method?: true
-    fee?: true
-    tax?: true
-    paymentfor?: true
-    transaction_id?: true
+    gateway_txn_id?: true
     created_at?: true
+    updated_at?: true
   }
 
   export type PaymentsMaxAggregateInputType = {
     id?: true
+    order_id?: true
     user_id?: true
-    membership_id?: true
-    service_id?: true
     amount?: true
     currency?: true
     status?: true
-    international?: true
-    method?: true
-    fee?: true
-    tax?: true
-    paymentfor?: true
-    transaction_id?: true
+    gateway_txn_id?: true
     created_at?: true
+    updated_at?: true
   }
 
   export type PaymentsCountAggregateInputType = {
     id?: true
+    order_id?: true
     user_id?: true
-    membership_id?: true
-    service_id?: true
     amount?: true
     currency?: true
     status?: true
-    international?: true
-    method?: true
-    fee?: true
-    tax?: true
-    paymentfor?: true
-    transaction_id?: true
+    gateway_txn_id?: true
+    paytm_response?: true
     created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -14080,19 +15661,15 @@ export namespace Prisma {
 
   export type PaymentsGroupByOutputType = {
     id: bigint
+    order_id: bigint
     user_id: bigint
-    membership_id: bigint | null
-    service_id: bigint | null
     amount: Decimal
     currency: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal
-    tax: Decimal
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonValue
     created_at: Date
+    updated_at: Date
     _count: PaymentsCountAggregateOutputType | null
     _avg: PaymentsAvgAggregateOutputType | null
     _sum: PaymentsSumAggregateOutputType | null
@@ -14116,120 +15693,98 @@ export namespace Prisma {
 
   export type PaymentsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    order_id?: boolean
     user_id?: boolean
-    membership_id?: boolean
-    service_id?: boolean
     amount?: boolean
     currency?: boolean
     status?: boolean
-    international?: boolean
-    method?: boolean
-    fee?: boolean
-    tax?: boolean
-    paymentfor?: boolean
-    transaction_id?: boolean
+    gateway_txn_id?: boolean
+    paytm_response?: boolean
     created_at?: boolean
+    updated_at?: boolean
+    refunds?: boolean | Payments$refundsArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
+    _count?: boolean | PaymentsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payments"]>
 
   export type PaymentsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    order_id?: boolean
     user_id?: boolean
-    membership_id?: boolean
-    service_id?: boolean
     amount?: boolean
     currency?: boolean
     status?: boolean
-    international?: boolean
-    method?: boolean
-    fee?: boolean
-    tax?: boolean
-    paymentfor?: boolean
-    transaction_id?: boolean
+    gateway_txn_id?: boolean
+    paytm_response?: boolean
     created_at?: boolean
+    updated_at?: boolean
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
   }, ExtArgs["result"]["payments"]>
 
   export type PaymentsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    order_id?: boolean
     user_id?: boolean
-    membership_id?: boolean
-    service_id?: boolean
     amount?: boolean
     currency?: boolean
     status?: boolean
-    international?: boolean
-    method?: boolean
-    fee?: boolean
-    tax?: boolean
-    paymentfor?: boolean
-    transaction_id?: boolean
+    gateway_txn_id?: boolean
+    paytm_response?: boolean
     created_at?: boolean
+    updated_at?: boolean
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
   }, ExtArgs["result"]["payments"]>
 
   export type PaymentsSelectScalar = {
     id?: boolean
+    order_id?: boolean
     user_id?: boolean
-    membership_id?: boolean
-    service_id?: boolean
     amount?: boolean
     currency?: boolean
     status?: boolean
-    international?: boolean
-    method?: boolean
-    fee?: boolean
-    tax?: boolean
-    paymentfor?: boolean
-    transaction_id?: boolean
+    gateway_txn_id?: boolean
+    paytm_response?: boolean
     created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type PaymentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "membership_id" | "service_id" | "amount" | "currency" | "status" | "international" | "method" | "fee" | "tax" | "paymentfor" | "transaction_id" | "created_at", ExtArgs["result"]["payments"]>
+  export type PaymentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "user_id" | "amount" | "currency" | "status" | "gateway_txn_id" | "paytm_response" | "created_at" | "updated_at", ExtArgs["result"]["payments"]>
   export type PaymentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    refunds?: boolean | Payments$refundsArgs<ExtArgs>
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
+    _count?: boolean | PaymentsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PaymentsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
   }
   export type PaymentsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderRef?: boolean | OrderDefaultArgs<ExtArgs>
     userRef?: boolean | UsersDefaultArgs<ExtArgs>
-    membershipRef?: boolean | Payments$membershipRefArgs<ExtArgs>
-    serviceRef?: boolean | Payments$serviceRefArgs<ExtArgs>
   }
 
   export type $PaymentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Payments"
     objects: {
+      refunds: Prisma.$RefundsPayload<ExtArgs>[]
+      orderRef: Prisma.$OrderPayload<ExtArgs>
       userRef: Prisma.$UsersPayload<ExtArgs>
-      membershipRef: Prisma.$MembershipsPayload<ExtArgs> | null
-      serviceRef: Prisma.$Consultancy_servicePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
+      order_id: bigint
       user_id: bigint
-      membership_id: bigint | null
-      service_id: bigint | null
       amount: Prisma.Decimal
       currency: $Enums.Currency
       status: $Enums.PaymentStatus
-      international: boolean
-      method: $Enums.PaymentMethod
-      fee: Prisma.Decimal
-      tax: Prisma.Decimal
-      paymentfor: $Enums.PaymentFor
-      transaction_id: string
+      gateway_txn_id: string
+      paytm_response: Prisma.JsonValue
       created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["payments"]>
     composites: {}
   }
@@ -14624,9 +16179,9 @@ export namespace Prisma {
    */
   export interface Prisma__PaymentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    refunds<T extends Payments$refundsArgs<ExtArgs> = {}>(args?: Subset<T, Payments$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orderRef<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     userRef<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    membershipRef<T extends Payments$membershipRefArgs<ExtArgs> = {}>(args?: Subset<T, Payments$membershipRefArgs<ExtArgs>>): Prisma__MembershipsClient<$Result.GetResult<Prisma.$MembershipsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    serviceRef<T extends Payments$serviceRefArgs<ExtArgs> = {}>(args?: Subset<T, Payments$serviceRefArgs<ExtArgs>>): Prisma__Consultancy_serviceClient<$Result.GetResult<Prisma.$Consultancy_servicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14657,19 +16212,15 @@ export namespace Prisma {
    */
   interface PaymentsFieldRefs {
     readonly id: FieldRef<"Payments", 'BigInt'>
+    readonly order_id: FieldRef<"Payments", 'BigInt'>
     readonly user_id: FieldRef<"Payments", 'BigInt'>
-    readonly membership_id: FieldRef<"Payments", 'BigInt'>
-    readonly service_id: FieldRef<"Payments", 'BigInt'>
     readonly amount: FieldRef<"Payments", 'Decimal'>
     readonly currency: FieldRef<"Payments", 'Currency'>
     readonly status: FieldRef<"Payments", 'PaymentStatus'>
-    readonly international: FieldRef<"Payments", 'Boolean'>
-    readonly method: FieldRef<"Payments", 'PaymentMethod'>
-    readonly fee: FieldRef<"Payments", 'Decimal'>
-    readonly tax: FieldRef<"Payments", 'Decimal'>
-    readonly paymentfor: FieldRef<"Payments", 'PaymentFor'>
-    readonly transaction_id: FieldRef<"Payments", 'String'>
+    readonly gateway_txn_id: FieldRef<"Payments", 'String'>
+    readonly paytm_response: FieldRef<"Payments", 'Json'>
     readonly created_at: FieldRef<"Payments", 'DateTime'>
+    readonly updated_at: FieldRef<"Payments", 'DateTime'>
   }
     
 
@@ -15066,41 +16617,27 @@ export namespace Prisma {
   }
 
   /**
-   * Payments.membershipRef
+   * Payments.refunds
    */
-  export type Payments$membershipRefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Payments$refundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Memberships
+     * Select specific fields to fetch from the Refunds
      */
-    select?: MembershipsSelect<ExtArgs> | null
+    select?: RefundsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Memberships
+     * Omit specific fields from the Refunds
      */
-    omit?: MembershipsOmit<ExtArgs> | null
+    omit?: RefundsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: MembershipsInclude<ExtArgs> | null
-    where?: MembershipsWhereInput
-  }
-
-  /**
-   * Payments.serviceRef
-   */
-  export type Payments$serviceRefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Consultancy_service
-     */
-    select?: Consultancy_serviceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Consultancy_service
-     */
-    omit?: Consultancy_serviceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Consultancy_serviceInclude<ExtArgs> | null
-    where?: Consultancy_serviceWhereInput
+    include?: RefundsInclude<ExtArgs> | null
+    where?: RefundsWhereInput
+    orderBy?: RefundsOrderByWithRelationInput | RefundsOrderByWithRelationInput[]
+    cursor?: RefundsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
   }
 
   /**
@@ -15119,6 +16656,2301 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Refunds
+   */
+
+  export type AggregateRefunds = {
+    _count: RefundsCountAggregateOutputType | null
+    _avg: RefundsAvgAggregateOutputType | null
+    _sum: RefundsSumAggregateOutputType | null
+    _min: RefundsMinAggregateOutputType | null
+    _max: RefundsMaxAggregateOutputType | null
+  }
+
+  export type RefundsAvgAggregateOutputType = {
+    id: number | null
+    payment_id: number | null
+    amount: Decimal | null
+  }
+
+  export type RefundsSumAggregateOutputType = {
+    id: bigint | null
+    payment_id: bigint | null
+    amount: Decimal | null
+  }
+
+  export type RefundsMinAggregateOutputType = {
+    id: bigint | null
+    payment_id: bigint | null
+    amount: Decimal | null
+    status: $Enums.RefundStatus | null
+    reason: string | null
+    gateway_refund_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type RefundsMaxAggregateOutputType = {
+    id: bigint | null
+    payment_id: bigint | null
+    amount: Decimal | null
+    status: $Enums.RefundStatus | null
+    reason: string | null
+    gateway_refund_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type RefundsCountAggregateOutputType = {
+    id: number
+    payment_id: number
+    amount: number
+    status: number
+    reason: number
+    gateway_refund_id: number
+    paytm_response: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type RefundsAvgAggregateInputType = {
+    id?: true
+    payment_id?: true
+    amount?: true
+  }
+
+  export type RefundsSumAggregateInputType = {
+    id?: true
+    payment_id?: true
+    amount?: true
+  }
+
+  export type RefundsMinAggregateInputType = {
+    id?: true
+    payment_id?: true
+    amount?: true
+    status?: true
+    reason?: true
+    gateway_refund_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type RefundsMaxAggregateInputType = {
+    id?: true
+    payment_id?: true
+    amount?: true
+    status?: true
+    reason?: true
+    gateway_refund_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type RefundsCountAggregateInputType = {
+    id?: true
+    payment_id?: true
+    amount?: true
+    status?: true
+    reason?: true
+    gateway_refund_id?: true
+    paytm_response?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type RefundsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refunds to aggregate.
+     */
+    where?: RefundsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundsOrderByWithRelationInput | RefundsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RefundsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Refunds
+    **/
+    _count?: true | RefundsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RefundsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RefundsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RefundsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RefundsMaxAggregateInputType
+  }
+
+  export type GetRefundsAggregateType<T extends RefundsAggregateArgs> = {
+        [P in keyof T & keyof AggregateRefunds]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRefunds[P]>
+      : GetScalarType<T[P], AggregateRefunds[P]>
+  }
+
+
+
+
+  export type RefundsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundsWhereInput
+    orderBy?: RefundsOrderByWithAggregationInput | RefundsOrderByWithAggregationInput[]
+    by: RefundsScalarFieldEnum[] | RefundsScalarFieldEnum
+    having?: RefundsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RefundsCountAggregateInputType | true
+    _avg?: RefundsAvgAggregateInputType
+    _sum?: RefundsSumAggregateInputType
+    _min?: RefundsMinAggregateInputType
+    _max?: RefundsMaxAggregateInputType
+  }
+
+  export type RefundsGroupByOutputType = {
+    id: bigint
+    payment_id: bigint
+    amount: Decimal
+    status: $Enums.RefundStatus
+    reason: string | null
+    gateway_refund_id: string | null
+    paytm_response: JsonValue | null
+    created_at: Date
+    updated_at: Date
+    _count: RefundsCountAggregateOutputType | null
+    _avg: RefundsAvgAggregateOutputType | null
+    _sum: RefundsSumAggregateOutputType | null
+    _min: RefundsMinAggregateOutputType | null
+    _max: RefundsMaxAggregateOutputType | null
+  }
+
+  type GetRefundsGroupByPayload<T extends RefundsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RefundsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RefundsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RefundsGroupByOutputType[P]>
+            : GetScalarType<T[P], RefundsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RefundsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    payment_id?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    gateway_refund_id?: boolean
+    paytm_response?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refunds"]>
+
+  export type RefundsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    payment_id?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    gateway_refund_id?: boolean
+    paytm_response?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refunds"]>
+
+  export type RefundsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    payment_id?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    gateway_refund_id?: boolean
+    paytm_response?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refunds"]>
+
+  export type RefundsSelectScalar = {
+    id?: boolean
+    payment_id?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    gateway_refund_id?: boolean
+    paytm_response?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type RefundsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "payment_id" | "amount" | "status" | "reason" | "gateway_refund_id" | "paytm_response" | "created_at" | "updated_at", ExtArgs["result"]["refunds"]>
+  export type RefundsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }
+  export type RefundsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }
+  export type RefundsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    paymentRef?: boolean | PaymentsDefaultArgs<ExtArgs>
+  }
+
+  export type $RefundsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Refunds"
+    objects: {
+      paymentRef: Prisma.$PaymentsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      payment_id: bigint
+      amount: Prisma.Decimal
+      status: $Enums.RefundStatus
+      reason: string | null
+      gateway_refund_id: string | null
+      paytm_response: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["refunds"]>
+    composites: {}
+  }
+
+  type RefundsGetPayload<S extends boolean | null | undefined | RefundsDefaultArgs> = $Result.GetResult<Prisma.$RefundsPayload, S>
+
+  type RefundsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RefundsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RefundsCountAggregateInputType | true
+    }
+
+  export interface RefundsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Refunds'], meta: { name: 'Refunds' } }
+    /**
+     * Find zero or one Refunds that matches the filter.
+     * @param {RefundsFindUniqueArgs} args - Arguments to find a Refunds
+     * @example
+     * // Get one Refunds
+     * const refunds = await prisma.refunds.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RefundsFindUniqueArgs>(args: SelectSubset<T, RefundsFindUniqueArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Refunds that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RefundsFindUniqueOrThrowArgs} args - Arguments to find a Refunds
+     * @example
+     * // Get one Refunds
+     * const refunds = await prisma.refunds.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RefundsFindUniqueOrThrowArgs>(args: SelectSubset<T, RefundsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refunds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsFindFirstArgs} args - Arguments to find a Refunds
+     * @example
+     * // Get one Refunds
+     * const refunds = await prisma.refunds.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RefundsFindFirstArgs>(args?: SelectSubset<T, RefundsFindFirstArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refunds that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsFindFirstOrThrowArgs} args - Arguments to find a Refunds
+     * @example
+     * // Get one Refunds
+     * const refunds = await prisma.refunds.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RefundsFindFirstOrThrowArgs>(args?: SelectSubset<T, RefundsFindFirstOrThrowArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Refunds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Refunds
+     * const refunds = await prisma.refunds.findMany()
+     * 
+     * // Get first 10 Refunds
+     * const refunds = await prisma.refunds.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const refundsWithIdOnly = await prisma.refunds.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RefundsFindManyArgs>(args?: SelectSubset<T, RefundsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Refunds.
+     * @param {RefundsCreateArgs} args - Arguments to create a Refunds.
+     * @example
+     * // Create one Refunds
+     * const Refunds = await prisma.refunds.create({
+     *   data: {
+     *     // ... data to create a Refunds
+     *   }
+     * })
+     * 
+     */
+    create<T extends RefundsCreateArgs>(args: SelectSubset<T, RefundsCreateArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Refunds.
+     * @param {RefundsCreateManyArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refunds = await prisma.refunds.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RefundsCreateManyArgs>(args?: SelectSubset<T, RefundsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Refunds and returns the data saved in the database.
+     * @param {RefundsCreateManyAndReturnArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refunds = await prisma.refunds.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Refunds and only return the `id`
+     * const refundsWithIdOnly = await prisma.refunds.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RefundsCreateManyAndReturnArgs>(args?: SelectSubset<T, RefundsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Refunds.
+     * @param {RefundsDeleteArgs} args - Arguments to delete one Refunds.
+     * @example
+     * // Delete one Refunds
+     * const Refunds = await prisma.refunds.delete({
+     *   where: {
+     *     // ... filter to delete one Refunds
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RefundsDeleteArgs>(args: SelectSubset<T, RefundsDeleteArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Refunds.
+     * @param {RefundsUpdateArgs} args - Arguments to update one Refunds.
+     * @example
+     * // Update one Refunds
+     * const refunds = await prisma.refunds.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RefundsUpdateArgs>(args: SelectSubset<T, RefundsUpdateArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Refunds.
+     * @param {RefundsDeleteManyArgs} args - Arguments to filter Refunds to delete.
+     * @example
+     * // Delete a few Refunds
+     * const { count } = await prisma.refunds.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RefundsDeleteManyArgs>(args?: SelectSubset<T, RefundsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Refunds
+     * const refunds = await prisma.refunds.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RefundsUpdateManyArgs>(args: SelectSubset<T, RefundsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds and returns the data updated in the database.
+     * @param {RefundsUpdateManyAndReturnArgs} args - Arguments to update many Refunds.
+     * @example
+     * // Update many Refunds
+     * const refunds = await prisma.refunds.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Refunds and only return the `id`
+     * const refundsWithIdOnly = await prisma.refunds.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RefundsUpdateManyAndReturnArgs>(args: SelectSubset<T, RefundsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Refunds.
+     * @param {RefundsUpsertArgs} args - Arguments to update or create a Refunds.
+     * @example
+     * // Update or create a Refunds
+     * const refunds = await prisma.refunds.upsert({
+     *   create: {
+     *     // ... data to create a Refunds
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Refunds we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RefundsUpsertArgs>(args: SelectSubset<T, RefundsUpsertArgs<ExtArgs>>): Prisma__RefundsClient<$Result.GetResult<Prisma.$RefundsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsCountArgs} args - Arguments to filter Refunds to count.
+     * @example
+     * // Count the number of Refunds
+     * const count = await prisma.refunds.count({
+     *   where: {
+     *     // ... the filter for the Refunds we want to count
+     *   }
+     * })
+    **/
+    count<T extends RefundsCountArgs>(
+      args?: Subset<T, RefundsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RefundsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RefundsAggregateArgs>(args: Subset<T, RefundsAggregateArgs>): Prisma.PrismaPromise<GetRefundsAggregateType<T>>
+
+    /**
+     * Group by Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RefundsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RefundsGroupByArgs['orderBy'] }
+        : { orderBy?: RefundsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RefundsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRefundsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Refunds model
+   */
+  readonly fields: RefundsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Refunds.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RefundsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    paymentRef<T extends PaymentsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentsDefaultArgs<ExtArgs>>): Prisma__PaymentsClient<$Result.GetResult<Prisma.$PaymentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Refunds model
+   */
+  interface RefundsFieldRefs {
+    readonly id: FieldRef<"Refunds", 'BigInt'>
+    readonly payment_id: FieldRef<"Refunds", 'BigInt'>
+    readonly amount: FieldRef<"Refunds", 'Decimal'>
+    readonly status: FieldRef<"Refunds", 'RefundStatus'>
+    readonly reason: FieldRef<"Refunds", 'String'>
+    readonly gateway_refund_id: FieldRef<"Refunds", 'String'>
+    readonly paytm_response: FieldRef<"Refunds", 'Json'>
+    readonly created_at: FieldRef<"Refunds", 'DateTime'>
+    readonly updated_at: FieldRef<"Refunds", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Refunds findUnique
+   */
+  export type RefundsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where: RefundsWhereUniqueInput
+  }
+
+  /**
+   * Refunds findUniqueOrThrow
+   */
+  export type RefundsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where: RefundsWhereUniqueInput
+  }
+
+  /**
+   * Refunds findFirst
+   */
+  export type RefundsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where?: RefundsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundsOrderByWithRelationInput | RefundsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
+  }
+
+  /**
+   * Refunds findFirstOrThrow
+   */
+  export type RefundsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where?: RefundsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundsOrderByWithRelationInput | RefundsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
+  }
+
+  /**
+   * Refunds findMany
+   */
+  export type RefundsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where?: RefundsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundsOrderByWithRelationInput | RefundsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Refunds.
+     */
+    cursor?: RefundsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
+  }
+
+  /**
+   * Refunds create
+   */
+  export type RefundsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Refunds.
+     */
+    data: XOR<RefundsCreateInput, RefundsUncheckedCreateInput>
+  }
+
+  /**
+   * Refunds createMany
+   */
+  export type RefundsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundsCreateManyInput | RefundsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Refunds createManyAndReturn
+   */
+  export type RefundsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundsCreateManyInput | RefundsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refunds update
+   */
+  export type RefundsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Refunds.
+     */
+    data: XOR<RefundsUpdateInput, RefundsUncheckedUpdateInput>
+    /**
+     * Choose, which Refunds to update.
+     */
+    where: RefundsWhereUniqueInput
+  }
+
+  /**
+   * Refunds updateMany
+   */
+  export type RefundsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundsUpdateManyMutationInput, RefundsUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundsWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refunds updateManyAndReturn
+   */
+  export type RefundsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundsUpdateManyMutationInput, RefundsUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundsWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refunds upsert
+   */
+  export type RefundsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Refunds to update in case it exists.
+     */
+    where: RefundsWhereUniqueInput
+    /**
+     * In case the Refunds found by the `where` argument doesn't exist, create a new Refunds with this data.
+     */
+    create: XOR<RefundsCreateInput, RefundsUncheckedCreateInput>
+    /**
+     * In case the Refunds was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RefundsUpdateInput, RefundsUncheckedUpdateInput>
+  }
+
+  /**
+   * Refunds delete
+   */
+  export type RefundsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+    /**
+     * Filter which Refunds to delete.
+     */
+    where: RefundsWhereUniqueInput
+  }
+
+  /**
+   * Refunds deleteMany
+   */
+  export type RefundsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refunds to delete
+     */
+    where?: RefundsWhereInput
+    /**
+     * Limit how many Refunds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refunds without action
+   */
+  export type RefundsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refunds
+     */
+    select?: RefundsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refunds
+     */
+    omit?: RefundsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Plan
+   */
+
+  export type AggregatePlan = {
+    _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
+    _min: PlanMinAggregateOutputType | null
+    _max: PlanMaxAggregateOutputType | null
+  }
+
+  export type PlanAvgAggregateOutputType = {
+    id: number | null
+    price: Decimal | null
+  }
+
+  export type PlanSumAggregateOutputType = {
+    id: bigint | null
+    price: Decimal | null
+  }
+
+  export type PlanMinAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    price: Decimal | null
+    description: string | null
+    currency: $Enums.Currency | null
+    created_at: Date | null
+    updated_at: Date | null
+    isactive: boolean | null
+  }
+
+  export type PlanMaxAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    price: Decimal | null
+    description: string | null
+    currency: $Enums.Currency | null
+    created_at: Date | null
+    updated_at: Date | null
+    isactive: boolean | null
+  }
+
+  export type PlanCountAggregateOutputType = {
+    id: number
+    name: number
+    price: number
+    description: number
+    currency: number
+    created_at: number
+    updated_at: number
+    isactive: number
+    _all: number
+  }
+
+
+  export type PlanAvgAggregateInputType = {
+    id?: true
+    price?: true
+  }
+
+  export type PlanSumAggregateInputType = {
+    id?: true
+    price?: true
+  }
+
+  export type PlanMinAggregateInputType = {
+    id?: true
+    name?: true
+    price?: true
+    description?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    isactive?: true
+  }
+
+  export type PlanMaxAggregateInputType = {
+    id?: true
+    name?: true
+    price?: true
+    description?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    isactive?: true
+  }
+
+  export type PlanCountAggregateInputType = {
+    id?: true
+    name?: true
+    price?: true
+    description?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    isactive?: true
+    _all?: true
+  }
+
+  export type PlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Plan to aggregate.
+     */
+    where?: PlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Plans to fetch.
+     */
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Plans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Plans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Plans
+    **/
+    _count?: true | PlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlanMaxAggregateInputType
+  }
+
+  export type GetPlanAggregateType<T extends PlanAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlan[P]>
+      : GetScalarType<T[P], AggregatePlan[P]>
+  }
+
+
+
+
+  export type PlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithAggregationInput | PlanOrderByWithAggregationInput[]
+    by: PlanScalarFieldEnum[] | PlanScalarFieldEnum
+    having?: PlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlanCountAggregateInputType | true
+    _avg?: PlanAvgAggregateInputType
+    _sum?: PlanSumAggregateInputType
+    _min?: PlanMinAggregateInputType
+    _max?: PlanMaxAggregateInputType
+  }
+
+  export type PlanGroupByOutputType = {
+    id: bigint
+    name: string
+    price: Decimal
+    description: string
+    currency: $Enums.Currency
+    created_at: Date
+    updated_at: Date
+    isactive: boolean
+    _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
+    _min: PlanMinAggregateOutputType | null
+    _max: PlanMaxAggregateOutputType | null
+  }
+
+  type GetPlanGroupByPayload<T extends PlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlanGroupByOutputType[P]>
+            : GetScalarType<T[P], PlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    price?: boolean
+    description?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    isactive?: boolean
+    memberships?: boolean | Plan$membershipsArgs<ExtArgs>
+    _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["plan"]>
+
+  export type PlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    price?: boolean
+    description?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    isactive?: boolean
+  }, ExtArgs["result"]["plan"]>
+
+  export type PlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    price?: boolean
+    description?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    isactive?: boolean
+  }, ExtArgs["result"]["plan"]>
+
+  export type PlanSelectScalar = {
+    id?: boolean
+    name?: boolean
+    price?: boolean
+    description?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    isactive?: boolean
+  }
+
+  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "description" | "currency" | "created_at" | "updated_at" | "isactive", ExtArgs["result"]["plan"]>
+  export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    memberships?: boolean | Plan$membershipsArgs<ExtArgs>
+    _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PlanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Plan"
+    objects: {
+      memberships: Prisma.$MembershipsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      name: string
+      price: Prisma.Decimal
+      description: string
+      currency: $Enums.Currency
+      created_at: Date
+      updated_at: Date
+      isactive: boolean
+    }, ExtArgs["result"]["plan"]>
+    composites: {}
+  }
+
+  type PlanGetPayload<S extends boolean | null | undefined | PlanDefaultArgs> = $Result.GetResult<Prisma.$PlanPayload, S>
+
+  type PlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlanCountAggregateInputType | true
+    }
+
+  export interface PlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Plan'], meta: { name: 'Plan' } }
+    /**
+     * Find zero or one Plan that matches the filter.
+     * @param {PlanFindUniqueArgs} args - Arguments to find a Plan
+     * @example
+     * // Get one Plan
+     * const plan = await prisma.plan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlanFindUniqueArgs>(args: SelectSubset<T, PlanFindUniqueArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Plan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlanFindUniqueOrThrowArgs} args - Arguments to find a Plan
+     * @example
+     * // Get one Plan
+     * const plan = await prisma.plan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlanFindUniqueOrThrowArgs>(args: SelectSubset<T, PlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Plan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanFindFirstArgs} args - Arguments to find a Plan
+     * @example
+     * // Get one Plan
+     * const plan = await prisma.plan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlanFindFirstArgs>(args?: SelectSubset<T, PlanFindFirstArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Plan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanFindFirstOrThrowArgs} args - Arguments to find a Plan
+     * @example
+     * // Get one Plan
+     * const plan = await prisma.plan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlanFindFirstOrThrowArgs>(args?: SelectSubset<T, PlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Plans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Plans
+     * const plans = await prisma.plan.findMany()
+     * 
+     * // Get first 10 Plans
+     * const plans = await prisma.plan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const planWithIdOnly = await prisma.plan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlanFindManyArgs>(args?: SelectSubset<T, PlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Plan.
+     * @param {PlanCreateArgs} args - Arguments to create a Plan.
+     * @example
+     * // Create one Plan
+     * const Plan = await prisma.plan.create({
+     *   data: {
+     *     // ... data to create a Plan
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlanCreateArgs>(args: SelectSubset<T, PlanCreateArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Plans.
+     * @param {PlanCreateManyArgs} args - Arguments to create many Plans.
+     * @example
+     * // Create many Plans
+     * const plan = await prisma.plan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlanCreateManyArgs>(args?: SelectSubset<T, PlanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Plans and returns the data saved in the database.
+     * @param {PlanCreateManyAndReturnArgs} args - Arguments to create many Plans.
+     * @example
+     * // Create many Plans
+     * const plan = await prisma.plan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Plans and only return the `id`
+     * const planWithIdOnly = await prisma.plan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlanCreateManyAndReturnArgs>(args?: SelectSubset<T, PlanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Plan.
+     * @param {PlanDeleteArgs} args - Arguments to delete one Plan.
+     * @example
+     * // Delete one Plan
+     * const Plan = await prisma.plan.delete({
+     *   where: {
+     *     // ... filter to delete one Plan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlanDeleteArgs>(args: SelectSubset<T, PlanDeleteArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Plan.
+     * @param {PlanUpdateArgs} args - Arguments to update one Plan.
+     * @example
+     * // Update one Plan
+     * const plan = await prisma.plan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlanUpdateArgs>(args: SelectSubset<T, PlanUpdateArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Plans.
+     * @param {PlanDeleteManyArgs} args - Arguments to filter Plans to delete.
+     * @example
+     * // Delete a few Plans
+     * const { count } = await prisma.plan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlanDeleteManyArgs>(args?: SelectSubset<T, PlanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Plans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Plans
+     * const plan = await prisma.plan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlanUpdateManyArgs>(args: SelectSubset<T, PlanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Plans and returns the data updated in the database.
+     * @param {PlanUpdateManyAndReturnArgs} args - Arguments to update many Plans.
+     * @example
+     * // Update many Plans
+     * const plan = await prisma.plan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Plans and only return the `id`
+     * const planWithIdOnly = await prisma.plan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlanUpdateManyAndReturnArgs>(args: SelectSubset<T, PlanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Plan.
+     * @param {PlanUpsertArgs} args - Arguments to update or create a Plan.
+     * @example
+     * // Update or create a Plan
+     * const plan = await prisma.plan.upsert({
+     *   create: {
+     *     // ... data to create a Plan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Plan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlanUpsertArgs>(args: SelectSubset<T, PlanUpsertArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Plans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanCountArgs} args - Arguments to filter Plans to count.
+     * @example
+     * // Count the number of Plans
+     * const count = await prisma.plan.count({
+     *   where: {
+     *     // ... the filter for the Plans we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlanCountArgs>(
+      args?: Subset<T, PlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Plan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlanAggregateArgs>(args: Subset<T, PlanAggregateArgs>): Prisma.PrismaPromise<GetPlanAggregateType<T>>
+
+    /**
+     * Group by Plan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlanGroupByArgs['orderBy'] }
+        : { orderBy?: PlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Plan model
+   */
+  readonly fields: PlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Plan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    memberships<T extends Plan$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Plan$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Plan model
+   */
+  interface PlanFieldRefs {
+    readonly id: FieldRef<"Plan", 'BigInt'>
+    readonly name: FieldRef<"Plan", 'String'>
+    readonly price: FieldRef<"Plan", 'Decimal'>
+    readonly description: FieldRef<"Plan", 'String'>
+    readonly currency: FieldRef<"Plan", 'Currency'>
+    readonly created_at: FieldRef<"Plan", 'DateTime'>
+    readonly updated_at: FieldRef<"Plan", 'DateTime'>
+    readonly isactive: FieldRef<"Plan", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Plan findUnique
+   */
+  export type PlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter, which Plan to fetch.
+     */
+    where: PlanWhereUniqueInput
+  }
+
+  /**
+   * Plan findUniqueOrThrow
+   */
+  export type PlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter, which Plan to fetch.
+     */
+    where: PlanWhereUniqueInput
+  }
+
+  /**
+   * Plan findFirst
+   */
+  export type PlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter, which Plan to fetch.
+     */
+    where?: PlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Plans to fetch.
+     */
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Plans.
+     */
+    cursor?: PlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Plans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Plans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Plans.
+     */
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
+   * Plan findFirstOrThrow
+   */
+  export type PlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter, which Plan to fetch.
+     */
+    where?: PlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Plans to fetch.
+     */
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Plans.
+     */
+    cursor?: PlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Plans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Plans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Plans.
+     */
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
+   * Plan findMany
+   */
+  export type PlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter, which Plans to fetch.
+     */
+    where?: PlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Plans to fetch.
+     */
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Plans.
+     */
+    cursor?: PlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Plans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Plans.
+     */
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
+   * Plan create
+   */
+  export type PlanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Plan.
+     */
+    data: XOR<PlanCreateInput, PlanUncheckedCreateInput>
+  }
+
+  /**
+   * Plan createMany
+   */
+  export type PlanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Plans.
+     */
+    data: PlanCreateManyInput | PlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Plan createManyAndReturn
+   */
+  export type PlanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * The data used to create many Plans.
+     */
+    data: PlanCreateManyInput | PlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Plan update
+   */
+  export type PlanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Plan.
+     */
+    data: XOR<PlanUpdateInput, PlanUncheckedUpdateInput>
+    /**
+     * Choose, which Plan to update.
+     */
+    where: PlanWhereUniqueInput
+  }
+
+  /**
+   * Plan updateMany
+   */
+  export type PlanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Plans.
+     */
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyInput>
+    /**
+     * Filter which Plans to update
+     */
+    where?: PlanWhereInput
+    /**
+     * Limit how many Plans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Plan updateManyAndReturn
+   */
+  export type PlanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * The data used to update Plans.
+     */
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyInput>
+    /**
+     * Filter which Plans to update
+     */
+    where?: PlanWhereInput
+    /**
+     * Limit how many Plans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Plan upsert
+   */
+  export type PlanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Plan to update in case it exists.
+     */
+    where: PlanWhereUniqueInput
+    /**
+     * In case the Plan found by the `where` argument doesn't exist, create a new Plan with this data.
+     */
+    create: XOR<PlanCreateInput, PlanUncheckedCreateInput>
+    /**
+     * In case the Plan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlanUpdateInput, PlanUncheckedUpdateInput>
+  }
+
+  /**
+   * Plan delete
+   */
+  export type PlanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    /**
+     * Filter which Plan to delete.
+     */
+    where: PlanWhereUniqueInput
+  }
+
+  /**
+   * Plan deleteMany
+   */
+  export type PlanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Plans to delete
+     */
+    where?: PlanWhereInput
+    /**
+     * Limit how many Plans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Plan.memberships
+   */
+  export type Plan$membershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Memberships
+     */
+    select?: MembershipsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Memberships
+     */
+    omit?: MembershipsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MembershipsInclude<ExtArgs> | null
+    where?: MembershipsWhereInput
+    orderBy?: MembershipsOrderByWithRelationInput | MembershipsOrderByWithRelationInput[]
+    cursor?: MembershipsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MembershipsScalarFieldEnum | MembershipsScalarFieldEnum[]
+  }
+
+  /**
+   * Plan without action
+   */
+  export type PlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
   }
 
 
@@ -20709,26 +24541,6 @@ export namespace Prisma {
   export type MentorScalarFieldEnum = (typeof MentorScalarFieldEnum)[keyof typeof MentorScalarFieldEnum]
 
 
-  export const Consultancy_serviceScalarFieldEnum: {
-    id: 'id',
-    mentor_id: 'mentor_id',
-    user_id: 'user_id',
-    duration: 'duration',
-    cost: 'cost',
-    currency: 'currency',
-    scheduled_date: 'scheduled_date',
-    scheduled_time: 'scheduled_time',
-    rating: 'rating',
-    status: 'status',
-    opinion: 'opinion',
-    approved_by_mentor: 'approved_by_mentor',
-    payment_done: 'payment_done',
-    created_at: 'created_at'
-  };
-
-  export type Consultancy_serviceScalarFieldEnum = (typeof Consultancy_serviceScalarFieldEnum)[keyof typeof Consultancy_serviceScalarFieldEnum]
-
-
   export const ChatScalarFieldEnum: {
     id: 'id',
     user1_id: 'user1_id',
@@ -20786,7 +24598,6 @@ export namespace Prisma {
     id: 'id',
     user_id: 'user_id',
     rating: 'rating',
-    image: 'image',
     content: 'content',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -20797,35 +24608,95 @@ export namespace Prisma {
 
   export const MembershipsScalarFieldEnum: {
     id: 'id',
+    order_id: 'order_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    plan_id: 'plan_id'
+  };
+
+  export type MembershipsScalarFieldEnum = (typeof MembershipsScalarFieldEnum)[keyof typeof MembershipsScalarFieldEnum]
+
+
+  export const Consultancy_serviceScalarFieldEnum: {
+    id: 'id',
+    order_id: 'order_id',
+    mentor_id: 'mentor_id',
+    user_id: 'user_id',
+    duration: 'duration',
+    cost: 'cost',
+    currency: 'currency',
+    scheduled_date: 'scheduled_date',
+    scheduled_time: 'scheduled_time',
+    rating: 'rating',
+    status: 'status',
+    opinion: 'opinion',
+    approved_by_mentor: 'approved_by_mentor',
+    payment_done: 'payment_done',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Consultancy_serviceScalarFieldEnum = (typeof Consultancy_serviceScalarFieldEnum)[keyof typeof Consultancy_serviceScalarFieldEnum]
+
+
+  export const OrderScalarFieldEnum: {
+    id: 'id',
+    public_id: 'public_id',
+    user_id: 'user_id',
+    order_type: 'order_type',
+    amount: 'amount',
+    currency: 'currency',
+    status: 'status',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+  export const PaymentsScalarFieldEnum: {
+    id: 'id',
+    order_id: 'order_id',
+    user_id: 'user_id',
+    amount: 'amount',
+    currency: 'currency',
+    status: 'status',
+    gateway_txn_id: 'gateway_txn_id',
+    paytm_response: 'paytm_response',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type PaymentsScalarFieldEnum = (typeof PaymentsScalarFieldEnum)[keyof typeof PaymentsScalarFieldEnum]
+
+
+  export const RefundsScalarFieldEnum: {
+    id: 'id',
+    payment_id: 'payment_id',
+    amount: 'amount',
+    status: 'status',
+    reason: 'reason',
+    gateway_refund_id: 'gateway_refund_id',
+    paytm_response: 'paytm_response',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeof RefundsScalarFieldEnum]
+
+
+  export const PlanScalarFieldEnum: {
+    id: 'id',
     name: 'name',
     price: 'price',
+    description: 'description',
     currency: 'currency',
     created_at: 'created_at',
     updated_at: 'updated_at',
     isactive: 'isactive'
   };
 
-  export type MembershipsScalarFieldEnum = (typeof MembershipsScalarFieldEnum)[keyof typeof MembershipsScalarFieldEnum]
-
-
-  export const PaymentsScalarFieldEnum: {
-    id: 'id',
-    user_id: 'user_id',
-    membership_id: 'membership_id',
-    service_id: 'service_id',
-    amount: 'amount',
-    currency: 'currency',
-    status: 'status',
-    international: 'international',
-    method: 'method',
-    fee: 'fee',
-    tax: 'tax',
-    paymentfor: 'paymentfor',
-    transaction_id: 'transaction_id',
-    created_at: 'created_at'
-  };
-
-  export type PaymentsScalarFieldEnum = (typeof PaymentsScalarFieldEnum)[keyof typeof PaymentsScalarFieldEnum]
+  export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
 
 
   export const AdminActionScalarFieldEnum: {
@@ -20902,6 +24773,13 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const NullableJsonNullValueInput: {
@@ -21104,20 +24982,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ServiceStatus'
-   */
-  export type EnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'ServiceStatus[]'
-   */
-  export type ListEnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus[]'>
-    
-
-
-  /**
    * Reference to a field of type 'MessageStatus'
    */
   export type EnumMessageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageStatus'>
@@ -21160,6 +25024,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ServiceStatus'
+   */
+  export type EnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ServiceStatus[]'
+   */
+  export type ListEnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderType'
+   */
+  export type EnumOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderType'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderType[]'
+   */
+  export type ListEnumOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderStatus'
+   */
+  export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderStatus[]'
+   */
+  export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PaymentStatus'
    */
   export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
@@ -21174,30 +25080,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PaymentMethod'
+   * Reference to a field of type 'Json'
    */
-  export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
   /**
-   * Reference to a field of type 'PaymentMethod[]'
+   * Reference to a field of type 'QueryMode'
    */
-  export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
   /**
-   * Reference to a field of type 'PaymentFor'
+   * Reference to a field of type 'RefundStatus'
    */
-  export type EnumPaymentForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentFor'>
+  export type EnumRefundStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RefundStatus'>
     
 
 
   /**
-   * Reference to a field of type 'PaymentFor[]'
+   * Reference to a field of type 'RefundStatus[]'
    */
-  export type ListEnumPaymentForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentFor[]'>
+  export type ListEnumRefundStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RefundStatus[]'>
     
 
 
@@ -21212,20 +25118,6 @@ export namespace Prisma {
    * Reference to a field of type 'AdminActionType[]'
    */
   export type ListEnumAdminActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminActionType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -21339,6 +25231,7 @@ export namespace Prisma {
     mentor?: XOR<MentorNullableScalarRelationFilter, MentorWhereInput> | null
     user1?: RelationshipListRelationFilter
     user2?: RelationshipListRelationFilter
+    orders?: OrderListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -21375,6 +25268,7 @@ export namespace Prisma {
     mentor?: MentorOrderByWithRelationInput
     user1?: RelationshipOrderByRelationAggregateInput
     user2?: RelationshipOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -21414,6 +25308,7 @@ export namespace Prisma {
     mentor?: XOR<MentorNullableScalarRelationFilter, MentorWhereInput> | null
     user1?: RelationshipListRelationFilter
     user2?: RelationshipListRelationFilter
+    orders?: OrderListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UsersOrderByWithAggregationInput = {
@@ -21576,117 +25471,6 @@ export namespace Prisma {
     active_mentor?: BoolWithAggregatesFilter<"Mentor"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Mentor"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Mentor"> | Date | string
-  }
-
-  export type Consultancy_serviceWhereInput = {
-    AND?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
-    OR?: Consultancy_serviceWhereInput[]
-    NOT?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
-    id?: BigIntFilter<"Consultancy_service"> | bigint | number
-    mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
-    user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
-    duration?: StringFilter<"Consultancy_service"> | string
-    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
-    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
-    scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
-    rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
-    opinion?: StringNullableFilter<"Consultancy_service"> | string | null
-    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
-    payment_done?: BoolFilter<"Consultancy_service"> | boolean
-    created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
-    mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    payments?: PaymentsListRelationFilter
-    reports?: ReportListRelationFilter
-  }
-
-  export type Consultancy_serviceOrderByWithRelationInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    duration?: SortOrder
-    cost?: SortOrder
-    currency?: SortOrder
-    scheduled_date?: SortOrder
-    scheduled_time?: SortOrder
-    rating?: SortOrderInput | SortOrder
-    status?: SortOrder
-    opinion?: SortOrderInput | SortOrder
-    approved_by_mentor?: SortOrder
-    payment_done?: SortOrder
-    created_at?: SortOrder
-    mentorRef?: UsersOrderByWithRelationInput
-    userRef?: UsersOrderByWithRelationInput
-    payments?: PaymentsOrderByRelationAggregateInput
-    reports?: ReportOrderByRelationAggregateInput
-  }
-
-  export type Consultancy_serviceWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
-    OR?: Consultancy_serviceWhereInput[]
-    NOT?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
-    mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
-    user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
-    duration?: StringFilter<"Consultancy_service"> | string
-    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
-    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
-    scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
-    rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
-    opinion?: StringNullableFilter<"Consultancy_service"> | string | null
-    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
-    payment_done?: BoolFilter<"Consultancy_service"> | boolean
-    created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
-    mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    payments?: PaymentsListRelationFilter
-    reports?: ReportListRelationFilter
-  }, "id">
-
-  export type Consultancy_serviceOrderByWithAggregationInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    duration?: SortOrder
-    cost?: SortOrder
-    currency?: SortOrder
-    scheduled_date?: SortOrder
-    scheduled_time?: SortOrder
-    rating?: SortOrderInput | SortOrder
-    status?: SortOrder
-    opinion?: SortOrderInput | SortOrder
-    approved_by_mentor?: SortOrder
-    payment_done?: SortOrder
-    created_at?: SortOrder
-    _count?: Consultancy_serviceCountOrderByAggregateInput
-    _avg?: Consultancy_serviceAvgOrderByAggregateInput
-    _max?: Consultancy_serviceMaxOrderByAggregateInput
-    _min?: Consultancy_serviceMinOrderByAggregateInput
-    _sum?: Consultancy_serviceSumOrderByAggregateInput
-  }
-
-  export type Consultancy_serviceScalarWhereWithAggregatesInput = {
-    AND?: Consultancy_serviceScalarWhereWithAggregatesInput | Consultancy_serviceScalarWhereWithAggregatesInput[]
-    OR?: Consultancy_serviceScalarWhereWithAggregatesInput[]
-    NOT?: Consultancy_serviceScalarWhereWithAggregatesInput | Consultancy_serviceScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
-    mentor_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
-    user_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
-    duration?: StringWithAggregatesFilter<"Consultancy_service"> | string
-    cost?: DecimalWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyWithAggregatesFilter<"Consultancy_service"> | $Enums.Currency
-    scheduled_date?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
-    scheduled_time?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
-    rating?: DecimalNullableWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusWithAggregatesFilter<"Consultancy_service"> | $Enums.ServiceStatus
-    opinion?: StringNullableWithAggregatesFilter<"Consultancy_service"> | string | null
-    approved_by_mentor?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
-    payment_done?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
-    created_at?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
   }
 
   export type ChatWhereInput = {
@@ -21991,7 +25775,6 @@ export namespace Prisma {
     id?: BigIntFilter<"Feedback"> | bigint | number
     user_id?: BigIntFilter<"Feedback"> | bigint | number
     rating?: IntFilter<"Feedback"> | number
-    image?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
@@ -22002,7 +25785,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     rating?: SortOrder
-    image?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22011,23 +25793,21 @@ export namespace Prisma {
 
   export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
+    user_id?: bigint | number
     AND?: FeedbackWhereInput | FeedbackWhereInput[]
     OR?: FeedbackWhereInput[]
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
-    user_id?: BigIntFilter<"Feedback"> | bigint | number
     rating?: IntFilter<"Feedback"> | number
-    image?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
     userRef?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
-  }, "id">
+  }, "id" | "user_id">
 
   export type FeedbackOrderByWithAggregationInput = {
     id?: SortOrder
     user_id?: SortOrder
     rating?: SortOrder
-    image?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22045,7 +25825,6 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"Feedback"> | bigint | number
     user_id?: BigIntWithAggregatesFilter<"Feedback"> | bigint | number
     rating?: IntWithAggregatesFilter<"Feedback"> | number
-    image?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     content?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
@@ -22056,48 +25835,43 @@ export namespace Prisma {
     OR?: MembershipsWhereInput[]
     NOT?: MembershipsWhereInput | MembershipsWhereInput[]
     id?: BigIntFilter<"Memberships"> | bigint | number
-    name?: StringFilter<"Memberships"> | string
-    price?: DecimalFilter<"Memberships"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFilter<"Memberships"> | $Enums.Currency
+    order_id?: BigIntFilter<"Memberships"> | bigint | number
     created_at?: DateTimeFilter<"Memberships"> | Date | string
     updated_at?: DateTimeFilter<"Memberships"> | Date | string
-    isactive?: BoolFilter<"Memberships"> | boolean
-    payments?: PaymentsListRelationFilter
+    plan_id?: BigIntFilter<"Memberships"> | bigint | number
+    planRef?: XOR<PlanScalarRelationFilter, PlanWhereInput>
+    orderRef?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }
 
   export type MembershipsOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
-    price?: SortOrder
-    currency?: SortOrder
+    order_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    isactive?: SortOrder
-    payments?: PaymentsOrderByRelationAggregateInput
+    plan_id?: SortOrder
+    planRef?: PlanOrderByWithRelationInput
+    orderRef?: OrderOrderByWithRelationInput
   }
 
   export type MembershipsWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
+    order_id?: bigint | number
     AND?: MembershipsWhereInput | MembershipsWhereInput[]
     OR?: MembershipsWhereInput[]
     NOT?: MembershipsWhereInput | MembershipsWhereInput[]
-    name?: StringFilter<"Memberships"> | string
-    price?: DecimalFilter<"Memberships"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFilter<"Memberships"> | $Enums.Currency
     created_at?: DateTimeFilter<"Memberships"> | Date | string
     updated_at?: DateTimeFilter<"Memberships"> | Date | string
-    isactive?: BoolFilter<"Memberships"> | boolean
-    payments?: PaymentsListRelationFilter
-  }, "id">
+    plan_id?: BigIntFilter<"Memberships"> | bigint | number
+    planRef?: XOR<PlanScalarRelationFilter, PlanWhereInput>
+    orderRef?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+  }, "id" | "order_id">
 
   export type MembershipsOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
-    price?: SortOrder
-    currency?: SortOrder
+    order_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    isactive?: SortOrder
+    plan_id?: SortOrder
     _count?: MembershipsCountOrderByAggregateInput
     _avg?: MembershipsAvgOrderByAggregateInput
     _max?: MembershipsMaxOrderByAggregateInput
@@ -22110,12 +25884,217 @@ export namespace Prisma {
     OR?: MembershipsScalarWhereWithAggregatesInput[]
     NOT?: MembershipsScalarWhereWithAggregatesInput | MembershipsScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Memberships"> | bigint | number
-    name?: StringWithAggregatesFilter<"Memberships"> | string
-    price?: DecimalWithAggregatesFilter<"Memberships"> | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyWithAggregatesFilter<"Memberships"> | $Enums.Currency
+    order_id?: BigIntWithAggregatesFilter<"Memberships"> | bigint | number
     created_at?: DateTimeWithAggregatesFilter<"Memberships"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Memberships"> | Date | string
-    isactive?: BoolWithAggregatesFilter<"Memberships"> | boolean
+    plan_id?: BigIntWithAggregatesFilter<"Memberships"> | bigint | number
+  }
+
+  export type Consultancy_serviceWhereInput = {
+    AND?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
+    OR?: Consultancy_serviceWhereInput[]
+    NOT?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
+    id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    order_id?: BigIntNullableFilter<"Consultancy_service"> | bigint | number | null
+    mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    duration?: StringFilter<"Consultancy_service"> | string
+    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
+    scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
+    rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
+    opinion?: StringNullableFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolFilter<"Consultancy_service"> | boolean
+    created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
+    updated_at?: DateTimeFilter<"Consultancy_service"> | Date | string
+    orderRef?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
+    mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    reports?: ReportListRelationFilter
+  }
+
+  export type Consultancy_serviceOrderByWithRelationInput = {
+    id?: SortOrder
+    order_id?: SortOrderInput | SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    duration?: SortOrder
+    cost?: SortOrder
+    currency?: SortOrder
+    scheduled_date?: SortOrder
+    scheduled_time?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    status?: SortOrder
+    opinion?: SortOrderInput | SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    orderRef?: OrderOrderByWithRelationInput
+    mentorRef?: UsersOrderByWithRelationInput
+    userRef?: UsersOrderByWithRelationInput
+    reports?: ReportOrderByRelationAggregateInput
+  }
+
+  export type Consultancy_serviceWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    order_id?: bigint | number
+    AND?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
+    OR?: Consultancy_serviceWhereInput[]
+    NOT?: Consultancy_serviceWhereInput | Consultancy_serviceWhereInput[]
+    mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    duration?: StringFilter<"Consultancy_service"> | string
+    cost?: DecimalFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeFilter<"Consultancy_service"> | Date | string
+    scheduled_time?: DateTimeFilter<"Consultancy_service"> | Date | string
+    rating?: DecimalNullableFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFilter<"Consultancy_service"> | $Enums.ServiceStatus
+    opinion?: StringNullableFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolFilter<"Consultancy_service"> | boolean
+    created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
+    updated_at?: DateTimeFilter<"Consultancy_service"> | Date | string
+    orderRef?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
+    mentorRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    reports?: ReportListRelationFilter
+  }, "id" | "order_id">
+
+  export type Consultancy_serviceOrderByWithAggregationInput = {
+    id?: SortOrder
+    order_id?: SortOrderInput | SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    duration?: SortOrder
+    cost?: SortOrder
+    currency?: SortOrder
+    scheduled_date?: SortOrder
+    scheduled_time?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    status?: SortOrder
+    opinion?: SortOrderInput | SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: Consultancy_serviceCountOrderByAggregateInput
+    _avg?: Consultancy_serviceAvgOrderByAggregateInput
+    _max?: Consultancy_serviceMaxOrderByAggregateInput
+    _min?: Consultancy_serviceMinOrderByAggregateInput
+    _sum?: Consultancy_serviceSumOrderByAggregateInput
+  }
+
+  export type Consultancy_serviceScalarWhereWithAggregatesInput = {
+    AND?: Consultancy_serviceScalarWhereWithAggregatesInput | Consultancy_serviceScalarWhereWithAggregatesInput[]
+    OR?: Consultancy_serviceScalarWhereWithAggregatesInput[]
+    NOT?: Consultancy_serviceScalarWhereWithAggregatesInput | Consultancy_serviceScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
+    order_id?: BigIntNullableWithAggregatesFilter<"Consultancy_service"> | bigint | number | null
+    mentor_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
+    user_id?: BigIntWithAggregatesFilter<"Consultancy_service"> | bigint | number
+    duration?: StringWithAggregatesFilter<"Consultancy_service"> | string
+    cost?: DecimalWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyWithAggregatesFilter<"Consultancy_service"> | $Enums.Currency
+    scheduled_date?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
+    scheduled_time?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
+    rating?: DecimalNullableWithAggregatesFilter<"Consultancy_service"> | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusWithAggregatesFilter<"Consultancy_service"> | $Enums.ServiceStatus
+    opinion?: StringNullableWithAggregatesFilter<"Consultancy_service"> | string | null
+    approved_by_mentor?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
+    payment_done?: BoolWithAggregatesFilter<"Consultancy_service"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Consultancy_service"> | Date | string
+  }
+
+  export type OrderWhereInput = {
+    AND?: OrderWhereInput | OrderWhereInput[]
+    OR?: OrderWhereInput[]
+    NOT?: OrderWhereInput | OrderWhereInput[]
+    id?: BigIntFilter<"Order"> | bigint | number
+    public_id?: StringFilter<"Order"> | string
+    user_id?: BigIntFilter<"Order"> | bigint | number
+    order_type?: EnumOrderTypeFilter<"Order"> | $Enums.OrderType
+    amount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFilter<"Order"> | $Enums.Currency
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    created_at?: DateTimeFilter<"Order"> | Date | string
+    updated_at?: DateTimeFilter<"Order"> | Date | string
+    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    payments?: PaymentsListRelationFilter
+    membership?: XOR<MembershipsNullableScalarRelationFilter, MembershipsWhereInput> | null
+    service?: XOR<Consultancy_serviceNullableScalarRelationFilter, Consultancy_serviceWhereInput> | null
+  }
+
+  export type OrderOrderByWithRelationInput = {
+    id?: SortOrder
+    public_id?: SortOrder
+    user_id?: SortOrder
+    order_type?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userRef?: UsersOrderByWithRelationInput
+    payments?: PaymentsOrderByRelationAggregateInput
+    membership?: MembershipsOrderByWithRelationInput
+    service?: Consultancy_serviceOrderByWithRelationInput
+  }
+
+  export type OrderWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    public_id?: string
+    AND?: OrderWhereInput | OrderWhereInput[]
+    OR?: OrderWhereInput[]
+    NOT?: OrderWhereInput | OrderWhereInput[]
+    user_id?: BigIntFilter<"Order"> | bigint | number
+    order_type?: EnumOrderTypeFilter<"Order"> | $Enums.OrderType
+    amount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFilter<"Order"> | $Enums.Currency
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    created_at?: DateTimeFilter<"Order"> | Date | string
+    updated_at?: DateTimeFilter<"Order"> | Date | string
+    userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    payments?: PaymentsListRelationFilter
+    membership?: XOR<MembershipsNullableScalarRelationFilter, MembershipsWhereInput> | null
+    service?: XOR<Consultancy_serviceNullableScalarRelationFilter, Consultancy_serviceWhereInput> | null
+  }, "id" | "public_id">
+
+  export type OrderOrderByWithAggregationInput = {
+    id?: SortOrder
+    public_id?: SortOrder
+    user_id?: SortOrder
+    order_type?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: OrderCountOrderByAggregateInput
+    _avg?: OrderAvgOrderByAggregateInput
+    _max?: OrderMaxOrderByAggregateInput
+    _min?: OrderMinOrderByAggregateInput
+    _sum?: OrderSumOrderByAggregateInput
+  }
+
+  export type OrderScalarWhereWithAggregatesInput = {
+    AND?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
+    OR?: OrderScalarWhereWithAggregatesInput[]
+    NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Order"> | bigint | number
+    public_id?: StringWithAggregatesFilter<"Order"> | string
+    user_id?: BigIntWithAggregatesFilter<"Order"> | bigint | number
+    order_type?: EnumOrderTypeWithAggregatesFilter<"Order"> | $Enums.OrderType
+    amount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyWithAggregatesFilter<"Order"> | $Enums.Currency
+    status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
+    created_at?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Order"> | Date | string
   }
 
   export type PaymentsWhereInput = {
@@ -22123,82 +26102,66 @@ export namespace Prisma {
     OR?: PaymentsWhereInput[]
     NOT?: PaymentsWhereInput | PaymentsWhereInput[]
     id?: BigIntFilter<"Payments"> | bigint | number
+    order_id?: BigIntFilter<"Payments"> | bigint | number
     user_id?: BigIntFilter<"Payments"> | bigint | number
-    membership_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
-    service_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
     amount?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Payments"> | $Enums.Currency
     status?: EnumPaymentStatusFilter<"Payments"> | $Enums.PaymentStatus
-    international?: BoolFilter<"Payments"> | boolean
-    method?: EnumPaymentMethodFilter<"Payments"> | $Enums.PaymentMethod
-    fee?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFilter<"Payments"> | $Enums.PaymentFor
-    transaction_id?: StringFilter<"Payments"> | string
+    gateway_txn_id?: StringFilter<"Payments"> | string
+    paytm_response?: JsonFilter<"Payments">
     created_at?: DateTimeFilter<"Payments"> | Date | string
+    updated_at?: DateTimeFilter<"Payments"> | Date | string
+    refunds?: RefundsListRelationFilter
+    orderRef?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    membershipRef?: XOR<MembershipsNullableScalarRelationFilter, MembershipsWhereInput> | null
-    serviceRef?: XOR<Consultancy_serviceNullableScalarRelationFilter, Consultancy_serviceWhereInput> | null
   }
 
   export type PaymentsOrderByWithRelationInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrderInput | SortOrder
-    service_id?: SortOrderInput | SortOrder
     amount?: SortOrder
     currency?: SortOrder
     status?: SortOrder
-    international?: SortOrder
-    method?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
-    paymentfor?: SortOrder
-    transaction_id?: SortOrder
+    gateway_txn_id?: SortOrder
+    paytm_response?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
+    refunds?: RefundsOrderByRelationAggregateInput
+    orderRef?: OrderOrderByWithRelationInput
     userRef?: UsersOrderByWithRelationInput
-    membershipRef?: MembershipsOrderByWithRelationInput
-    serviceRef?: Consultancy_serviceOrderByWithRelationInput
   }
 
   export type PaymentsWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
-    transaction_id?: string
+    gateway_txn_id?: string
     AND?: PaymentsWhereInput | PaymentsWhereInput[]
     OR?: PaymentsWhereInput[]
     NOT?: PaymentsWhereInput | PaymentsWhereInput[]
+    order_id?: BigIntFilter<"Payments"> | bigint | number
     user_id?: BigIntFilter<"Payments"> | bigint | number
-    membership_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
-    service_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
     amount?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Payments"> | $Enums.Currency
     status?: EnumPaymentStatusFilter<"Payments"> | $Enums.PaymentStatus
-    international?: BoolFilter<"Payments"> | boolean
-    method?: EnumPaymentMethodFilter<"Payments"> | $Enums.PaymentMethod
-    fee?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFilter<"Payments"> | $Enums.PaymentFor
+    paytm_response?: JsonFilter<"Payments">
     created_at?: DateTimeFilter<"Payments"> | Date | string
+    updated_at?: DateTimeFilter<"Payments"> | Date | string
+    refunds?: RefundsListRelationFilter
+    orderRef?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     userRef?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    membershipRef?: XOR<MembershipsNullableScalarRelationFilter, MembershipsWhereInput> | null
-    serviceRef?: XOR<Consultancy_serviceNullableScalarRelationFilter, Consultancy_serviceWhereInput> | null
-  }, "id" | "transaction_id">
+  }, "id" | "gateway_txn_id">
 
   export type PaymentsOrderByWithAggregationInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrderInput | SortOrder
-    service_id?: SortOrderInput | SortOrder
     amount?: SortOrder
     currency?: SortOrder
     status?: SortOrder
-    international?: SortOrder
-    method?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
-    paymentfor?: SortOrder
-    transaction_id?: SortOrder
+    gateway_txn_id?: SortOrder
+    paytm_response?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: PaymentsCountOrderByAggregateInput
     _avg?: PaymentsAvgOrderByAggregateInput
     _max?: PaymentsMaxOrderByAggregateInput
@@ -22211,19 +26174,164 @@ export namespace Prisma {
     OR?: PaymentsScalarWhereWithAggregatesInput[]
     NOT?: PaymentsScalarWhereWithAggregatesInput | PaymentsScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Payments"> | bigint | number
+    order_id?: BigIntWithAggregatesFilter<"Payments"> | bigint | number
     user_id?: BigIntWithAggregatesFilter<"Payments"> | bigint | number
-    membership_id?: BigIntNullableWithAggregatesFilter<"Payments"> | bigint | number | null
-    service_id?: BigIntNullableWithAggregatesFilter<"Payments"> | bigint | number | null
     amount?: DecimalWithAggregatesFilter<"Payments"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyWithAggregatesFilter<"Payments"> | $Enums.Currency
     status?: EnumPaymentStatusWithAggregatesFilter<"Payments"> | $Enums.PaymentStatus
-    international?: BoolWithAggregatesFilter<"Payments"> | boolean
-    method?: EnumPaymentMethodWithAggregatesFilter<"Payments"> | $Enums.PaymentMethod
-    fee?: DecimalWithAggregatesFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    tax?: DecimalWithAggregatesFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForWithAggregatesFilter<"Payments"> | $Enums.PaymentFor
-    transaction_id?: StringWithAggregatesFilter<"Payments"> | string
+    gateway_txn_id?: StringWithAggregatesFilter<"Payments"> | string
+    paytm_response?: JsonWithAggregatesFilter<"Payments">
     created_at?: DateTimeWithAggregatesFilter<"Payments"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Payments"> | Date | string
+  }
+
+  export type RefundsWhereInput = {
+    AND?: RefundsWhereInput | RefundsWhereInput[]
+    OR?: RefundsWhereInput[]
+    NOT?: RefundsWhereInput | RefundsWhereInput[]
+    id?: BigIntFilter<"Refunds"> | bigint | number
+    payment_id?: BigIntFilter<"Refunds"> | bigint | number
+    amount?: DecimalFilter<"Refunds"> | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFilter<"Refunds"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refunds"> | string | null
+    gateway_refund_id?: StringNullableFilter<"Refunds"> | string | null
+    paytm_response?: JsonNullableFilter<"Refunds">
+    created_at?: DateTimeFilter<"Refunds"> | Date | string
+    updated_at?: DateTimeFilter<"Refunds"> | Date | string
+    paymentRef?: XOR<PaymentsScalarRelationFilter, PaymentsWhereInput>
+  }
+
+  export type RefundsOrderByWithRelationInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    gateway_refund_id?: SortOrderInput | SortOrder
+    paytm_response?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    paymentRef?: PaymentsOrderByWithRelationInput
+  }
+
+  export type RefundsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    gateway_refund_id?: string
+    AND?: RefundsWhereInput | RefundsWhereInput[]
+    OR?: RefundsWhereInput[]
+    NOT?: RefundsWhereInput | RefundsWhereInput[]
+    payment_id?: BigIntFilter<"Refunds"> | bigint | number
+    amount?: DecimalFilter<"Refunds"> | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFilter<"Refunds"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refunds"> | string | null
+    paytm_response?: JsonNullableFilter<"Refunds">
+    created_at?: DateTimeFilter<"Refunds"> | Date | string
+    updated_at?: DateTimeFilter<"Refunds"> | Date | string
+    paymentRef?: XOR<PaymentsScalarRelationFilter, PaymentsWhereInput>
+  }, "id" | "gateway_refund_id">
+
+  export type RefundsOrderByWithAggregationInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    gateway_refund_id?: SortOrderInput | SortOrder
+    paytm_response?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: RefundsCountOrderByAggregateInput
+    _avg?: RefundsAvgOrderByAggregateInput
+    _max?: RefundsMaxOrderByAggregateInput
+    _min?: RefundsMinOrderByAggregateInput
+    _sum?: RefundsSumOrderByAggregateInput
+  }
+
+  export type RefundsScalarWhereWithAggregatesInput = {
+    AND?: RefundsScalarWhereWithAggregatesInput | RefundsScalarWhereWithAggregatesInput[]
+    OR?: RefundsScalarWhereWithAggregatesInput[]
+    NOT?: RefundsScalarWhereWithAggregatesInput | RefundsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Refunds"> | bigint | number
+    payment_id?: BigIntWithAggregatesFilter<"Refunds"> | bigint | number
+    amount?: DecimalWithAggregatesFilter<"Refunds"> | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusWithAggregatesFilter<"Refunds"> | $Enums.RefundStatus
+    reason?: StringNullableWithAggregatesFilter<"Refunds"> | string | null
+    gateway_refund_id?: StringNullableWithAggregatesFilter<"Refunds"> | string | null
+    paytm_response?: JsonNullableWithAggregatesFilter<"Refunds">
+    created_at?: DateTimeWithAggregatesFilter<"Refunds"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Refunds"> | Date | string
+  }
+
+  export type PlanWhereInput = {
+    AND?: PlanWhereInput | PlanWhereInput[]
+    OR?: PlanWhereInput[]
+    NOT?: PlanWhereInput | PlanWhereInput[]
+    id?: BigIntFilter<"Plan"> | bigint | number
+    name?: StringFilter<"Plan"> | string
+    price?: DecimalFilter<"Plan"> | Decimal | DecimalJsLike | number | string
+    description?: StringFilter<"Plan"> | string
+    currency?: EnumCurrencyFilter<"Plan"> | $Enums.Currency
+    created_at?: DateTimeFilter<"Plan"> | Date | string
+    updated_at?: DateTimeFilter<"Plan"> | Date | string
+    isactive?: BoolFilter<"Plan"> | boolean
+    memberships?: MembershipsListRelationFilter
+  }
+
+  export type PlanOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    description?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isactive?: SortOrder
+    memberships?: MembershipsOrderByRelationAggregateInput
+  }
+
+  export type PlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: PlanWhereInput | PlanWhereInput[]
+    OR?: PlanWhereInput[]
+    NOT?: PlanWhereInput | PlanWhereInput[]
+    name?: StringFilter<"Plan"> | string
+    price?: DecimalFilter<"Plan"> | Decimal | DecimalJsLike | number | string
+    description?: StringFilter<"Plan"> | string
+    currency?: EnumCurrencyFilter<"Plan"> | $Enums.Currency
+    created_at?: DateTimeFilter<"Plan"> | Date | string
+    updated_at?: DateTimeFilter<"Plan"> | Date | string
+    isactive?: BoolFilter<"Plan"> | boolean
+    memberships?: MembershipsListRelationFilter
+  }, "id">
+
+  export type PlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    description?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isactive?: SortOrder
+    _count?: PlanCountOrderByAggregateInput
+    _avg?: PlanAvgOrderByAggregateInput
+    _max?: PlanMaxOrderByAggregateInput
+    _min?: PlanMinOrderByAggregateInput
+    _sum?: PlanSumOrderByAggregateInput
+  }
+
+  export type PlanScalarWhereWithAggregatesInput = {
+    AND?: PlanScalarWhereWithAggregatesInput | PlanScalarWhereWithAggregatesInput[]
+    OR?: PlanScalarWhereWithAggregatesInput[]
+    NOT?: PlanScalarWhereWithAggregatesInput | PlanScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Plan"> | bigint | number
+    name?: StringWithAggregatesFilter<"Plan"> | string
+    price?: DecimalWithAggregatesFilter<"Plan"> | Decimal | DecimalJsLike | number | string
+    description?: StringWithAggregatesFilter<"Plan"> | string
+    currency?: EnumCurrencyWithAggregatesFilter<"Plan"> | $Enums.Currency
+    created_at?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
+    isactive?: BoolWithAggregatesFilter<"Plan"> | boolean
   }
 
   export type AdminActionWhereInput = {
@@ -22607,6 +26715,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -22643,6 +26752,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUpdateInput = {
@@ -22679,6 +26789,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -22715,6 +26826,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -22910,131 +27022,6 @@ export namespace Prisma {
     active_mentor?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type Consultancy_serviceCreateInput = {
-    id?: bigint | number
-    duration: string
-    cost?: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    scheduled_date: Date | string
-    scheduled_time: Date | string
-    rating?: Decimal | DecimalJsLike | number | string | null
-    status?: $Enums.ServiceStatus
-    opinion?: string | null
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: Date | string
-    mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
-    userRef: UsersCreateNestedOneWithoutUser_servicesInput
-    payments?: PaymentsCreateNestedManyWithoutServiceRefInput
-    reports?: ReportCreateNestedManyWithoutServiceRefInput
-  }
-
-  export type Consultancy_serviceUncheckedCreateInput = {
-    id?: bigint | number
-    mentor_id: bigint | number
-    user_id: bigint | number
-    duration: string
-    cost?: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    scheduled_date: Date | string
-    scheduled_time: Date | string
-    rating?: Decimal | DecimalJsLike | number | string | null
-    status?: $Enums.ServiceStatus
-    opinion?: string | null
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: Date | string
-    payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
-    reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
-  }
-
-  export type Consultancy_serviceUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
-    userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
-    payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
-    reports?: ReportUpdateManyWithoutServiceRefNestedInput
-  }
-
-  export type Consultancy_serviceUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
-  }
-
-  export type Consultancy_serviceCreateManyInput = {
-    id?: bigint | number
-    mentor_id: bigint | number
-    user_id: bigint | number
-    duration: string
-    cost?: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    scheduled_date: Date | string
-    scheduled_time: Date | string
-    rating?: Decimal | DecimalJsLike | number | string | null
-    status?: $Enums.ServiceStatus
-    opinion?: string | null
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: Date | string
-  }
-
-  export type Consultancy_serviceUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type Consultancy_serviceUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatCreateInput = {
@@ -23326,7 +27313,6 @@ export namespace Prisma {
   export type FeedbackCreateInput = {
     id?: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -23337,7 +27323,6 @@ export namespace Prisma {
     id?: bigint | number
     user_id: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -23346,7 +27331,6 @@ export namespace Prisma {
   export type FeedbackUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23357,7 +27341,6 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23367,7 +27350,6 @@ export namespace Prisma {
     id?: bigint | number
     user_id: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -23376,7 +27358,6 @@ export namespace Prisma {
   export type FeedbackUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23386,7 +27367,6 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23394,76 +27374,285 @@ export namespace Prisma {
 
   export type MembershipsCreateInput = {
     id?: bigint | number
-    name: string
-    price: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
     created_at?: Date | string
     updated_at?: Date | string
-    isactive?: boolean
-    payments?: PaymentsCreateNestedManyWithoutMembershipRefInput
+    planRef: PlanCreateNestedOneWithoutMembershipsInput
+    orderRef: OrderCreateNestedOneWithoutMembershipInput
   }
 
   export type MembershipsUncheckedCreateInput = {
     id?: bigint | number
-    name: string
-    price: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
+    order_id: bigint | number
     created_at?: Date | string
     updated_at?: Date | string
-    isactive?: boolean
-    payments?: PaymentsUncheckedCreateNestedManyWithoutMembershipRefInput
+    plan_id: bigint | number
   }
 
   export type MembershipsUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    payments?: PaymentsUpdateManyWithoutMembershipRefNestedInput
+    planRef?: PlanUpdateOneRequiredWithoutMembershipsNestedInput
+    orderRef?: OrderUpdateOneRequiredWithoutMembershipNestedInput
   }
 
   export type MembershipsUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    payments?: PaymentsUncheckedUpdateManyWithoutMembershipRefNestedInput
+    plan_id?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type MembershipsCreateManyInput = {
     id?: bigint | number
-    name: string
-    price: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
+    order_id: bigint | number
     created_at?: Date | string
     updated_at?: Date | string
-    isactive?: boolean
+    plan_id: bigint | number
   }
 
   export type MembershipsUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MembershipsUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
+    plan_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type Consultancy_serviceCreateInput = {
+    id?: bigint | number
+    duration: string
+    cost?: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    scheduled_date: Date | string
+    scheduled_time: Date | string
+    rating?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ServiceStatus
+    opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    orderRef?: OrderCreateNestedOneWithoutServiceInput
+    mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
+    userRef: UsersCreateNestedOneWithoutUser_servicesInput
+    reports?: ReportCreateNestedManyWithoutServiceRefInput
+  }
+
+  export type Consultancy_serviceUncheckedCreateInput = {
+    id?: bigint | number
+    order_id?: bigint | number | null
+    mentor_id: bigint | number
+    user_id: bigint | number
+    duration: string
+    cost?: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    scheduled_date: Date | string
+    scheduled_time: Date | string
+    rating?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ServiceStatus
+    opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
+  }
+
+  export type Consultancy_serviceUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderRef?: OrderUpdateOneWithoutServiceNestedInput
+    mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
+    userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
+    reports?: ReportUpdateManyWithoutServiceRefNestedInput
+  }
+
+  export type Consultancy_serviceUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
+  }
+
+  export type Consultancy_serviceCreateManyInput = {
+    id?: bigint | number
+    order_id?: bigint | number | null
+    mentor_id: bigint | number
+    user_id: bigint | number
+    duration: string
+    cost?: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    scheduled_date: Date | string
+    scheduled_time: Date | string
+    rating?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ServiceStatus
+    opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type Consultancy_serviceUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type Consultancy_serviceUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderCreateInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    userRef: UsersCreateNestedOneWithoutOrdersInput
+    payments?: PaymentsCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderUncheckedCreateInput = {
+    id?: bigint | number
+    public_id?: string
+    user_id: bigint | number
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    payments?: PaymentsUncheckedCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsUncheckedCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceUncheckedCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRef?: UsersUpdateOneRequiredWithoutOrdersNestedInput
+    payments?: PaymentsUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentsUncheckedUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUncheckedUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUncheckedUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderCreateManyInput = {
+    id?: bigint | number
+    public_id?: string
+    user_id: bigint | number
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type OrderUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentsCreateInput = {
@@ -23471,33 +27660,27 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
+    refunds?: RefundsCreateNestedManyWithoutPaymentRefInput
+    orderRef: OrderCreateNestedOneWithoutPaymentsInput
     userRef: UsersCreateNestedOneWithoutPaymentsInput
-    membershipRef?: MembershipsCreateNestedOneWithoutPaymentsInput
-    serviceRef?: Consultancy_serviceCreateNestedOneWithoutPaymentsInput
   }
 
   export type PaymentsUncheckedCreateInput = {
     id?: bigint | number
+    order_id: bigint | number
     user_id: bigint | number
-    membership_id?: bigint | number | null
-    service_id?: bigint | number | null
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
+    refunds?: RefundsUncheckedCreateNestedManyWithoutPaymentRefInput
   }
 
   export type PaymentsUpdateInput = {
@@ -23505,50 +27688,40 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUpdateManyWithoutPaymentRefNestedInput
+    orderRef?: OrderUpdateOneRequiredWithoutPaymentsNestedInput
     userRef?: UsersUpdateOneRequiredWithoutPaymentsNestedInput
-    membershipRef?: MembershipsUpdateOneWithoutPaymentsNestedInput
-    serviceRef?: Consultancy_serviceUpdateOneWithoutPaymentsNestedInput
   }
 
   export type PaymentsUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUncheckedUpdateManyWithoutPaymentRefNestedInput
   }
 
   export type PaymentsCreateManyInput = {
     id?: bigint | number
+    order_id: bigint | number
     user_id: bigint | number
-    membership_id?: bigint | number | null
-    service_id?: bigint | number | null
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type PaymentsUpdateManyMutationInput = {
@@ -23556,30 +27729,187 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentsUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsCreateInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    paymentRef: PaymentsCreateNestedOneWithoutRefundsInput
+  }
+
+  export type RefundsUncheckedCreateInput = {
+    id?: bigint | number
+    payment_id: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RefundsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    paymentRef?: PaymentsUpdateOneRequiredWithoutRefundsNestedInput
+  }
+
+  export type RefundsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    payment_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsCreateManyInput = {
+    id?: bigint | number
+    payment_id: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RefundsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    payment_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlanCreateInput = {
+    id?: bigint | number
+    name: string
+    price: Decimal | DecimalJsLike | number | string
+    description: string
+    currency?: $Enums.Currency
+    created_at?: Date | string
+    updated_at?: Date | string
+    isactive?: boolean
+    memberships?: MembershipsCreateNestedManyWithoutPlanRefInput
+  }
+
+  export type PlanUncheckedCreateInput = {
+    id?: bigint | number
+    name: string
+    price: Decimal | DecimalJsLike | number | string
+    description: string
+    currency?: $Enums.Currency
+    created_at?: Date | string
+    updated_at?: Date | string
+    isactive?: boolean
+    memberships?: MembershipsUncheckedCreateNestedManyWithoutPlanRefInput
+  }
+
+  export type PlanUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    memberships?: MembershipsUpdateManyWithoutPlanRefNestedInput
+  }
+
+  export type PlanUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    memberships?: MembershipsUncheckedUpdateManyWithoutPlanRefNestedInput
+  }
+
+  export type PlanCreateManyInput = {
+    id?: bigint | number
+    name: string
+    price: Decimal | DecimalJsLike | number | string
+    description: string
+    currency?: $Enums.Currency
+    created_at?: Date | string
+    updated_at?: Date | string
+    isactive?: boolean
+  }
+
+  export type PlanUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PlanUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AdminActionCreateInput = {
@@ -24097,6 +28427,12 @@ export namespace Prisma {
     none?: RelationshipWhereInput
   }
 
+  export type OrderListRelationFilter = {
+    every?: OrderWhereInput
+    some?: OrderWhereInput
+    none?: OrderWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -24135,6 +28471,10 @@ export namespace Prisma {
   }
 
   export type RelationshipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24537,107 +28877,6 @@ export namespace Prisma {
     _max?: NestedEnumCurrencyNullableFilter<$PrismaModel>
   }
 
-  export type EnumCurrencyFilter<$PrismaModel = never> = {
-    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
-    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    not?: NestedEnumCurrencyFilter<$PrismaModel> | $Enums.Currency
-  }
-
-  export type EnumServiceStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumServiceStatusFilter<$PrismaModel> | $Enums.ServiceStatus
-  }
-
-  export type Consultancy_serviceCountOrderByAggregateInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    duration?: SortOrder
-    cost?: SortOrder
-    currency?: SortOrder
-    scheduled_date?: SortOrder
-    scheduled_time?: SortOrder
-    rating?: SortOrder
-    status?: SortOrder
-    opinion?: SortOrder
-    approved_by_mentor?: SortOrder
-    payment_done?: SortOrder
-    created_at?: SortOrder
-  }
-
-  export type Consultancy_serviceAvgOrderByAggregateInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    cost?: SortOrder
-    rating?: SortOrder
-  }
-
-  export type Consultancy_serviceMaxOrderByAggregateInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    duration?: SortOrder
-    cost?: SortOrder
-    currency?: SortOrder
-    scheduled_date?: SortOrder
-    scheduled_time?: SortOrder
-    rating?: SortOrder
-    status?: SortOrder
-    opinion?: SortOrder
-    approved_by_mentor?: SortOrder
-    payment_done?: SortOrder
-    created_at?: SortOrder
-  }
-
-  export type Consultancy_serviceMinOrderByAggregateInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    duration?: SortOrder
-    cost?: SortOrder
-    currency?: SortOrder
-    scheduled_date?: SortOrder
-    scheduled_time?: SortOrder
-    rating?: SortOrder
-    status?: SortOrder
-    opinion?: SortOrder
-    approved_by_mentor?: SortOrder
-    payment_done?: SortOrder
-    created_at?: SortOrder
-  }
-
-  export type Consultancy_serviceSumOrderByAggregateInput = {
-    id?: SortOrder
-    mentor_id?: SortOrder
-    user_id?: SortOrder
-    cost?: SortOrder
-    rating?: SortOrder
-  }
-
-  export type EnumCurrencyWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
-    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    not?: NestedEnumCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.Currency
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCurrencyFilter<$PrismaModel>
-    _max?: NestedEnumCurrencyFilter<$PrismaModel>
-  }
-
-  export type EnumServiceStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumServiceStatusFilter<$PrismaModel>
-    _max?: NestedEnumServiceStatusFilter<$PrismaModel>
-  }
-
   export type ChatUser1_idUser2_idCompoundUniqueInput = {
     user1_id: bigint | number
     user2_id: bigint | number
@@ -24918,7 +29157,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     rating?: SortOrder
-    image?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -24934,7 +29172,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     rating?: SortOrder
-    image?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -24944,7 +29181,6 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     rating?: SortOrder
-    image?: SortOrder
     content?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -24956,44 +29192,251 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
+  export type PlanScalarRelationFilter = {
+    is?: PlanWhereInput
+    isNot?: PlanWhereInput
+  }
+
+  export type OrderScalarRelationFilter = {
+    is?: OrderWhereInput
+    isNot?: OrderWhereInput
+  }
+
   export type MembershipsCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    price?: SortOrder
-    currency?: SortOrder
+    order_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    isactive?: SortOrder
+    plan_id?: SortOrder
   }
 
   export type MembershipsAvgOrderByAggregateInput = {
     id?: SortOrder
-    price?: SortOrder
+    order_id?: SortOrder
+    plan_id?: SortOrder
   }
 
   export type MembershipsMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    price?: SortOrder
-    currency?: SortOrder
+    order_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    isactive?: SortOrder
+    plan_id?: SortOrder
   }
 
   export type MembershipsMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    price?: SortOrder
-    currency?: SortOrder
+    order_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    isactive?: SortOrder
+    plan_id?: SortOrder
   }
 
   export type MembershipsSumOrderByAggregateInput = {
     id?: SortOrder
-    price?: SortOrder
+    order_id?: SortOrder
+    plan_id?: SortOrder
+  }
+
+  export type EnumCurrencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCurrencyFilter<$PrismaModel> | $Enums.Currency
+  }
+
+  export type EnumServiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumServiceStatusFilter<$PrismaModel> | $Enums.ServiceStatus
+  }
+
+  export type OrderNullableScalarRelationFilter = {
+    is?: OrderWhereInput | null
+    isNot?: OrderWhereInput | null
+  }
+
+  export type Consultancy_serviceCountOrderByAggregateInput = {
+    id?: SortOrder
+    order_id?: SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    duration?: SortOrder
+    cost?: SortOrder
+    currency?: SortOrder
+    scheduled_date?: SortOrder
+    scheduled_time?: SortOrder
+    rating?: SortOrder
+    status?: SortOrder
+    opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type Consultancy_serviceAvgOrderByAggregateInput = {
+    id?: SortOrder
+    order_id?: SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    cost?: SortOrder
+    rating?: SortOrder
+  }
+
+  export type Consultancy_serviceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    order_id?: SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    duration?: SortOrder
+    cost?: SortOrder
+    currency?: SortOrder
+    scheduled_date?: SortOrder
+    scheduled_time?: SortOrder
+    rating?: SortOrder
+    status?: SortOrder
+    opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type Consultancy_serviceMinOrderByAggregateInput = {
+    id?: SortOrder
+    order_id?: SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    duration?: SortOrder
+    cost?: SortOrder
+    currency?: SortOrder
+    scheduled_date?: SortOrder
+    scheduled_time?: SortOrder
+    rating?: SortOrder
+    status?: SortOrder
+    opinion?: SortOrder
+    approved_by_mentor?: SortOrder
+    payment_done?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type Consultancy_serviceSumOrderByAggregateInput = {
+    id?: SortOrder
+    order_id?: SortOrder
+    mentor_id?: SortOrder
+    user_id?: SortOrder
+    cost?: SortOrder
+    rating?: SortOrder
+  }
+
+  export type EnumCurrencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.Currency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCurrencyFilter<$PrismaModel>
+    _max?: NestedEnumCurrencyFilter<$PrismaModel>
+  }
+
+  export type EnumServiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumServiceStatusFilter<$PrismaModel>
+  }
+
+  export type EnumOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeFilter<$PrismaModel> | $Enums.OrderType
+  }
+
+  export type EnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
+  export type MembershipsNullableScalarRelationFilter = {
+    is?: MembershipsWhereInput | null
+    isNot?: MembershipsWhereInput | null
+  }
+
+  export type OrderCountOrderByAggregateInput = {
+    id?: SortOrder
+    public_id?: SortOrder
+    user_id?: SortOrder
+    order_type?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type OrderAvgOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type OrderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    public_id?: SortOrder
+    user_id?: SortOrder
+    order_type?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type OrderMinOrderByAggregateInput = {
+    id?: SortOrder
+    public_id?: SortOrder
+    user_id?: SortOrder
+    order_type?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type OrderSumOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type EnumOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.OrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumOrderTypeFilter<$PrismaModel>
+  }
+
+  export type EnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -25002,95 +29445,89 @@ export namespace Prisma {
     notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type EnumPaymentMethodFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type EnumPaymentForFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentFor | EnumPaymentForFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentForFilter<$PrismaModel> | $Enums.PaymentFor
+  export type RefundsListRelationFilter = {
+    every?: RefundsWhereInput
+    some?: RefundsWhereInput
+    none?: RefundsWhereInput
   }
 
-  export type MembershipsNullableScalarRelationFilter = {
-    is?: MembershipsWhereInput | null
-    isNot?: MembershipsWhereInput | null
+  export type RefundsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PaymentsCountOrderByAggregateInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrder
-    service_id?: SortOrder
     amount?: SortOrder
     currency?: SortOrder
     status?: SortOrder
-    international?: SortOrder
-    method?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
-    paymentfor?: SortOrder
-    transaction_id?: SortOrder
+    gateway_txn_id?: SortOrder
+    paytm_response?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type PaymentsAvgOrderByAggregateInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrder
-    service_id?: SortOrder
     amount?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
   }
 
   export type PaymentsMaxOrderByAggregateInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrder
-    service_id?: SortOrder
     amount?: SortOrder
     currency?: SortOrder
     status?: SortOrder
-    international?: SortOrder
-    method?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
-    paymentfor?: SortOrder
-    transaction_id?: SortOrder
+    gateway_txn_id?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type PaymentsMinOrderByAggregateInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrder
-    service_id?: SortOrder
     amount?: SortOrder
     currency?: SortOrder
     status?: SortOrder
-    international?: SortOrder
-    method?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
-    paymentfor?: SortOrder
-    transaction_id?: SortOrder
+    gateway_txn_id?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type PaymentsSumOrderByAggregateInput = {
     id?: SortOrder
+    order_id?: SortOrder
     user_id?: SortOrder
-    membership_id?: SortOrder
-    service_id?: SortOrder
     amount?: SortOrder
-    fee?: SortOrder
-    tax?: SortOrder
   }
 
   export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -25102,32 +29539,38 @@ export namespace Prisma {
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type EnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentMethodFilter<$PrismaModel>
-    _max?: NestedEnumPaymentMethodFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type EnumPaymentForWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentFor | EnumPaymentForFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentForWithAggregatesFilter<$PrismaModel> | $Enums.PaymentFor
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentForFilter<$PrismaModel>
-    _max?: NestedEnumPaymentForFilter<$PrismaModel>
-  }
-
-  export type EnumAdminActionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumAdminActionTypeFilter<$PrismaModel> | $Enums.AdminActionType
+  export type EnumRefundStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusFilter<$PrismaModel> | $Enums.RefundStatus
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -25151,6 +29594,153 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type PaymentsScalarRelationFilter = {
+    is?: PaymentsWhereInput
+    isNot?: PaymentsWhereInput
+  }
+
+  export type RefundsCountOrderByAggregateInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    gateway_refund_id?: SortOrder
+    paytm_response?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RefundsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type RefundsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    gateway_refund_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RefundsMinOrderByAggregateInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    gateway_refund_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RefundsSumOrderByAggregateInput = {
+    id?: SortOrder
+    payment_id?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type EnumRefundStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel> | $Enums.RefundStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRefundStatusFilter<$PrismaModel>
+    _max?: NestedEnumRefundStatusFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type MembershipsListRelationFilter = {
+    every?: MembershipsWhereInput
+    some?: MembershipsWhereInput
+    none?: MembershipsWhereInput
+  }
+
+  export type MembershipsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    description?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isactive?: SortOrder
+  }
+
+  export type PlanAvgOrderByAggregateInput = {
+    id?: SortOrder
+    price?: SortOrder
+  }
+
+  export type PlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    description?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isactive?: SortOrder
+  }
+
+  export type PlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    description?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isactive?: SortOrder
+  }
+
+  export type PlanSumOrderByAggregateInput = {
+    id?: SortOrder
+    price?: SortOrder
+  }
+
+  export type EnumAdminActionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAdminActionTypeFilter<$PrismaModel> | $Enums.AdminActionType
   }
 
   export type AdminActionCountOrderByAggregateInput = {
@@ -25207,32 +29797,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAdminActionTypeFilter<$PrismaModel>
     _max?: NestedEnumAdminActionTypeFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type DocumentCountOrderByAggregateInput = {
@@ -25585,6 +30149,13 @@ export namespace Prisma {
     connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
   }
 
+  export type OrderCreateNestedManyWithoutUserRefInput = {
+    create?: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput> | OrderCreateWithoutUserRefInput[] | OrderUncheckedCreateWithoutUserRefInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserRefInput | OrderCreateOrConnectWithoutUserRefInput[]
+    createMany?: OrderCreateManyUserRefInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type FeedbackUncheckedCreateNestedManyWithoutUserRefInput = {
     create?: XOR<FeedbackCreateWithoutUserRefInput, FeedbackUncheckedCreateWithoutUserRefInput> | FeedbackCreateWithoutUserRefInput[] | FeedbackUncheckedCreateWithoutUserRefInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserRefInput | FeedbackCreateOrConnectWithoutUserRefInput[]
@@ -25687,6 +30258,13 @@ export namespace Prisma {
     connectOrCreate?: RelationshipCreateOrConnectWithoutUser2RefInput | RelationshipCreateOrConnectWithoutUser2RefInput[]
     createMany?: RelationshipCreateManyUser2RefInputEnvelope
     connect?: RelationshipWhereUniqueInput | RelationshipWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutUserRefInput = {
+    create?: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput> | OrderCreateWithoutUserRefInput[] | OrderUncheckedCreateWithoutUserRefInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserRefInput | OrderCreateOrConnectWithoutUserRefInput[]
+    createMany?: OrderCreateManyUserRefInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type BigIntFieldUpdateOperationsInput = {
@@ -25935,6 +30513,20 @@ export namespace Prisma {
     deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
   }
 
+  export type OrderUpdateManyWithoutUserRefNestedInput = {
+    create?: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput> | OrderCreateWithoutUserRefInput[] | OrderUncheckedCreateWithoutUserRefInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserRefInput | OrderCreateOrConnectWithoutUserRefInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutUserRefInput | OrderUpsertWithWhereUniqueWithoutUserRefInput[]
+    createMany?: OrderCreateManyUserRefInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutUserRefInput | OrderUpdateWithWhereUniqueWithoutUserRefInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutUserRefInput | OrderUpdateManyWithWhereWithoutUserRefInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type FeedbackUncheckedUpdateManyWithoutUserRefNestedInput = {
     create?: XOR<FeedbackCreateWithoutUserRefInput, FeedbackUncheckedCreateWithoutUserRefInput> | FeedbackCreateWithoutUserRefInput[] | FeedbackUncheckedCreateWithoutUserRefInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserRefInput | FeedbackCreateOrConnectWithoutUserRefInput[]
@@ -26141,6 +30733,20 @@ export namespace Prisma {
     deleteMany?: RelationshipScalarWhereInput | RelationshipScalarWhereInput[]
   }
 
+  export type OrderUncheckedUpdateManyWithoutUserRefNestedInput = {
+    create?: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput> | OrderCreateWithoutUserRefInput[] | OrderUncheckedCreateWithoutUserRefInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutUserRefInput | OrderCreateOrConnectWithoutUserRefInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutUserRefInput | OrderUpsertWithWhereUniqueWithoutUserRefInput[]
+    createMany?: OrderCreateManyUserRefInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutUserRefInput | OrderUpdateWithWhereUniqueWithoutUserRefInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutUserRefInput | OrderUpdateManyWithWhereWithoutUserRefInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type UsersCreateNestedOneWithoutMentorInput = {
     create?: XOR<UsersCreateWithoutMentorInput, UsersUncheckedCreateWithoutMentorInput>
     connectOrCreate?: UsersCreateOrConnectWithoutMentorInput
@@ -26189,126 +30795,6 @@ export namespace Prisma {
     upsert?: UsersUpsertWithoutMentorInput
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutMentorInput, UsersUpdateWithoutMentorInput>, UsersUncheckedUpdateWithoutMentorInput>
-  }
-
-  export type UsersCreateNestedOneWithoutMentor_servicesInput = {
-    create?: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutMentor_servicesInput
-    connect?: UsersWhereUniqueInput
-  }
-
-  export type UsersCreateNestedOneWithoutUser_servicesInput = {
-    create?: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutUser_servicesInput
-    connect?: UsersWhereUniqueInput
-  }
-
-  export type PaymentsCreateNestedManyWithoutServiceRefInput = {
-    create?: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput> | PaymentsCreateWithoutServiceRefInput[] | PaymentsUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutServiceRefInput | PaymentsCreateOrConnectWithoutServiceRefInput[]
-    createMany?: PaymentsCreateManyServiceRefInputEnvelope
-    connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-  }
-
-  export type ReportCreateNestedManyWithoutServiceRefInput = {
-    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
-    createMany?: ReportCreateManyServiceRefInputEnvelope
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-  }
-
-  export type PaymentsUncheckedCreateNestedManyWithoutServiceRefInput = {
-    create?: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput> | PaymentsCreateWithoutServiceRefInput[] | PaymentsUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutServiceRefInput | PaymentsCreateOrConnectWithoutServiceRefInput[]
-    createMany?: PaymentsCreateManyServiceRefInputEnvelope
-    connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-  }
-
-  export type ReportUncheckedCreateNestedManyWithoutServiceRefInput = {
-    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
-    createMany?: ReportCreateManyServiceRefInputEnvelope
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-  }
-
-  export type EnumCurrencyFieldUpdateOperationsInput = {
-    set?: $Enums.Currency
-  }
-
-  export type EnumServiceStatusFieldUpdateOperationsInput = {
-    set?: $Enums.ServiceStatus
-  }
-
-  export type UsersUpdateOneRequiredWithoutMentor_servicesNestedInput = {
-    create?: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutMentor_servicesInput
-    upsert?: UsersUpsertWithoutMentor_servicesInput
-    connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutMentor_servicesInput, UsersUpdateWithoutMentor_servicesInput>, UsersUncheckedUpdateWithoutMentor_servicesInput>
-  }
-
-  export type UsersUpdateOneRequiredWithoutUser_servicesNestedInput = {
-    create?: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutUser_servicesInput
-    upsert?: UsersUpsertWithoutUser_servicesInput
-    connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUser_servicesInput, UsersUpdateWithoutUser_servicesInput>, UsersUncheckedUpdateWithoutUser_servicesInput>
-  }
-
-  export type PaymentsUpdateManyWithoutServiceRefNestedInput = {
-    create?: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput> | PaymentsCreateWithoutServiceRefInput[] | PaymentsUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutServiceRefInput | PaymentsCreateOrConnectWithoutServiceRefInput[]
-    upsert?: PaymentsUpsertWithWhereUniqueWithoutServiceRefInput | PaymentsUpsertWithWhereUniqueWithoutServiceRefInput[]
-    createMany?: PaymentsCreateManyServiceRefInputEnvelope
-    set?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    disconnect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    delete?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    update?: PaymentsUpdateWithWhereUniqueWithoutServiceRefInput | PaymentsUpdateWithWhereUniqueWithoutServiceRefInput[]
-    updateMany?: PaymentsUpdateManyWithWhereWithoutServiceRefInput | PaymentsUpdateManyWithWhereWithoutServiceRefInput[]
-    deleteMany?: PaymentsScalarWhereInput | PaymentsScalarWhereInput[]
-  }
-
-  export type ReportUpdateManyWithoutServiceRefNestedInput = {
-    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
-    upsert?: ReportUpsertWithWhereUniqueWithoutServiceRefInput | ReportUpsertWithWhereUniqueWithoutServiceRefInput[]
-    createMany?: ReportCreateManyServiceRefInputEnvelope
-    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    update?: ReportUpdateWithWhereUniqueWithoutServiceRefInput | ReportUpdateWithWhereUniqueWithoutServiceRefInput[]
-    updateMany?: ReportUpdateManyWithWhereWithoutServiceRefInput | ReportUpdateManyWithWhereWithoutServiceRefInput[]
-    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
-  }
-
-  export type PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput = {
-    create?: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput> | PaymentsCreateWithoutServiceRefInput[] | PaymentsUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutServiceRefInput | PaymentsCreateOrConnectWithoutServiceRefInput[]
-    upsert?: PaymentsUpsertWithWhereUniqueWithoutServiceRefInput | PaymentsUpsertWithWhereUniqueWithoutServiceRefInput[]
-    createMany?: PaymentsCreateManyServiceRefInputEnvelope
-    set?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    disconnect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    delete?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    update?: PaymentsUpdateWithWhereUniqueWithoutServiceRefInput | PaymentsUpdateWithWhereUniqueWithoutServiceRefInput[]
-    updateMany?: PaymentsUpdateManyWithWhereWithoutServiceRefInput | PaymentsUpdateManyWithWhereWithoutServiceRefInput[]
-    deleteMany?: PaymentsScalarWhereInput | PaymentsScalarWhereInput[]
-  }
-
-  export type ReportUncheckedUpdateManyWithoutServiceRefNestedInput = {
-    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
-    upsert?: ReportUpsertWithWhereUniqueWithoutServiceRefInput | ReportUpsertWithWhereUniqueWithoutServiceRefInput[]
-    createMany?: ReportCreateManyServiceRefInputEnvelope
-    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    update?: ReportUpdateWithWhereUniqueWithoutServiceRefInput | ReportUpdateWithWhereUniqueWithoutServiceRefInput[]
-    updateMany?: ReportUpdateManyWithWhereWithoutServiceRefInput | ReportUpdateManyWithWhereWithoutServiceRefInput[]
-    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
   export type UsersCreateNestedOneWithoutChat1Input = {
@@ -26561,46 +31047,267 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutFeedbacksInput, UsersUpdateWithoutFeedbacksInput>, UsersUncheckedUpdateWithoutFeedbacksInput>
   }
 
-  export type PaymentsCreateNestedManyWithoutMembershipRefInput = {
-    create?: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput> | PaymentsCreateWithoutMembershipRefInput[] | PaymentsUncheckedCreateWithoutMembershipRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutMembershipRefInput | PaymentsCreateOrConnectWithoutMembershipRefInput[]
-    createMany?: PaymentsCreateManyMembershipRefInputEnvelope
+  export type PlanCreateNestedOneWithoutMembershipsInput = {
+    create?: XOR<PlanCreateWithoutMembershipsInput, PlanUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: PlanCreateOrConnectWithoutMembershipsInput
+    connect?: PlanWhereUniqueInput
+  }
+
+  export type OrderCreateNestedOneWithoutMembershipInput = {
+    create?: XOR<OrderCreateWithoutMembershipInput, OrderUncheckedCreateWithoutMembershipInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutMembershipInput
+    connect?: OrderWhereUniqueInput
+  }
+
+  export type PlanUpdateOneRequiredWithoutMembershipsNestedInput = {
+    create?: XOR<PlanCreateWithoutMembershipsInput, PlanUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: PlanCreateOrConnectWithoutMembershipsInput
+    upsert?: PlanUpsertWithoutMembershipsInput
+    connect?: PlanWhereUniqueInput
+    update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutMembershipsInput, PlanUpdateWithoutMembershipsInput>, PlanUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type OrderUpdateOneRequiredWithoutMembershipNestedInput = {
+    create?: XOR<OrderCreateWithoutMembershipInput, OrderUncheckedCreateWithoutMembershipInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutMembershipInput
+    upsert?: OrderUpsertWithoutMembershipInput
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutMembershipInput, OrderUpdateWithoutMembershipInput>, OrderUncheckedUpdateWithoutMembershipInput>
+  }
+
+  export type OrderCreateNestedOneWithoutServiceInput = {
+    create?: XOR<OrderCreateWithoutServiceInput, OrderUncheckedCreateWithoutServiceInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutServiceInput
+    connect?: OrderWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutMentor_servicesInput = {
+    create?: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutMentor_servicesInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutUser_servicesInput = {
+    create?: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser_servicesInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type ReportCreateNestedManyWithoutServiceRefInput = {
+    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
+    createMany?: ReportCreateManyServiceRefInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReportUncheckedCreateNestedManyWithoutServiceRefInput = {
+    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
+    createMany?: ReportCreateManyServiceRefInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type EnumCurrencyFieldUpdateOperationsInput = {
+    set?: $Enums.Currency
+  }
+
+  export type EnumServiceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ServiceStatus
+  }
+
+  export type OrderUpdateOneWithoutServiceNestedInput = {
+    create?: XOR<OrderCreateWithoutServiceInput, OrderUncheckedCreateWithoutServiceInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutServiceInput
+    upsert?: OrderUpsertWithoutServiceInput
+    disconnect?: OrderWhereInput | boolean
+    delete?: OrderWhereInput | boolean
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutServiceInput, OrderUpdateWithoutServiceInput>, OrderUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutMentor_servicesNestedInput = {
+    create?: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutMentor_servicesInput
+    upsert?: UsersUpsertWithoutMentor_servicesInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutMentor_servicesInput, UsersUpdateWithoutMentor_servicesInput>, UsersUncheckedUpdateWithoutMentor_servicesInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutUser_servicesNestedInput = {
+    create?: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser_servicesInput
+    upsert?: UsersUpsertWithoutUser_servicesInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUser_servicesInput, UsersUpdateWithoutUser_servicesInput>, UsersUncheckedUpdateWithoutUser_servicesInput>
+  }
+
+  export type ReportUpdateManyWithoutServiceRefNestedInput = {
+    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutServiceRefInput | ReportUpsertWithWhereUniqueWithoutServiceRefInput[]
+    createMany?: ReportCreateManyServiceRefInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutServiceRefInput | ReportUpdateWithWhereUniqueWithoutServiceRefInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutServiceRefInput | ReportUpdateManyWithWhereWithoutServiceRefInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReportUncheckedUpdateManyWithoutServiceRefNestedInput = {
+    create?: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput> | ReportCreateWithoutServiceRefInput[] | ReportUncheckedCreateWithoutServiceRefInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutServiceRefInput | ReportCreateOrConnectWithoutServiceRefInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutServiceRefInput | ReportUpsertWithWhereUniqueWithoutServiceRefInput[]
+    createMany?: ReportCreateManyServiceRefInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutServiceRefInput | ReportUpdateWithWhereUniqueWithoutServiceRefInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutServiceRefInput | ReportUpdateManyWithWhereWithoutServiceRefInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type UsersCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutOrdersInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type PaymentsCreateNestedManyWithoutOrderRefInput = {
+    create?: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput> | PaymentsCreateWithoutOrderRefInput[] | PaymentsUncheckedCreateWithoutOrderRefInput[]
+    connectOrCreate?: PaymentsCreateOrConnectWithoutOrderRefInput | PaymentsCreateOrConnectWithoutOrderRefInput[]
+    createMany?: PaymentsCreateManyOrderRefInputEnvelope
     connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
   }
 
-  export type PaymentsUncheckedCreateNestedManyWithoutMembershipRefInput = {
-    create?: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput> | PaymentsCreateWithoutMembershipRefInput[] | PaymentsUncheckedCreateWithoutMembershipRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutMembershipRefInput | PaymentsCreateOrConnectWithoutMembershipRefInput[]
-    createMany?: PaymentsCreateManyMembershipRefInputEnvelope
+  export type MembershipsCreateNestedOneWithoutOrderRefInput = {
+    create?: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: MembershipsCreateOrConnectWithoutOrderRefInput
+    connect?: MembershipsWhereUniqueInput
+  }
+
+  export type Consultancy_serviceCreateNestedOneWithoutOrderRefInput = {
+    create?: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutOrderRefInput
+    connect?: Consultancy_serviceWhereUniqueInput
+  }
+
+  export type PaymentsUncheckedCreateNestedManyWithoutOrderRefInput = {
+    create?: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput> | PaymentsCreateWithoutOrderRefInput[] | PaymentsUncheckedCreateWithoutOrderRefInput[]
+    connectOrCreate?: PaymentsCreateOrConnectWithoutOrderRefInput | PaymentsCreateOrConnectWithoutOrderRefInput[]
+    createMany?: PaymentsCreateManyOrderRefInputEnvelope
     connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
   }
 
-  export type PaymentsUpdateManyWithoutMembershipRefNestedInput = {
-    create?: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput> | PaymentsCreateWithoutMembershipRefInput[] | PaymentsUncheckedCreateWithoutMembershipRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutMembershipRefInput | PaymentsCreateOrConnectWithoutMembershipRefInput[]
-    upsert?: PaymentsUpsertWithWhereUniqueWithoutMembershipRefInput | PaymentsUpsertWithWhereUniqueWithoutMembershipRefInput[]
-    createMany?: PaymentsCreateManyMembershipRefInputEnvelope
+  export type MembershipsUncheckedCreateNestedOneWithoutOrderRefInput = {
+    create?: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: MembershipsCreateOrConnectWithoutOrderRefInput
+    connect?: MembershipsWhereUniqueInput
+  }
+
+  export type Consultancy_serviceUncheckedCreateNestedOneWithoutOrderRefInput = {
+    create?: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutOrderRefInput
+    connect?: Consultancy_serviceWhereUniqueInput
+  }
+
+  export type EnumOrderTypeFieldUpdateOperationsInput = {
+    set?: $Enums.OrderType
+  }
+
+  export type EnumOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.OrderStatus
+  }
+
+  export type UsersUpdateOneRequiredWithoutOrdersNestedInput = {
+    create?: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutOrdersInput
+    upsert?: UsersUpsertWithoutOrdersInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutOrdersInput, UsersUpdateWithoutOrdersInput>, UsersUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type PaymentsUpdateManyWithoutOrderRefNestedInput = {
+    create?: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput> | PaymentsCreateWithoutOrderRefInput[] | PaymentsUncheckedCreateWithoutOrderRefInput[]
+    connectOrCreate?: PaymentsCreateOrConnectWithoutOrderRefInput | PaymentsCreateOrConnectWithoutOrderRefInput[]
+    upsert?: PaymentsUpsertWithWhereUniqueWithoutOrderRefInput | PaymentsUpsertWithWhereUniqueWithoutOrderRefInput[]
+    createMany?: PaymentsCreateManyOrderRefInputEnvelope
     set?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     disconnect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     delete?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    update?: PaymentsUpdateWithWhereUniqueWithoutMembershipRefInput | PaymentsUpdateWithWhereUniqueWithoutMembershipRefInput[]
-    updateMany?: PaymentsUpdateManyWithWhereWithoutMembershipRefInput | PaymentsUpdateManyWithWhereWithoutMembershipRefInput[]
+    update?: PaymentsUpdateWithWhereUniqueWithoutOrderRefInput | PaymentsUpdateWithWhereUniqueWithoutOrderRefInput[]
+    updateMany?: PaymentsUpdateManyWithWhereWithoutOrderRefInput | PaymentsUpdateManyWithWhereWithoutOrderRefInput[]
     deleteMany?: PaymentsScalarWhereInput | PaymentsScalarWhereInput[]
   }
 
-  export type PaymentsUncheckedUpdateManyWithoutMembershipRefNestedInput = {
-    create?: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput> | PaymentsCreateWithoutMembershipRefInput[] | PaymentsUncheckedCreateWithoutMembershipRefInput[]
-    connectOrCreate?: PaymentsCreateOrConnectWithoutMembershipRefInput | PaymentsCreateOrConnectWithoutMembershipRefInput[]
-    upsert?: PaymentsUpsertWithWhereUniqueWithoutMembershipRefInput | PaymentsUpsertWithWhereUniqueWithoutMembershipRefInput[]
-    createMany?: PaymentsCreateManyMembershipRefInputEnvelope
+  export type MembershipsUpdateOneWithoutOrderRefNestedInput = {
+    create?: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: MembershipsCreateOrConnectWithoutOrderRefInput
+    upsert?: MembershipsUpsertWithoutOrderRefInput
+    disconnect?: MembershipsWhereInput | boolean
+    delete?: MembershipsWhereInput | boolean
+    connect?: MembershipsWhereUniqueInput
+    update?: XOR<XOR<MembershipsUpdateToOneWithWhereWithoutOrderRefInput, MembershipsUpdateWithoutOrderRefInput>, MembershipsUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type Consultancy_serviceUpdateOneWithoutOrderRefNestedInput = {
+    create?: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutOrderRefInput
+    upsert?: Consultancy_serviceUpsertWithoutOrderRefInput
+    disconnect?: Consultancy_serviceWhereInput | boolean
+    delete?: Consultancy_serviceWhereInput | boolean
+    connect?: Consultancy_serviceWhereUniqueInput
+    update?: XOR<XOR<Consultancy_serviceUpdateToOneWithWhereWithoutOrderRefInput, Consultancy_serviceUpdateWithoutOrderRefInput>, Consultancy_serviceUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type PaymentsUncheckedUpdateManyWithoutOrderRefNestedInput = {
+    create?: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput> | PaymentsCreateWithoutOrderRefInput[] | PaymentsUncheckedCreateWithoutOrderRefInput[]
+    connectOrCreate?: PaymentsCreateOrConnectWithoutOrderRefInput | PaymentsCreateOrConnectWithoutOrderRefInput[]
+    upsert?: PaymentsUpsertWithWhereUniqueWithoutOrderRefInput | PaymentsUpsertWithWhereUniqueWithoutOrderRefInput[]
+    createMany?: PaymentsCreateManyOrderRefInputEnvelope
     set?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     disconnect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     delete?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
     connect?: PaymentsWhereUniqueInput | PaymentsWhereUniqueInput[]
-    update?: PaymentsUpdateWithWhereUniqueWithoutMembershipRefInput | PaymentsUpdateWithWhereUniqueWithoutMembershipRefInput[]
-    updateMany?: PaymentsUpdateManyWithWhereWithoutMembershipRefInput | PaymentsUpdateManyWithWhereWithoutMembershipRefInput[]
+    update?: PaymentsUpdateWithWhereUniqueWithoutOrderRefInput | PaymentsUpdateWithWhereUniqueWithoutOrderRefInput[]
+    updateMany?: PaymentsUpdateManyWithWhereWithoutOrderRefInput | PaymentsUpdateManyWithWhereWithoutOrderRefInput[]
     deleteMany?: PaymentsScalarWhereInput | PaymentsScalarWhereInput[]
+  }
+
+  export type MembershipsUncheckedUpdateOneWithoutOrderRefNestedInput = {
+    create?: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: MembershipsCreateOrConnectWithoutOrderRefInput
+    upsert?: MembershipsUpsertWithoutOrderRefInput
+    disconnect?: MembershipsWhereInput | boolean
+    delete?: MembershipsWhereInput | boolean
+    connect?: MembershipsWhereUniqueInput
+    update?: XOR<XOR<MembershipsUpdateToOneWithWhereWithoutOrderRefInput, MembershipsUpdateWithoutOrderRefInput>, MembershipsUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type Consultancy_serviceUncheckedUpdateOneWithoutOrderRefNestedInput = {
+    create?: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutOrderRefInput
+    upsert?: Consultancy_serviceUpsertWithoutOrderRefInput
+    disconnect?: Consultancy_serviceWhereInput | boolean
+    delete?: Consultancy_serviceWhereInput | boolean
+    connect?: Consultancy_serviceWhereUniqueInput
+    update?: XOR<XOR<Consultancy_serviceUpdateToOneWithWhereWithoutOrderRefInput, Consultancy_serviceUpdateWithoutOrderRefInput>, Consultancy_serviceUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type RefundsCreateNestedManyWithoutPaymentRefInput = {
+    create?: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput> | RefundsCreateWithoutPaymentRefInput[] | RefundsUncheckedCreateWithoutPaymentRefInput[]
+    connectOrCreate?: RefundsCreateOrConnectWithoutPaymentRefInput | RefundsCreateOrConnectWithoutPaymentRefInput[]
+    createMany?: RefundsCreateManyPaymentRefInputEnvelope
+    connect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+  }
+
+  export type OrderCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<OrderCreateWithoutPaymentsInput, OrderUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutPaymentsInput
+    connect?: OrderWhereUniqueInput
   }
 
   export type UsersCreateNestedOneWithoutPaymentsInput = {
@@ -26609,28 +31316,37 @@ export namespace Prisma {
     connect?: UsersWhereUniqueInput
   }
 
-  export type MembershipsCreateNestedOneWithoutPaymentsInput = {
-    create?: XOR<MembershipsCreateWithoutPaymentsInput, MembershipsUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: MembershipsCreateOrConnectWithoutPaymentsInput
-    connect?: MembershipsWhereUniqueInput
-  }
-
-  export type Consultancy_serviceCreateNestedOneWithoutPaymentsInput = {
-    create?: XOR<Consultancy_serviceCreateWithoutPaymentsInput, Consultancy_serviceUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutPaymentsInput
-    connect?: Consultancy_serviceWhereUniqueInput
+  export type RefundsUncheckedCreateNestedManyWithoutPaymentRefInput = {
+    create?: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput> | RefundsCreateWithoutPaymentRefInput[] | RefundsUncheckedCreateWithoutPaymentRefInput[]
+    connectOrCreate?: RefundsCreateOrConnectWithoutPaymentRefInput | RefundsCreateOrConnectWithoutPaymentRefInput[]
+    createMany?: RefundsCreateManyPaymentRefInputEnvelope
+    connect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
   }
 
   export type EnumPaymentStatusFieldUpdateOperationsInput = {
     set?: $Enums.PaymentStatus
   }
 
-  export type EnumPaymentMethodFieldUpdateOperationsInput = {
-    set?: $Enums.PaymentMethod
+  export type RefundsUpdateManyWithoutPaymentRefNestedInput = {
+    create?: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput> | RefundsCreateWithoutPaymentRefInput[] | RefundsUncheckedCreateWithoutPaymentRefInput[]
+    connectOrCreate?: RefundsCreateOrConnectWithoutPaymentRefInput | RefundsCreateOrConnectWithoutPaymentRefInput[]
+    upsert?: RefundsUpsertWithWhereUniqueWithoutPaymentRefInput | RefundsUpsertWithWhereUniqueWithoutPaymentRefInput[]
+    createMany?: RefundsCreateManyPaymentRefInputEnvelope
+    set?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    disconnect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    delete?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    connect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    update?: RefundsUpdateWithWhereUniqueWithoutPaymentRefInput | RefundsUpdateWithWhereUniqueWithoutPaymentRefInput[]
+    updateMany?: RefundsUpdateManyWithWhereWithoutPaymentRefInput | RefundsUpdateManyWithWhereWithoutPaymentRefInput[]
+    deleteMany?: RefundsScalarWhereInput | RefundsScalarWhereInput[]
   }
 
-  export type EnumPaymentForFieldUpdateOperationsInput = {
-    set?: $Enums.PaymentFor
+  export type OrderUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<OrderCreateWithoutPaymentsInput, OrderUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutPaymentsInput
+    upsert?: OrderUpsertWithoutPaymentsInput
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutPaymentsInput, OrderUpdateWithoutPaymentsInput>, OrderUncheckedUpdateWithoutPaymentsInput>
   }
 
   export type UsersUpdateOneRequiredWithoutPaymentsNestedInput = {
@@ -26641,24 +31357,78 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutPaymentsInput, UsersUpdateWithoutPaymentsInput>, UsersUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type MembershipsUpdateOneWithoutPaymentsNestedInput = {
-    create?: XOR<MembershipsCreateWithoutPaymentsInput, MembershipsUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: MembershipsCreateOrConnectWithoutPaymentsInput
-    upsert?: MembershipsUpsertWithoutPaymentsInput
-    disconnect?: MembershipsWhereInput | boolean
-    delete?: MembershipsWhereInput | boolean
-    connect?: MembershipsWhereUniqueInput
-    update?: XOR<XOR<MembershipsUpdateToOneWithWhereWithoutPaymentsInput, MembershipsUpdateWithoutPaymentsInput>, MembershipsUncheckedUpdateWithoutPaymentsInput>
+  export type RefundsUncheckedUpdateManyWithoutPaymentRefNestedInput = {
+    create?: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput> | RefundsCreateWithoutPaymentRefInput[] | RefundsUncheckedCreateWithoutPaymentRefInput[]
+    connectOrCreate?: RefundsCreateOrConnectWithoutPaymentRefInput | RefundsCreateOrConnectWithoutPaymentRefInput[]
+    upsert?: RefundsUpsertWithWhereUniqueWithoutPaymentRefInput | RefundsUpsertWithWhereUniqueWithoutPaymentRefInput[]
+    createMany?: RefundsCreateManyPaymentRefInputEnvelope
+    set?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    disconnect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    delete?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    connect?: RefundsWhereUniqueInput | RefundsWhereUniqueInput[]
+    update?: RefundsUpdateWithWhereUniqueWithoutPaymentRefInput | RefundsUpdateWithWhereUniqueWithoutPaymentRefInput[]
+    updateMany?: RefundsUpdateManyWithWhereWithoutPaymentRefInput | RefundsUpdateManyWithWhereWithoutPaymentRefInput[]
+    deleteMany?: RefundsScalarWhereInput | RefundsScalarWhereInput[]
   }
 
-  export type Consultancy_serviceUpdateOneWithoutPaymentsNestedInput = {
-    create?: XOR<Consultancy_serviceCreateWithoutPaymentsInput, Consultancy_serviceUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: Consultancy_serviceCreateOrConnectWithoutPaymentsInput
-    upsert?: Consultancy_serviceUpsertWithoutPaymentsInput
-    disconnect?: Consultancy_serviceWhereInput | boolean
-    delete?: Consultancy_serviceWhereInput | boolean
-    connect?: Consultancy_serviceWhereUniqueInput
-    update?: XOR<XOR<Consultancy_serviceUpdateToOneWithWhereWithoutPaymentsInput, Consultancy_serviceUpdateWithoutPaymentsInput>, Consultancy_serviceUncheckedUpdateWithoutPaymentsInput>
+  export type PaymentsCreateNestedOneWithoutRefundsInput = {
+    create?: XOR<PaymentsCreateWithoutRefundsInput, PaymentsUncheckedCreateWithoutRefundsInput>
+    connectOrCreate?: PaymentsCreateOrConnectWithoutRefundsInput
+    connect?: PaymentsWhereUniqueInput
+  }
+
+  export type EnumRefundStatusFieldUpdateOperationsInput = {
+    set?: $Enums.RefundStatus
+  }
+
+  export type PaymentsUpdateOneRequiredWithoutRefundsNestedInput = {
+    create?: XOR<PaymentsCreateWithoutRefundsInput, PaymentsUncheckedCreateWithoutRefundsInput>
+    connectOrCreate?: PaymentsCreateOrConnectWithoutRefundsInput
+    upsert?: PaymentsUpsertWithoutRefundsInput
+    connect?: PaymentsWhereUniqueInput
+    update?: XOR<XOR<PaymentsUpdateToOneWithWhereWithoutRefundsInput, PaymentsUpdateWithoutRefundsInput>, PaymentsUncheckedUpdateWithoutRefundsInput>
+  }
+
+  export type MembershipsCreateNestedManyWithoutPlanRefInput = {
+    create?: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput> | MembershipsCreateWithoutPlanRefInput[] | MembershipsUncheckedCreateWithoutPlanRefInput[]
+    connectOrCreate?: MembershipsCreateOrConnectWithoutPlanRefInput | MembershipsCreateOrConnectWithoutPlanRefInput[]
+    createMany?: MembershipsCreateManyPlanRefInputEnvelope
+    connect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+  }
+
+  export type MembershipsUncheckedCreateNestedManyWithoutPlanRefInput = {
+    create?: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput> | MembershipsCreateWithoutPlanRefInput[] | MembershipsUncheckedCreateWithoutPlanRefInput[]
+    connectOrCreate?: MembershipsCreateOrConnectWithoutPlanRefInput | MembershipsCreateOrConnectWithoutPlanRefInput[]
+    createMany?: MembershipsCreateManyPlanRefInputEnvelope
+    connect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+  }
+
+  export type MembershipsUpdateManyWithoutPlanRefNestedInput = {
+    create?: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput> | MembershipsCreateWithoutPlanRefInput[] | MembershipsUncheckedCreateWithoutPlanRefInput[]
+    connectOrCreate?: MembershipsCreateOrConnectWithoutPlanRefInput | MembershipsCreateOrConnectWithoutPlanRefInput[]
+    upsert?: MembershipsUpsertWithWhereUniqueWithoutPlanRefInput | MembershipsUpsertWithWhereUniqueWithoutPlanRefInput[]
+    createMany?: MembershipsCreateManyPlanRefInputEnvelope
+    set?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    disconnect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    delete?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    connect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    update?: MembershipsUpdateWithWhereUniqueWithoutPlanRefInput | MembershipsUpdateWithWhereUniqueWithoutPlanRefInput[]
+    updateMany?: MembershipsUpdateManyWithWhereWithoutPlanRefInput | MembershipsUpdateManyWithWhereWithoutPlanRefInput[]
+    deleteMany?: MembershipsScalarWhereInput | MembershipsScalarWhereInput[]
+  }
+
+  export type MembershipsUncheckedUpdateManyWithoutPlanRefNestedInput = {
+    create?: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput> | MembershipsCreateWithoutPlanRefInput[] | MembershipsUncheckedCreateWithoutPlanRefInput[]
+    connectOrCreate?: MembershipsCreateOrConnectWithoutPlanRefInput | MembershipsCreateOrConnectWithoutPlanRefInput[]
+    upsert?: MembershipsUpsertWithWhereUniqueWithoutPlanRefInput | MembershipsUpsertWithWhereUniqueWithoutPlanRefInput[]
+    createMany?: MembershipsCreateManyPlanRefInputEnvelope
+    set?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    disconnect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    delete?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    connect?: MembershipsWhereUniqueInput | MembershipsWhereUniqueInput[]
+    update?: MembershipsUpdateWithWhereUniqueWithoutPlanRefInput | MembershipsUpdateWithWhereUniqueWithoutPlanRefInput[]
+    updateMany?: MembershipsUpdateManyWithWhereWithoutPlanRefInput | MembershipsUpdateManyWithWhereWithoutPlanRefInput[]
+    deleteMany?: MembershipsScalarWhereInput | MembershipsScalarWhereInput[]
   }
 
   export type UsersCreateNestedOneWithoutAdminActionsInput = {
@@ -27098,40 +31868,6 @@ export namespace Prisma {
     _max?: NestedEnumCurrencyNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumCurrencyFilter<$PrismaModel = never> = {
-    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
-    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    not?: NestedEnumCurrencyFilter<$PrismaModel> | $Enums.Currency
-  }
-
-  export type NestedEnumServiceStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumServiceStatusFilter<$PrismaModel> | $Enums.ServiceStatus
-  }
-
-  export type NestedEnumCurrencyWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
-    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
-    not?: NestedEnumCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.Currency
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCurrencyFilter<$PrismaModel>
-    _max?: NestedEnumCurrencyFilter<$PrismaModel>
-  }
-
-  export type NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumServiceStatusFilter<$PrismaModel>
-    _max?: NestedEnumServiceStatusFilter<$PrismaModel>
-  }
-
   export type NestedBigIntNullableFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
@@ -27221,25 +31957,79 @@ export namespace Prisma {
     _max?: NestedEnumReportStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumCurrencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCurrencyFilter<$PrismaModel> | $Enums.Currency
+  }
+
+  export type NestedEnumServiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumServiceStatusFilter<$PrismaModel> | $Enums.ServiceStatus
+  }
+
+  export type NestedEnumCurrencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Currency | EnumCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Currency[] | ListEnumCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.Currency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCurrencyFilter<$PrismaModel>
+    _max?: NestedEnumCurrencyFilter<$PrismaModel>
+  }
+
+  export type NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceStatus | EnumServiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServiceStatus[] | ListEnumServiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumServiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumServiceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeFilter<$PrismaModel> | $Enums.OrderType
+  }
+
+  export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
+  export type NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.OrderType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumOrderTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
-  }
-
-  export type NestedEnumPaymentMethodFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
-  }
-
-  export type NestedEnumPaymentForFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentFor | EnumPaymentForFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentForFilter<$PrismaModel> | $Enums.PaymentFor
   }
 
   export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -27251,42 +32041,45 @@ export namespace Prisma {
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentMethodFilter<$PrismaModel>
-    _max?: NestedEnumPaymentMethodFilter<$PrismaModel>
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedEnumPaymentForWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentFor | EnumPaymentForFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentFor[] | ListEnumPaymentForFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentForWithAggregatesFilter<$PrismaModel> | $Enums.PaymentFor
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentForFilter<$PrismaModel>
-    _max?: NestedEnumPaymentForFilter<$PrismaModel>
+  export type NestedEnumRefundStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusFilter<$PrismaModel> | $Enums.RefundStatus
   }
 
-  export type NestedEnumAdminActionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumAdminActionTypeFilter<$PrismaModel> | $Enums.AdminActionType
-  }
-
-  export type NestedEnumAdminActionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumAdminActionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AdminActionType
+  export type NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel> | $Enums.RefundStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAdminActionTypeFilter<$PrismaModel>
-    _max?: NestedEnumAdminActionTypeFilter<$PrismaModel>
+    _min?: NestedEnumRefundStatusFilter<$PrismaModel>
+    _max?: NestedEnumRefundStatusFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -27310,6 +32103,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumAdminActionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAdminActionTypeFilter<$PrismaModel> | $Enums.AdminActionType
+  }
+
+  export type NestedEnumAdminActionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AdminActionType | EnumAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AdminActionType[] | ListEnumAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAdminActionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AdminActionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAdminActionTypeFilter<$PrismaModel>
+    _max?: NestedEnumAdminActionTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumContactStatusFilter<$PrismaModel = never> = {
@@ -27400,7 +32210,6 @@ export namespace Prisma {
   export type FeedbackCreateWithoutUserRefInput = {
     id?: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -27409,7 +32218,6 @@ export namespace Prisma {
   export type FeedbackUncheckedCreateWithoutUserRefInput = {
     id?: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -27430,31 +32238,25 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
-    membershipRef?: MembershipsCreateNestedOneWithoutPaymentsInput
-    serviceRef?: Consultancy_serviceCreateNestedOneWithoutPaymentsInput
+    updated_at?: Date | string
+    refunds?: RefundsCreateNestedManyWithoutPaymentRefInput
+    orderRef: OrderCreateNestedOneWithoutPaymentsInput
   }
 
   export type PaymentsUncheckedCreateWithoutUserRefInput = {
     id?: bigint | number
-    membership_id?: bigint | number | null
-    service_id?: bigint | number | null
+    order_id: bigint | number
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
+    refunds?: RefundsUncheckedCreateNestedManyWithoutPaymentRefInput
   }
 
   export type PaymentsCreateOrConnectWithoutUserRefInput = {
@@ -27480,13 +32282,15 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
+    updated_at?: Date | string
+    orderRef?: OrderCreateNestedOneWithoutServiceInput
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
-    payments?: PaymentsCreateNestedManyWithoutServiceRefInput
     reports?: ReportCreateNestedManyWithoutServiceRefInput
   }
 
   export type Consultancy_serviceUncheckedCreateWithoutMentorRefInput = {
     id?: bigint | number
+    order_id?: bigint | number | null
     user_id: bigint | number
     duration: string
     cost?: Decimal | DecimalJsLike | number | string
@@ -27499,7 +32303,7 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
-    payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
+    updated_at?: Date | string
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
   }
 
@@ -27526,13 +32330,15 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
+    updated_at?: Date | string
+    orderRef?: OrderCreateNestedOneWithoutServiceInput
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
-    payments?: PaymentsCreateNestedManyWithoutServiceRefInput
     reports?: ReportCreateNestedManyWithoutServiceRefInput
   }
 
   export type Consultancy_serviceUncheckedCreateWithoutUserRefInput = {
     id?: bigint | number
+    order_id?: bigint | number | null
     mentor_id: bigint | number
     duration: string
     cost?: Decimal | DecimalJsLike | number | string
@@ -27545,7 +32351,7 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
-    payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
+    updated_at?: Date | string
     reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
   }
 
@@ -27894,6 +32700,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderCreateWithoutUserRefInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    payments?: PaymentsCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderUncheckedCreateWithoutUserRefInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    payments?: PaymentsUncheckedCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsUncheckedCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceUncheckedCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderCreateOrConnectWithoutUserRefInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput>
+  }
+
+  export type OrderCreateManyUserRefInputEnvelope = {
+    data: OrderCreateManyUserRefInput | OrderCreateManyUserRefInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FeedbackUpsertWithWhereUniqueWithoutUserRefInput = {
     where: FeedbackWhereUniqueInput
     update: XOR<FeedbackUpdateWithoutUserRefInput, FeedbackUncheckedUpdateWithoutUserRefInput>
@@ -27917,7 +32761,6 @@ export namespace Prisma {
     id?: BigIntFilter<"Feedback"> | bigint | number
     user_id?: BigIntFilter<"Feedback"> | bigint | number
     rating?: IntFilter<"Feedback"> | number
-    image?: StringNullableFilter<"Feedback"> | string | null
     content?: StringNullableFilter<"Feedback"> | string | null
     created_at?: DateTimeFilter<"Feedback"> | Date | string
     updated_at?: DateTimeFilter<"Feedback"> | Date | string
@@ -27944,19 +32787,15 @@ export namespace Prisma {
     OR?: PaymentsScalarWhereInput[]
     NOT?: PaymentsScalarWhereInput | PaymentsScalarWhereInput[]
     id?: BigIntFilter<"Payments"> | bigint | number
+    order_id?: BigIntFilter<"Payments"> | bigint | number
     user_id?: BigIntFilter<"Payments"> | bigint | number
-    membership_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
-    service_id?: BigIntNullableFilter<"Payments"> | bigint | number | null
     amount?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFilter<"Payments"> | $Enums.Currency
     status?: EnumPaymentStatusFilter<"Payments"> | $Enums.PaymentStatus
-    international?: BoolFilter<"Payments"> | boolean
-    method?: EnumPaymentMethodFilter<"Payments"> | $Enums.PaymentMethod
-    fee?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFilter<"Payments"> | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFilter<"Payments"> | $Enums.PaymentFor
-    transaction_id?: StringFilter<"Payments"> | string
+    gateway_txn_id?: StringFilter<"Payments"> | string
+    paytm_response?: JsonFilter<"Payments">
     created_at?: DateTimeFilter<"Payments"> | Date | string
+    updated_at?: DateTimeFilter<"Payments"> | Date | string
   }
 
   export type Consultancy_serviceUpsertWithWhereUniqueWithoutMentorRefInput = {
@@ -27980,6 +32819,7 @@ export namespace Prisma {
     OR?: Consultancy_serviceScalarWhereInput[]
     NOT?: Consultancy_serviceScalarWhereInput | Consultancy_serviceScalarWhereInput[]
     id?: BigIntFilter<"Consultancy_service"> | bigint | number
+    order_id?: BigIntNullableFilter<"Consultancy_service"> | bigint | number | null
     mentor_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     user_id?: BigIntFilter<"Consultancy_service"> | bigint | number
     duration?: StringFilter<"Consultancy_service"> | string
@@ -27993,6 +32833,7 @@ export namespace Prisma {
     approved_by_mentor?: BoolFilter<"Consultancy_service"> | boolean
     payment_done?: BoolFilter<"Consultancy_service"> | boolean
     created_at?: DateTimeFilter<"Consultancy_service"> | Date | string
+    updated_at?: DateTimeFilter<"Consultancy_service"> | Date | string
   }
 
   export type Consultancy_serviceUpsertWithWhereUniqueWithoutUserRefInput = {
@@ -28299,6 +33140,37 @@ export namespace Prisma {
     data: XOR<RelationshipUpdateManyMutationInput, RelationshipUncheckedUpdateManyWithoutUser2RefInput>
   }
 
+  export type OrderUpsertWithWhereUniqueWithoutUserRefInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutUserRefInput, OrderUncheckedUpdateWithoutUserRefInput>
+    create: XOR<OrderCreateWithoutUserRefInput, OrderUncheckedCreateWithoutUserRefInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutUserRefInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutUserRefInput, OrderUncheckedUpdateWithoutUserRefInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutUserRefInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutUserRefInput>
+  }
+
+  export type OrderScalarWhereInput = {
+    AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    OR?: OrderScalarWhereInput[]
+    NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    id?: BigIntFilter<"Order"> | bigint | number
+    public_id?: StringFilter<"Order"> | string
+    user_id?: BigIntFilter<"Order"> | bigint | number
+    order_type?: EnumOrderTypeFilter<"Order"> | $Enums.OrderType
+    amount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFilter<"Order"> | $Enums.Currency
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+    created_at?: DateTimeFilter<"Order"> | Date | string
+    updated_at?: DateTimeFilter<"Order"> | Date | string
+  }
+
   export type UsersCreateWithoutMentorInput = {
     id?: bigint | number
     image?: string | null
@@ -28332,6 +33204,7 @@ export namespace Prisma {
     documents?: DocumentCreateNestedManyWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutMentorInput = {
@@ -28367,6 +33240,7 @@ export namespace Prisma {
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutMentorInput = {
@@ -28418,6 +33292,7 @@ export namespace Prisma {
     documents?: DocumentUpdateManyWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutMentorInput = {
@@ -28453,426 +33328,7 @@ export namespace Prisma {
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
-  }
-
-  export type UsersCreateWithoutMentor_servicesInput = {
-    id?: bigint | number
-    image?: string | null
-    email: string
-    phone: string
-    password: string
-    full_name: string
-    full_name_search?: string | null
-    dob?: Date | string | null
-    gender?: $Enums.Gender | null
-    role?: $Enums.UserRole
-    profession_category?: $Enums.ProfessionCategory | null
-    profession?: string | null
-    country: string
-    postal_code?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    isactive?: boolean
-    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
-    payments?: PaymentsCreateNestedManyWithoutUserRefInput
-    user_services?: Consultancy_serviceCreateNestedManyWithoutUserRefInput
-    sentMessages?: MessageCreateNestedManyWithoutSenderInput
-    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
-    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
-    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
-    chat1?: ChatCreateNestedManyWithoutUser1Input
-    chat2?: ChatCreateNestedManyWithoutUser2Input
-    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
-    documents?: DocumentCreateNestedManyWithoutUserInput
-    mentor?: MentorCreateNestedOneWithoutUserInput
-    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
-    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
-  }
-
-  export type UsersUncheckedCreateWithoutMentor_servicesInput = {
-    id?: bigint | number
-    image?: string | null
-    email: string
-    phone: string
-    password: string
-    full_name: string
-    full_name_search?: string | null
-    dob?: Date | string | null
-    gender?: $Enums.Gender | null
-    role?: $Enums.UserRole
-    profession_category?: $Enums.ProfessionCategory | null
-    profession?: string | null
-    country: string
-    postal_code?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    isactive?: boolean
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
-    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
-    user_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutUserRefInput
-    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
-    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
-    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
-    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
-    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
-    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
-    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
-    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
-    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
-    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
-    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
-  }
-
-  export type UsersCreateOrConnectWithoutMentor_servicesInput = {
-    where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
-  }
-
-  export type UsersCreateWithoutUser_servicesInput = {
-    id?: bigint | number
-    image?: string | null
-    email: string
-    phone: string
-    password: string
-    full_name: string
-    full_name_search?: string | null
-    dob?: Date | string | null
-    gender?: $Enums.Gender | null
-    role?: $Enums.UserRole
-    profession_category?: $Enums.ProfessionCategory | null
-    profession?: string | null
-    country: string
-    postal_code?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    isactive?: boolean
-    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
-    payments?: PaymentsCreateNestedManyWithoutUserRefInput
-    mentor_services?: Consultancy_serviceCreateNestedManyWithoutMentorRefInput
-    sentMessages?: MessageCreateNestedManyWithoutSenderInput
-    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
-    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
-    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
-    chat1?: ChatCreateNestedManyWithoutUser1Input
-    chat2?: ChatCreateNestedManyWithoutUser2Input
-    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
-    documents?: DocumentCreateNestedManyWithoutUserInput
-    mentor?: MentorCreateNestedOneWithoutUserInput
-    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
-    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
-  }
-
-  export type UsersUncheckedCreateWithoutUser_servicesInput = {
-    id?: bigint | number
-    image?: string | null
-    email: string
-    phone: string
-    password: string
-    full_name: string
-    full_name_search?: string | null
-    dob?: Date | string | null
-    gender?: $Enums.Gender | null
-    role?: $Enums.UserRole
-    profession_category?: $Enums.ProfessionCategory | null
-    profession?: string | null
-    country: string
-    postal_code?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    isactive?: boolean
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
-    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
-    mentor_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutMentorRefInput
-    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
-    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
-    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
-    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
-    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
-    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
-    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
-    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
-    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
-    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
-    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
-  }
-
-  export type UsersCreateOrConnectWithoutUser_servicesInput = {
-    where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
-  }
-
-  export type PaymentsCreateWithoutServiceRefInput = {
-    id?: bigint | number
-    amount: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
-    created_at?: Date | string
-    userRef: UsersCreateNestedOneWithoutPaymentsInput
-    membershipRef?: MembershipsCreateNestedOneWithoutPaymentsInput
-  }
-
-  export type PaymentsUncheckedCreateWithoutServiceRefInput = {
-    id?: bigint | number
-    user_id: bigint | number
-    membership_id?: bigint | number | null
-    amount: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
-    created_at?: Date | string
-  }
-
-  export type PaymentsCreateOrConnectWithoutServiceRefInput = {
-    where: PaymentsWhereUniqueInput
-    create: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput>
-  }
-
-  export type PaymentsCreateManyServiceRefInputEnvelope = {
-    data: PaymentsCreateManyServiceRefInput | PaymentsCreateManyServiceRefInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ReportCreateWithoutServiceRefInput = {
-    id?: bigint | number
-    content: string
-    proof_img?: string | null
-    proof_video?: string | null
-    status?: $Enums.ReportStatus
-    created_at?: Date | string
-    updated_at?: Date | string
-    userRef: UsersCreateNestedOneWithoutReportsAgainstInput
-    reporterRef: UsersCreateNestedOneWithoutReportsCreatedInput
-  }
-
-  export type ReportUncheckedCreateWithoutServiceRefInput = {
-    id?: bigint | number
-    user_id: bigint | number
-    reported_by: bigint | number
-    content: string
-    proof_img?: string | null
-    proof_video?: string | null
-    status?: $Enums.ReportStatus
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type ReportCreateOrConnectWithoutServiceRefInput = {
-    where: ReportWhereUniqueInput
-    create: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput>
-  }
-
-  export type ReportCreateManyServiceRefInputEnvelope = {
-    data: ReportCreateManyServiceRefInput | ReportCreateManyServiceRefInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UsersUpsertWithoutMentor_servicesInput = {
-    update: XOR<UsersUpdateWithoutMentor_servicesInput, UsersUncheckedUpdateWithoutMentor_servicesInput>
-    create: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
-    where?: UsersWhereInput
-  }
-
-  export type UsersUpdateToOneWithWhereWithoutMentor_servicesInput = {
-    where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutMentor_servicesInput, UsersUncheckedUpdateWithoutMentor_servicesInput>
-  }
-
-  export type UsersUpdateWithoutMentor_servicesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    full_name?: StringFieldUpdateOperationsInput | string
-    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
-    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
-    profession?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
-    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
-    user_services?: Consultancy_serviceUpdateManyWithoutUserRefNestedInput
-    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
-    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
-    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
-    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
-    chat1?: ChatUpdateManyWithoutUser1NestedInput
-    chat2?: ChatUpdateManyWithoutUser2NestedInput
-    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
-    documents?: DocumentUpdateManyWithoutUserNestedInput
-    mentor?: MentorUpdateOneWithoutUserNestedInput
-    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
-    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
-  }
-
-  export type UsersUncheckedUpdateWithoutMentor_servicesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    full_name?: StringFieldUpdateOperationsInput | string
-    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
-    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
-    profession?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
-    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
-    user_services?: Consultancy_serviceUncheckedUpdateManyWithoutUserRefNestedInput
-    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
-    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
-    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
-    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
-    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
-    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
-    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
-    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
-    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
-    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
-    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
-  }
-
-  export type UsersUpsertWithoutUser_servicesInput = {
-    update: XOR<UsersUpdateWithoutUser_servicesInput, UsersUncheckedUpdateWithoutUser_servicesInput>
-    create: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
-    where?: UsersWhereInput
-  }
-
-  export type UsersUpdateToOneWithWhereWithoutUser_servicesInput = {
-    where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutUser_servicesInput, UsersUncheckedUpdateWithoutUser_servicesInput>
-  }
-
-  export type UsersUpdateWithoutUser_servicesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    full_name?: StringFieldUpdateOperationsInput | string
-    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
-    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
-    profession?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
-    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
-    mentor_services?: Consultancy_serviceUpdateManyWithoutMentorRefNestedInput
-    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
-    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
-    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
-    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
-    chat1?: ChatUpdateManyWithoutUser1NestedInput
-    chat2?: ChatUpdateManyWithoutUser2NestedInput
-    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
-    documents?: DocumentUpdateManyWithoutUserNestedInput
-    mentor?: MentorUpdateOneWithoutUserNestedInput
-    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
-    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
-  }
-
-  export type UsersUncheckedUpdateWithoutUser_servicesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    full_name?: StringFieldUpdateOperationsInput | string
-    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
-    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
-    profession?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
-    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
-    mentor_services?: Consultancy_serviceUncheckedUpdateManyWithoutMentorRefNestedInput
-    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
-    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
-    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
-    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
-    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
-    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
-    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
-    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
-    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
-    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
-    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
-  }
-
-  export type PaymentsUpsertWithWhereUniqueWithoutServiceRefInput = {
-    where: PaymentsWhereUniqueInput
-    update: XOR<PaymentsUpdateWithoutServiceRefInput, PaymentsUncheckedUpdateWithoutServiceRefInput>
-    create: XOR<PaymentsCreateWithoutServiceRefInput, PaymentsUncheckedCreateWithoutServiceRefInput>
-  }
-
-  export type PaymentsUpdateWithWhereUniqueWithoutServiceRefInput = {
-    where: PaymentsWhereUniqueInput
-    data: XOR<PaymentsUpdateWithoutServiceRefInput, PaymentsUncheckedUpdateWithoutServiceRefInput>
-  }
-
-  export type PaymentsUpdateManyWithWhereWithoutServiceRefInput = {
-    where: PaymentsScalarWhereInput
-    data: XOR<PaymentsUpdateManyMutationInput, PaymentsUncheckedUpdateManyWithoutServiceRefInput>
-  }
-
-  export type ReportUpsertWithWhereUniqueWithoutServiceRefInput = {
-    where: ReportWhereUniqueInput
-    update: XOR<ReportUpdateWithoutServiceRefInput, ReportUncheckedUpdateWithoutServiceRefInput>
-    create: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput>
-  }
-
-  export type ReportUpdateWithWhereUniqueWithoutServiceRefInput = {
-    where: ReportWhereUniqueInput
-    data: XOR<ReportUpdateWithoutServiceRefInput, ReportUncheckedUpdateWithoutServiceRefInput>
-  }
-
-  export type ReportUpdateManyWithWhereWithoutServiceRefInput = {
-    where: ReportScalarWhereInput
-    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutServiceRefInput>
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersCreateWithoutChat1Input = {
@@ -28908,6 +33364,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutChat1Input = {
@@ -28943,6 +33400,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutChat1Input = {
@@ -28983,6 +33441,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutChat2Input = {
@@ -29018,6 +33477,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutChat2Input = {
@@ -29103,6 +33563,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutChat1Input = {
@@ -29138,6 +33599,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUpsertWithoutChat2Input = {
@@ -29184,6 +33646,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutChat2Input = {
@@ -29219,6 +33682,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -29270,6 +33734,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutSentMessagesInput = {
@@ -29305,6 +33770,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutSentMessagesInput = {
@@ -29345,6 +33811,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutReceivedMessagesInput = {
@@ -29380,6 +33847,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutReceivedMessagesInput = {
@@ -29471,6 +33939,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutSentMessagesInput = {
@@ -29506,6 +33975,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUpsertWithoutReceivedMessagesInput = {
@@ -29552,6 +34022,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -29587,6 +34058,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type ChatUpsertWithoutMessagesInput = {
@@ -29724,6 +34196,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutReportsAgainstInput = {
@@ -29759,6 +34232,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutReportsAgainstInput = {
@@ -29799,6 +34273,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutReportsCreatedInput = {
@@ -29834,6 +34309,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutReportsCreatedInput = {
@@ -29854,13 +34330,15 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
+    updated_at?: Date | string
+    orderRef?: OrderCreateNestedOneWithoutServiceInput
     mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
     userRef: UsersCreateNestedOneWithoutUser_servicesInput
-    payments?: PaymentsCreateNestedManyWithoutServiceRefInput
   }
 
   export type Consultancy_serviceUncheckedCreateWithoutReportsInput = {
     id?: bigint | number
+    order_id?: bigint | number | null
     mentor_id: bigint | number
     user_id: bigint | number
     duration: string
@@ -29874,7 +34352,7 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
-    payments?: PaymentsUncheckedCreateNestedManyWithoutServiceRefInput
+    updated_at?: Date | string
   }
 
   export type Consultancy_serviceCreateOrConnectWithoutReportsInput = {
@@ -29926,6 +34404,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReportsAgainstInput = {
@@ -29961,6 +34440,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUpsertWithoutReportsCreatedInput = {
@@ -30007,6 +34487,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutReportsCreatedInput = {
@@ -30042,6 +34523,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type Consultancy_serviceUpsertWithoutReportsInput = {
@@ -30068,13 +34550,15 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderRef?: OrderUpdateOneWithoutServiceNestedInput
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
-    payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
   }
 
   export type Consultancy_serviceUncheckedUpdateWithoutReportsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
@@ -30088,7 +34572,7 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UsersCreateWithoutFeedbacksInput = {
@@ -30124,6 +34608,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutFeedbacksInput = {
@@ -30159,6 +34644,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutFeedbacksInput = {
@@ -30210,6 +34696,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutFeedbacksInput = {
@@ -30245,64 +34732,994 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
-  export type PaymentsCreateWithoutMembershipRefInput = {
+  export type PlanCreateWithoutMembershipsInput = {
     id?: bigint | number
+    name: string
+    price: Decimal | DecimalJsLike | number | string
+    description: string
+    currency?: $Enums.Currency
+    created_at?: Date | string
+    updated_at?: Date | string
+    isactive?: boolean
+  }
+
+  export type PlanUncheckedCreateWithoutMembershipsInput = {
+    id?: bigint | number
+    name: string
+    price: Decimal | DecimalJsLike | number | string
+    description: string
+    currency?: $Enums.Currency
+    created_at?: Date | string
+    updated_at?: Date | string
+    isactive?: boolean
+  }
+
+  export type PlanCreateOrConnectWithoutMembershipsInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutMembershipsInput, PlanUncheckedCreateWithoutMembershipsInput>
+  }
+
+  export type OrderCreateWithoutMembershipInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
-    status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    status?: $Enums.OrderStatus
     created_at?: Date | string
-    userRef: UsersCreateNestedOneWithoutPaymentsInput
-    serviceRef?: Consultancy_serviceCreateNestedOneWithoutPaymentsInput
+    updated_at?: Date | string
+    userRef: UsersCreateNestedOneWithoutOrdersInput
+    payments?: PaymentsCreateNestedManyWithoutOrderRefInput
+    service?: Consultancy_serviceCreateNestedOneWithoutOrderRefInput
   }
 
-  export type PaymentsUncheckedCreateWithoutMembershipRefInput = {
+  export type OrderUncheckedCreateWithoutMembershipInput = {
+    id?: bigint | number
+    public_id?: string
+    user_id: bigint | number
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    payments?: PaymentsUncheckedCreateNestedManyWithoutOrderRefInput
+    service?: Consultancy_serviceUncheckedCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderCreateOrConnectWithoutMembershipInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutMembershipInput, OrderUncheckedCreateWithoutMembershipInput>
+  }
+
+  export type PlanUpsertWithoutMembershipsInput = {
+    update: XOR<PlanUpdateWithoutMembershipsInput, PlanUncheckedUpdateWithoutMembershipsInput>
+    create: XOR<PlanCreateWithoutMembershipsInput, PlanUncheckedCreateWithoutMembershipsInput>
+    where?: PlanWhereInput
+  }
+
+  export type PlanUpdateToOneWithWhereWithoutMembershipsInput = {
+    where?: PlanWhereInput
+    data: XOR<PlanUpdateWithoutMembershipsInput, PlanUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type PlanUpdateWithoutMembershipsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PlanUncheckedUpdateWithoutMembershipsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: StringFieldUpdateOperationsInput | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type OrderUpsertWithoutMembershipInput = {
+    update: XOR<OrderUpdateWithoutMembershipInput, OrderUncheckedUpdateWithoutMembershipInput>
+    create: XOR<OrderCreateWithoutMembershipInput, OrderUncheckedCreateWithoutMembershipInput>
+    where?: OrderWhereInput
+  }
+
+  export type OrderUpdateToOneWithWhereWithoutMembershipInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutMembershipInput, OrderUncheckedUpdateWithoutMembershipInput>
+  }
+
+  export type OrderUpdateWithoutMembershipInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRef?: UsersUpdateOneRequiredWithoutOrdersNestedInput
+    payments?: PaymentsUpdateManyWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutMembershipInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentsUncheckedUpdateManyWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUncheckedUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderCreateWithoutServiceInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    userRef: UsersCreateNestedOneWithoutOrdersInput
+    payments?: PaymentsCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderUncheckedCreateWithoutServiceInput = {
+    id?: bigint | number
+    public_id?: string
+    user_id: bigint | number
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    payments?: PaymentsUncheckedCreateNestedManyWithoutOrderRefInput
+    membership?: MembershipsUncheckedCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderCreateOrConnectWithoutServiceInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutServiceInput, OrderUncheckedCreateWithoutServiceInput>
+  }
+
+  export type UsersCreateWithoutMentor_servicesInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsCreateNestedManyWithoutUserRefInput
+    user_services?: Consultancy_serviceCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
+  }
+
+  export type UsersUncheckedCreateWithoutMentor_servicesInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
+    user_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
+  }
+
+  export type UsersCreateOrConnectWithoutMentor_servicesInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
+  }
+
+  export type UsersCreateWithoutUser_servicesInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceCreateNestedManyWithoutMentorRefInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
+  }
+
+  export type UsersUncheckedCreateWithoutUser_servicesInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutMentorRefInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
+  }
+
+  export type UsersCreateOrConnectWithoutUser_servicesInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
+  }
+
+  export type ReportCreateWithoutServiceRefInput = {
+    id?: bigint | number
+    content: string
+    proof_img?: string | null
+    proof_video?: string | null
+    status?: $Enums.ReportStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    userRef: UsersCreateNestedOneWithoutReportsAgainstInput
+    reporterRef: UsersCreateNestedOneWithoutReportsCreatedInput
+  }
+
+  export type ReportUncheckedCreateWithoutServiceRefInput = {
     id?: bigint | number
     user_id: bigint | number
-    service_id?: bigint | number | null
-    amount: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    reported_by: bigint | number
+    content: string
+    proof_img?: string | null
+    proof_video?: string | null
+    status?: $Enums.ReportStatus
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type PaymentsCreateOrConnectWithoutMembershipRefInput = {
-    where: PaymentsWhereUniqueInput
-    create: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput>
+  export type ReportCreateOrConnectWithoutServiceRefInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput>
   }
 
-  export type PaymentsCreateManyMembershipRefInputEnvelope = {
-    data: PaymentsCreateManyMembershipRefInput | PaymentsCreateManyMembershipRefInput[]
+  export type ReportCreateManyServiceRefInputEnvelope = {
+    data: ReportCreateManyServiceRefInput | ReportCreateManyServiceRefInput[]
     skipDuplicates?: boolean
   }
 
-  export type PaymentsUpsertWithWhereUniqueWithoutMembershipRefInput = {
-    where: PaymentsWhereUniqueInput
-    update: XOR<PaymentsUpdateWithoutMembershipRefInput, PaymentsUncheckedUpdateWithoutMembershipRefInput>
-    create: XOR<PaymentsCreateWithoutMembershipRefInput, PaymentsUncheckedCreateWithoutMembershipRefInput>
+  export type OrderUpsertWithoutServiceInput = {
+    update: XOR<OrderUpdateWithoutServiceInput, OrderUncheckedUpdateWithoutServiceInput>
+    create: XOR<OrderCreateWithoutServiceInput, OrderUncheckedCreateWithoutServiceInput>
+    where?: OrderWhereInput
   }
 
-  export type PaymentsUpdateWithWhereUniqueWithoutMembershipRefInput = {
-    where: PaymentsWhereUniqueInput
-    data: XOR<PaymentsUpdateWithoutMembershipRefInput, PaymentsUncheckedUpdateWithoutMembershipRefInput>
+  export type OrderUpdateToOneWithWhereWithoutServiceInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutServiceInput, OrderUncheckedUpdateWithoutServiceInput>
   }
 
-  export type PaymentsUpdateManyWithWhereWithoutMembershipRefInput = {
+  export type OrderUpdateWithoutServiceInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRef?: UsersUpdateOneRequiredWithoutOrdersNestedInput
+    payments?: PaymentsUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutServiceInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentsUncheckedUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUncheckedUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type UsersUpsertWithoutMentor_servicesInput = {
+    update: XOR<UsersUpdateWithoutMentor_servicesInput, UsersUncheckedUpdateWithoutMentor_servicesInput>
+    create: XOR<UsersCreateWithoutMentor_servicesInput, UsersUncheckedCreateWithoutMentor_servicesInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutMentor_servicesInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutMentor_servicesInput, UsersUncheckedUpdateWithoutMentor_servicesInput>
+  }
+
+  export type UsersUpdateWithoutMentor_servicesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
+    user_services?: Consultancy_serviceUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutMentor_servicesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
+    user_services?: Consultancy_serviceUncheckedUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
+  }
+
+  export type UsersUpsertWithoutUser_servicesInput = {
+    update: XOR<UsersUpdateWithoutUser_servicesInput, UsersUncheckedUpdateWithoutUser_servicesInput>
+    create: XOR<UsersCreateWithoutUser_servicesInput, UsersUncheckedCreateWithoutUser_servicesInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutUser_servicesInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutUser_servicesInput, UsersUncheckedUpdateWithoutUser_servicesInput>
+  }
+
+  export type UsersUpdateWithoutUser_servicesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUpdateManyWithoutMentorRefNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutUser_servicesInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUncheckedUpdateManyWithoutMentorRefNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
+  }
+
+  export type ReportUpsertWithWhereUniqueWithoutServiceRefInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutServiceRefInput, ReportUncheckedUpdateWithoutServiceRefInput>
+    create: XOR<ReportCreateWithoutServiceRefInput, ReportUncheckedCreateWithoutServiceRefInput>
+  }
+
+  export type ReportUpdateWithWhereUniqueWithoutServiceRefInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutServiceRefInput, ReportUncheckedUpdateWithoutServiceRefInput>
+  }
+
+  export type ReportUpdateManyWithWhereWithoutServiceRefInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutServiceRefInput>
+  }
+
+  export type UsersCreateWithoutOrdersInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportCreateNestedManyWithoutUserRefInput
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionCreateNestedManyWithoutAdminInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    mentor?: MentorCreateNestedOneWithoutUserInput
+    user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+  }
+
+  export type UsersUncheckedCreateWithoutOrdersInput = {
+    id?: bigint | number
+    image?: string | null
+    email: string
+    phone: string
+    password: string
+    full_name: string
+    full_name_search?: string | null
+    dob?: Date | string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.UserRole
+    profession_category?: $Enums.ProfessionCategory | null
+    profession?: string | null
+    country: string
+    postal_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    isactive?: boolean
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserRefInput
+    payments?: PaymentsUncheckedCreateNestedManyWithoutUserRefInput
+    mentor_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutMentorRefInput
+    user_services?: Consultancy_serviceUncheckedCreateNestedManyWithoutUserRefInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    reportsCreated?: ReportUncheckedCreateNestedManyWithoutReporterRefInput
+    reportsAgainst?: ReportUncheckedCreateNestedManyWithoutUserRefInput
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    adminActions?: AdminActionUncheckedCreateNestedManyWithoutAdminInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
+    user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+  }
+
+  export type UsersCreateOrConnectWithoutOrdersInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
+  }
+
+  export type PaymentsCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status: $Enums.PaymentStatus
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    refunds?: RefundsCreateNestedManyWithoutPaymentRefInput
+    userRef: UsersCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentsUncheckedCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status: $Enums.PaymentStatus
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    refunds?: RefundsUncheckedCreateNestedManyWithoutPaymentRefInput
+  }
+
+  export type PaymentsCreateOrConnectWithoutOrderRefInput = {
+    where: PaymentsWhereUniqueInput
+    create: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput>
+  }
+
+  export type PaymentsCreateManyOrderRefInputEnvelope = {
+    data: PaymentsCreateManyOrderRefInput | PaymentsCreateManyOrderRefInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MembershipsCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    planRef: PlanCreateNestedOneWithoutMembershipsInput
+  }
+
+  export type MembershipsUncheckedCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    plan_id: bigint | number
+  }
+
+  export type MembershipsCreateOrConnectWithoutOrderRefInput = {
+    where: MembershipsWhereUniqueInput
+    create: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+  }
+
+  export type Consultancy_serviceCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    duration: string
+    cost?: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    scheduled_date: Date | string
+    scheduled_time: Date | string
+    rating?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ServiceStatus
+    opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
+    userRef: UsersCreateNestedOneWithoutUser_servicesInput
+    reports?: ReportCreateNestedManyWithoutServiceRefInput
+  }
+
+  export type Consultancy_serviceUncheckedCreateWithoutOrderRefInput = {
+    id?: bigint | number
+    mentor_id: bigint | number
+    user_id: bigint | number
+    duration: string
+    cost?: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    scheduled_date: Date | string
+    scheduled_time: Date | string
+    rating?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ServiceStatus
+    opinion?: string | null
+    approved_by_mentor?: boolean
+    payment_done?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
+  }
+
+  export type Consultancy_serviceCreateOrConnectWithoutOrderRefInput = {
+    where: Consultancy_serviceWhereUniqueInput
+    create: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+  }
+
+  export type UsersUpsertWithoutOrdersInput = {
+    update: XOR<UsersUpdateWithoutOrdersInput, UsersUncheckedUpdateWithoutOrdersInput>
+    create: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutOrdersInput, UsersUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type UsersUpdateWithoutOrdersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    mentor?: MentorUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutOrdersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    full_name_search?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profession_category?: NullableEnumProfessionCategoryFieldUpdateOperationsInput | $Enums.ProfessionCategory | null
+    profession?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isactive?: BoolFieldUpdateOperationsInput | boolean
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserRefNestedInput
+    payments?: PaymentsUncheckedUpdateManyWithoutUserRefNestedInput
+    mentor_services?: Consultancy_serviceUncheckedUpdateManyWithoutMentorRefNestedInput
+    user_services?: Consultancy_serviceUncheckedUpdateManyWithoutUserRefNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    reportsCreated?: ReportUncheckedUpdateManyWithoutReporterRefNestedInput
+    reportsAgainst?: ReportUncheckedUpdateManyWithoutUserRefNestedInput
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    adminActions?: AdminActionUncheckedUpdateManyWithoutAdminNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
+    user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+  }
+
+  export type PaymentsUpsertWithWhereUniqueWithoutOrderRefInput = {
+    where: PaymentsWhereUniqueInput
+    update: XOR<PaymentsUpdateWithoutOrderRefInput, PaymentsUncheckedUpdateWithoutOrderRefInput>
+    create: XOR<PaymentsCreateWithoutOrderRefInput, PaymentsUncheckedCreateWithoutOrderRefInput>
+  }
+
+  export type PaymentsUpdateWithWhereUniqueWithoutOrderRefInput = {
+    where: PaymentsWhereUniqueInput
+    data: XOR<PaymentsUpdateWithoutOrderRefInput, PaymentsUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type PaymentsUpdateManyWithWhereWithoutOrderRefInput = {
     where: PaymentsScalarWhereInput
-    data: XOR<PaymentsUpdateManyMutationInput, PaymentsUncheckedUpdateManyWithoutMembershipRefInput>
+    data: XOR<PaymentsUpdateManyMutationInput, PaymentsUncheckedUpdateManyWithoutOrderRefInput>
+  }
+
+  export type MembershipsUpsertWithoutOrderRefInput = {
+    update: XOR<MembershipsUpdateWithoutOrderRefInput, MembershipsUncheckedUpdateWithoutOrderRefInput>
+    create: XOR<MembershipsCreateWithoutOrderRefInput, MembershipsUncheckedCreateWithoutOrderRefInput>
+    where?: MembershipsWhereInput
+  }
+
+  export type MembershipsUpdateToOneWithWhereWithoutOrderRefInput = {
+    where?: MembershipsWhereInput
+    data: XOR<MembershipsUpdateWithoutOrderRefInput, MembershipsUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type MembershipsUpdateWithoutOrderRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    planRef?: PlanUpdateOneRequiredWithoutMembershipsNestedInput
+  }
+
+  export type MembershipsUncheckedUpdateWithoutOrderRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    plan_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type Consultancy_serviceUpsertWithoutOrderRefInput = {
+    update: XOR<Consultancy_serviceUpdateWithoutOrderRefInput, Consultancy_serviceUncheckedUpdateWithoutOrderRefInput>
+    create: XOR<Consultancy_serviceCreateWithoutOrderRefInput, Consultancy_serviceUncheckedCreateWithoutOrderRefInput>
+    where?: Consultancy_serviceWhereInput
+  }
+
+  export type Consultancy_serviceUpdateToOneWithWhereWithoutOrderRefInput = {
+    where?: Consultancy_serviceWhereInput
+    data: XOR<Consultancy_serviceUpdateWithoutOrderRefInput, Consultancy_serviceUncheckedUpdateWithoutOrderRefInput>
+  }
+
+  export type Consultancy_serviceUpdateWithoutOrderRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
+    userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
+    reports?: ReportUpdateManyWithoutServiceRefNestedInput
+  }
+
+  export type Consultancy_serviceUncheckedUpdateWithoutOrderRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    duration?: StringFieldUpdateOperationsInput | string
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    opinion?: NullableStringFieldUpdateOperationsInput | string | null
+    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
+    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
+  }
+
+  export type RefundsCreateWithoutPaymentRefInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RefundsUncheckedCreateWithoutPaymentRefInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RefundsCreateOrConnectWithoutPaymentRefInput = {
+    where: RefundsWhereUniqueInput
+    create: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput>
+  }
+
+  export type RefundsCreateManyPaymentRefInputEnvelope = {
+    data: RefundsCreateManyPaymentRefInput | RefundsCreateManyPaymentRefInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderCreateWithoutPaymentsInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    userRef: UsersCreateNestedOneWithoutOrdersInput
+    membership?: MembershipsCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderUncheckedCreateWithoutPaymentsInput = {
+    id?: bigint | number
+    public_id?: string
+    user_id: bigint | number
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+    membership?: MembershipsUncheckedCreateNestedOneWithoutOrderRefInput
+    service?: Consultancy_serviceUncheckedCreateNestedOneWithoutOrderRefInput
+  }
+
+  export type OrderCreateOrConnectWithoutPaymentsInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutPaymentsInput, OrderUncheckedCreateWithoutPaymentsInput>
   }
 
   export type UsersCreateWithoutPaymentsInput = {
@@ -30338,6 +35755,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutPaymentsInput = {
@@ -30373,6 +35791,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutPaymentsInput = {
@@ -30380,70 +35799,74 @@ export namespace Prisma {
     create: XOR<UsersCreateWithoutPaymentsInput, UsersUncheckedCreateWithoutPaymentsInput>
   }
 
-  export type MembershipsCreateWithoutPaymentsInput = {
-    id?: bigint | number
-    name: string
-    price: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    created_at?: Date | string
-    updated_at?: Date | string
-    isactive?: boolean
+  export type RefundsUpsertWithWhereUniqueWithoutPaymentRefInput = {
+    where: RefundsWhereUniqueInput
+    update: XOR<RefundsUpdateWithoutPaymentRefInput, RefundsUncheckedUpdateWithoutPaymentRefInput>
+    create: XOR<RefundsCreateWithoutPaymentRefInput, RefundsUncheckedCreateWithoutPaymentRefInput>
   }
 
-  export type MembershipsUncheckedCreateWithoutPaymentsInput = {
-    id?: bigint | number
-    name: string
-    price: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    created_at?: Date | string
-    updated_at?: Date | string
-    isactive?: boolean
+  export type RefundsUpdateWithWhereUniqueWithoutPaymentRefInput = {
+    where: RefundsWhereUniqueInput
+    data: XOR<RefundsUpdateWithoutPaymentRefInput, RefundsUncheckedUpdateWithoutPaymentRefInput>
   }
 
-  export type MembershipsCreateOrConnectWithoutPaymentsInput = {
-    where: MembershipsWhereUniqueInput
-    create: XOR<MembershipsCreateWithoutPaymentsInput, MembershipsUncheckedCreateWithoutPaymentsInput>
+  export type RefundsUpdateManyWithWhereWithoutPaymentRefInput = {
+    where: RefundsScalarWhereInput
+    data: XOR<RefundsUpdateManyMutationInput, RefundsUncheckedUpdateManyWithoutPaymentRefInput>
   }
 
-  export type Consultancy_serviceCreateWithoutPaymentsInput = {
-    id?: bigint | number
-    duration: string
-    cost?: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    scheduled_date: Date | string
-    scheduled_time: Date | string
-    rating?: Decimal | DecimalJsLike | number | string | null
-    status?: $Enums.ServiceStatus
-    opinion?: string | null
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: Date | string
-    mentorRef: UsersCreateNestedOneWithoutMentor_servicesInput
-    userRef: UsersCreateNestedOneWithoutUser_servicesInput
-    reports?: ReportCreateNestedManyWithoutServiceRefInput
+  export type RefundsScalarWhereInput = {
+    AND?: RefundsScalarWhereInput | RefundsScalarWhereInput[]
+    OR?: RefundsScalarWhereInput[]
+    NOT?: RefundsScalarWhereInput | RefundsScalarWhereInput[]
+    id?: BigIntFilter<"Refunds"> | bigint | number
+    payment_id?: BigIntFilter<"Refunds"> | bigint | number
+    amount?: DecimalFilter<"Refunds"> | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFilter<"Refunds"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refunds"> | string | null
+    gateway_refund_id?: StringNullableFilter<"Refunds"> | string | null
+    paytm_response?: JsonNullableFilter<"Refunds">
+    created_at?: DateTimeFilter<"Refunds"> | Date | string
+    updated_at?: DateTimeFilter<"Refunds"> | Date | string
   }
 
-  export type Consultancy_serviceUncheckedCreateWithoutPaymentsInput = {
-    id?: bigint | number
-    mentor_id: bigint | number
-    user_id: bigint | number
-    duration: string
-    cost?: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    scheduled_date: Date | string
-    scheduled_time: Date | string
-    rating?: Decimal | DecimalJsLike | number | string | null
-    status?: $Enums.ServiceStatus
-    opinion?: string | null
-    approved_by_mentor?: boolean
-    payment_done?: boolean
-    created_at?: Date | string
-    reports?: ReportUncheckedCreateNestedManyWithoutServiceRefInput
+  export type OrderUpsertWithoutPaymentsInput = {
+    update: XOR<OrderUpdateWithoutPaymentsInput, OrderUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<OrderCreateWithoutPaymentsInput, OrderUncheckedCreateWithoutPaymentsInput>
+    where?: OrderWhereInput
   }
 
-  export type Consultancy_serviceCreateOrConnectWithoutPaymentsInput = {
-    where: Consultancy_serviceWhereUniqueInput
-    create: XOR<Consultancy_serviceCreateWithoutPaymentsInput, Consultancy_serviceUncheckedCreateWithoutPaymentsInput>
+  export type OrderUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutPaymentsInput, OrderUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type OrderUpdateWithoutPaymentsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRef?: UsersUpdateOneRequiredWithoutOrdersNestedInput
+    membership?: MembershipsUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUpdateOneWithoutOrderRefNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutPaymentsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    membership?: MembershipsUncheckedUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUncheckedUpdateOneWithoutOrderRefNestedInput
   }
 
   export type UsersUpsertWithoutPaymentsInput = {
@@ -30490,6 +35913,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutPaymentsInput = {
@@ -30525,84 +35949,126 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
-  export type MembershipsUpsertWithoutPaymentsInput = {
-    update: XOR<MembershipsUpdateWithoutPaymentsInput, MembershipsUncheckedUpdateWithoutPaymentsInput>
-    create: XOR<MembershipsCreateWithoutPaymentsInput, MembershipsUncheckedCreateWithoutPaymentsInput>
-    where?: MembershipsWhereInput
+  export type PaymentsCreateWithoutRefundsInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status: $Enums.PaymentStatus
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    orderRef: OrderCreateNestedOneWithoutPaymentsInput
+    userRef: UsersCreateNestedOneWithoutPaymentsInput
   }
 
-  export type MembershipsUpdateToOneWithWhereWithoutPaymentsInput = {
-    where?: MembershipsWhereInput
-    data: XOR<MembershipsUpdateWithoutPaymentsInput, MembershipsUncheckedUpdateWithoutPaymentsInput>
+  export type PaymentsUncheckedCreateWithoutRefundsInput = {
+    id?: bigint | number
+    order_id: bigint | number
+    user_id: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status: $Enums.PaymentStatus
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type MembershipsUpdateWithoutPaymentsInput = {
+  export type PaymentsCreateOrConnectWithoutRefundsInput = {
+    where: PaymentsWhereUniqueInput
+    create: XOR<PaymentsCreateWithoutRefundsInput, PaymentsUncheckedCreateWithoutRefundsInput>
+  }
+
+  export type PaymentsUpsertWithoutRefundsInput = {
+    update: XOR<PaymentsUpdateWithoutRefundsInput, PaymentsUncheckedUpdateWithoutRefundsInput>
+    create: XOR<PaymentsCreateWithoutRefundsInput, PaymentsUncheckedCreateWithoutRefundsInput>
+    where?: PaymentsWhereInput
+  }
+
+  export type PaymentsUpdateToOneWithWhereWithoutRefundsInput = {
+    where?: PaymentsWhereInput
+    data: XOR<PaymentsUpdateWithoutRefundsInput, PaymentsUncheckedUpdateWithoutRefundsInput>
+  }
+
+  export type PaymentsUpdateWithoutRefundsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
+    orderRef?: OrderUpdateOneRequiredWithoutPaymentsNestedInput
+    userRef?: UsersUpdateOneRequiredWithoutPaymentsNestedInput
   }
 
-  export type MembershipsUncheckedUpdateWithoutPaymentsInput = {
+  export type PaymentsUncheckedUpdateWithoutRefundsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    isactive?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type Consultancy_serviceUpsertWithoutPaymentsInput = {
-    update: XOR<Consultancy_serviceUpdateWithoutPaymentsInput, Consultancy_serviceUncheckedUpdateWithoutPaymentsInput>
-    create: XOR<Consultancy_serviceCreateWithoutPaymentsInput, Consultancy_serviceUncheckedCreateWithoutPaymentsInput>
-    where?: Consultancy_serviceWhereInput
-  }
-
-  export type Consultancy_serviceUpdateToOneWithWhereWithoutPaymentsInput = {
-    where?: Consultancy_serviceWhereInput
-    data: XOR<Consultancy_serviceUpdateWithoutPaymentsInput, Consultancy_serviceUncheckedUpdateWithoutPaymentsInput>
-  }
-
-  export type Consultancy_serviceUpdateWithoutPaymentsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
-    userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
-    reports?: ReportUpdateManyWithoutServiceRefNestedInput
-  }
-
-  export type Consultancy_serviceUncheckedUpdateWithoutPaymentsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    duration?: StringFieldUpdateOperationsInput | string
-    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    scheduled_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    scheduled_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    opinion?: NullableStringFieldUpdateOperationsInput | string | null
-    approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
-    payment_done?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MembershipsCreateWithoutPlanRefInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    orderRef: OrderCreateNestedOneWithoutMembershipInput
+  }
+
+  export type MembershipsUncheckedCreateWithoutPlanRefInput = {
+    id?: bigint | number
+    order_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MembershipsCreateOrConnectWithoutPlanRefInput = {
+    where: MembershipsWhereUniqueInput
+    create: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput>
+  }
+
+  export type MembershipsCreateManyPlanRefInputEnvelope = {
+    data: MembershipsCreateManyPlanRefInput | MembershipsCreateManyPlanRefInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MembershipsUpsertWithWhereUniqueWithoutPlanRefInput = {
+    where: MembershipsWhereUniqueInput
+    update: XOR<MembershipsUpdateWithoutPlanRefInput, MembershipsUncheckedUpdateWithoutPlanRefInput>
+    create: XOR<MembershipsCreateWithoutPlanRefInput, MembershipsUncheckedCreateWithoutPlanRefInput>
+  }
+
+  export type MembershipsUpdateWithWhereUniqueWithoutPlanRefInput = {
+    where: MembershipsWhereUniqueInput
+    data: XOR<MembershipsUpdateWithoutPlanRefInput, MembershipsUncheckedUpdateWithoutPlanRefInput>
+  }
+
+  export type MembershipsUpdateManyWithWhereWithoutPlanRefInput = {
+    where: MembershipsScalarWhereInput
+    data: XOR<MembershipsUpdateManyMutationInput, MembershipsUncheckedUpdateManyWithoutPlanRefInput>
+  }
+
+  export type MembershipsScalarWhereInput = {
+    AND?: MembershipsScalarWhereInput | MembershipsScalarWhereInput[]
+    OR?: MembershipsScalarWhereInput[]
+    NOT?: MembershipsScalarWhereInput | MembershipsScalarWhereInput[]
+    id?: BigIntFilter<"Memberships"> | bigint | number
+    order_id?: BigIntFilter<"Memberships"> | bigint | number
+    created_at?: DateTimeFilter<"Memberships"> | Date | string
+    updated_at?: DateTimeFilter<"Memberships"> | Date | string
+    plan_id?: BigIntFilter<"Memberships"> | bigint | number
   }
 
   export type UsersCreateWithoutAdminActionsInput = {
@@ -30638,6 +36104,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutAdminActionsInput = {
@@ -30673,6 +36140,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutAdminActionsInput = {
@@ -30724,6 +36192,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutAdminActionsInput = {
@@ -30759,6 +36228,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersCreateWithoutDocumentsInput = {
@@ -30794,6 +36264,7 @@ export namespace Prisma {
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutDocumentsInput = {
@@ -30829,6 +36300,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutDocumentsInput = {
@@ -30880,6 +36352,7 @@ export namespace Prisma {
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutDocumentsInput = {
@@ -30915,6 +36388,7 @@ export namespace Prisma {
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersCreateWithoutUser1Input = {
@@ -30950,6 +36424,7 @@ export namespace Prisma {
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
     user2?: RelationshipCreateNestedManyWithoutUser2RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutUser1Input = {
@@ -30985,6 +36460,7 @@ export namespace Prisma {
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user2?: RelationshipUncheckedCreateNestedManyWithoutUser2RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutUser1Input = {
@@ -31025,6 +36501,7 @@ export namespace Prisma {
     documents?: DocumentCreateNestedManyWithoutUserInput
     mentor?: MentorCreateNestedOneWithoutUserInput
     user1?: RelationshipCreateNestedManyWithoutUser1RefInput
+    orders?: OrderCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersUncheckedCreateWithoutUser2Input = {
@@ -31060,6 +36537,7 @@ export namespace Prisma {
     documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
     mentor?: MentorUncheckedCreateNestedOneWithoutUserInput
     user1?: RelationshipUncheckedCreateNestedManyWithoutUser1RefInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserRefInput
   }
 
   export type UsersCreateOrConnectWithoutUser2Input = {
@@ -31111,6 +36589,7 @@ export namespace Prisma {
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user2?: RelationshipUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutUser1Input = {
@@ -31146,6 +36625,7 @@ export namespace Prisma {
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user2?: RelationshipUncheckedUpdateManyWithoutUser2RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUpsertWithoutUser2Input = {
@@ -31192,6 +36672,7 @@ export namespace Prisma {
     documents?: DocumentUpdateManyWithoutUserNestedInput
     mentor?: MentorUpdateOneWithoutUserNestedInput
     user1?: RelationshipUpdateManyWithoutUser1RefNestedInput
+    orders?: OrderUpdateManyWithoutUserRefNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutUser2Input = {
@@ -31227,12 +36708,12 @@ export namespace Prisma {
     documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
     mentor?: MentorUncheckedUpdateOneWithoutUserNestedInput
     user1?: RelationshipUncheckedUpdateManyWithoutUser1RefNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserRefNestedInput
   }
 
   export type FeedbackCreateManyUserRefInput = {
     id?: bigint | number
     rating: number
-    image?: string | null
     content?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -31240,22 +36721,19 @@ export namespace Prisma {
 
   export type PaymentsCreateManyUserRefInput = {
     id?: bigint | number
-    membership_id?: bigint | number | null
-    service_id?: bigint | number | null
+    order_id: bigint | number
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type Consultancy_serviceCreateManyMentorRefInput = {
     id?: bigint | number
+    order_id?: bigint | number | null
     user_id: bigint | number
     duration: string
     cost?: Decimal | DecimalJsLike | number | string
@@ -31268,10 +36746,12 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type Consultancy_serviceCreateManyUserRefInput = {
     id?: bigint | number
+    order_id?: bigint | number | null
     mentor_id: bigint | number
     duration: string
     cost?: Decimal | DecimalJsLike | number | string
@@ -31284,6 +36764,7 @@ export namespace Prisma {
     approved_by_mentor?: boolean
     payment_done?: boolean
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type MessageCreateManySenderInput = {
@@ -31381,10 +36862,20 @@ export namespace Prisma {
     created_at?: Date | string
   }
 
+  export type OrderCreateManyUserRefInput = {
+    id?: bigint | number
+    public_id?: string
+    order_type: $Enums.OrderType
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: $Enums.Currency
+    status?: $Enums.OrderStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
   export type FeedbackUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31393,7 +36884,6 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31402,7 +36892,6 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateManyWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     rating?: IntFieldUpdateOperationsInput | number
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     content?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31413,47 +36902,37 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    membershipRef?: MembershipsUpdateOneWithoutPaymentsNestedInput
-    serviceRef?: Consultancy_serviceUpdateOneWithoutPaymentsNestedInput
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUpdateManyWithoutPaymentRefNestedInput
+    orderRef?: OrderUpdateOneRequiredWithoutPaymentsNestedInput
   }
 
   export type PaymentsUncheckedUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUncheckedUpdateManyWithoutPaymentRefNestedInput
   }
 
   export type PaymentsUncheckedUpdateManyWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Consultancy_serviceUpdateWithoutMentorRefInput = {
@@ -31469,13 +36948,15 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderRef?: OrderUpdateOneWithoutServiceNestedInput
     userRef?: UsersUpdateOneRequiredWithoutUser_servicesNestedInput
-    payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
     reports?: ReportUpdateManyWithoutServiceRefNestedInput
   }
 
   export type Consultancy_serviceUncheckedUpdateWithoutMentorRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
     cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31488,12 +36969,13 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
   }
 
   export type Consultancy_serviceUncheckedUpdateManyWithoutMentorRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
     cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31506,6 +36988,7 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Consultancy_serviceUpdateWithoutUserRefInput = {
@@ -31521,13 +37004,15 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderRef?: OrderUpdateOneWithoutServiceNestedInput
     mentorRef?: UsersUpdateOneRequiredWithoutMentor_servicesNestedInput
-    payments?: PaymentsUpdateManyWithoutServiceRefNestedInput
     reports?: ReportUpdateManyWithoutServiceRefNestedInput
   }
 
   export type Consultancy_serviceUncheckedUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
     cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31540,12 +37025,13 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    payments?: PaymentsUncheckedUpdateManyWithoutServiceRefNestedInput
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     reports?: ReportUncheckedUpdateManyWithoutServiceRefNestedInput
   }
 
   export type Consultancy_serviceUncheckedUpdateManyWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     mentor_id?: BigIntFieldUpdateOperationsInput | bigint | number
     duration?: StringFieldUpdateOperationsInput | string
     cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -31558,6 +37044,7 @@ export namespace Prisma {
     approved_by_mentor?: BoolFieldUpdateOperationsInput | boolean
     payment_done?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUpdateWithoutSenderInput = {
@@ -31849,114 +37336,41 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PaymentsCreateManyServiceRefInput = {
-    id?: bigint | number
-    user_id: bigint | number
-    membership_id?: bigint | number | null
-    amount: Decimal | DecimalJsLike | number | string
-    currency?: $Enums.Currency
-    status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
-    created_at?: Date | string
-  }
-
-  export type ReportCreateManyServiceRefInput = {
-    id?: bigint | number
-    user_id: bigint | number
-    reported_by: bigint | number
-    content: string
-    proof_img?: string | null
-    proof_video?: string | null
-    status?: $Enums.ReportStatus
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type PaymentsUpdateWithoutServiceRefInput = {
+  export type OrderUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    userRef?: UsersUpdateOneRequiredWithoutPaymentsNestedInput
-    membershipRef?: MembershipsUpdateOneWithoutPaymentsNestedInput
-  }
-
-  export type PaymentsUncheckedUpdateWithoutServiceRefInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PaymentsUncheckedUpdateManyWithoutServiceRefInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    membership_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ReportUpdateWithoutServiceRefInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    content?: StringFieldUpdateOperationsInput | string
-    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
-    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    userRef?: UsersUpdateOneRequiredWithoutReportsAgainstNestedInput
-    reporterRef?: UsersUpdateOneRequiredWithoutReportsCreatedNestedInput
+    payments?: PaymentsUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUpdateOneWithoutOrderRefNestedInput
   }
 
-  export type ReportUncheckedUpdateWithoutServiceRefInput = {
+  export type OrderUncheckedUpdateWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    reported_by?: BigIntFieldUpdateOperationsInput | bigint | number
-    content?: StringFieldUpdateOperationsInput | string
-    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
-    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentsUncheckedUpdateManyWithoutOrderRefNestedInput
+    membership?: MembershipsUncheckedUpdateOneWithoutOrderRefNestedInput
+    service?: Consultancy_serviceUncheckedUpdateOneWithoutOrderRefNestedInput
   }
 
-  export type ReportUncheckedUpdateManyWithoutServiceRefInput = {
+  export type OrderUncheckedUpdateManyWithoutUserRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    reported_by?: BigIntFieldUpdateOperationsInput | bigint | number
-    content?: StringFieldUpdateOperationsInput | string
-    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
-    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    public_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32057,68 +37471,174 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PaymentsCreateManyMembershipRefInput = {
+  export type ReportCreateManyServiceRefInput = {
     id?: bigint | number
     user_id: bigint | number
-    service_id?: bigint | number | null
+    reported_by: bigint | number
+    content: string
+    proof_img?: string | null
+    proof_video?: string | null
+    status?: $Enums.ReportStatus
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReportUpdateWithoutServiceRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    content?: StringFieldUpdateOperationsInput | string
+    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
+    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRef?: UsersUpdateOneRequiredWithoutReportsAgainstNestedInput
+    reporterRef?: UsersUpdateOneRequiredWithoutReportsCreatedNestedInput
+  }
+
+  export type ReportUncheckedUpdateWithoutServiceRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    reported_by?: BigIntFieldUpdateOperationsInput | bigint | number
+    content?: StringFieldUpdateOperationsInput | string
+    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
+    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReportUncheckedUpdateManyWithoutServiceRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    reported_by?: BigIntFieldUpdateOperationsInput | bigint | number
+    content?: StringFieldUpdateOperationsInput | string
+    proof_img?: NullableStringFieldUpdateOperationsInput | string | null
+    proof_video?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentsCreateManyOrderRefInput = {
+    id?: bigint | number
+    user_id: bigint | number
     amount: Decimal | DecimalJsLike | number | string
     currency?: $Enums.Currency
     status: $Enums.PaymentStatus
-    international: boolean
-    method: $Enums.PaymentMethod
-    fee: Decimal | DecimalJsLike | number | string
-    tax: Decimal | DecimalJsLike | number | string
-    paymentfor: $Enums.PaymentFor
-    transaction_id: string
+    gateway_txn_id: string
+    paytm_response: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type PaymentsUpdateWithoutMembershipRefInput = {
+  export type PaymentsUpdateWithoutOrderRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUpdateManyWithoutPaymentRefNestedInput
     userRef?: UsersUpdateOneRequiredWithoutPaymentsNestedInput
-    serviceRef?: Consultancy_serviceUpdateOneWithoutPaymentsNestedInput
   }
 
-  export type PaymentsUncheckedUpdateWithoutMembershipRefInput = {
+  export type PaymentsUncheckedUpdateWithoutOrderRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refunds?: RefundsUncheckedUpdateManyWithoutPaymentRefNestedInput
   }
 
-  export type PaymentsUncheckedUpdateManyWithoutMembershipRefInput = {
+  export type PaymentsUncheckedUpdateManyWithoutOrderRefInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    service_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    international?: BoolFieldUpdateOperationsInput | boolean
-    method?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-    fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tax?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    paymentfor?: EnumPaymentForFieldUpdateOperationsInput | $Enums.PaymentFor
-    transaction_id?: StringFieldUpdateOperationsInput | string
+    gateway_txn_id?: StringFieldUpdateOperationsInput | string
+    paytm_response?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsCreateManyPaymentRefInput = {
+    id?: bigint | number
+    amount: Decimal | DecimalJsLike | number | string
+    status: $Enums.RefundStatus
+    reason?: string | null
+    gateway_refund_id?: string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RefundsUpdateWithoutPaymentRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsUncheckedUpdateWithoutPaymentRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundsUncheckedUpdateManyWithoutPaymentRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    gateway_refund_id?: NullableStringFieldUpdateOperationsInput | string | null
+    paytm_response?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MembershipsCreateManyPlanRefInput = {
+    id?: bigint | number
+    order_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MembershipsUpdateWithoutPlanRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderRef?: OrderUpdateOneRequiredWithoutMembershipNestedInput
+  }
+
+  export type MembershipsUncheckedUpdateWithoutPlanRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MembershipsUncheckedUpdateManyWithoutPlanRefInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    order_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
