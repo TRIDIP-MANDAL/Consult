@@ -27,7 +27,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET || "any_secret_key"))
-// app.use(express.urlencoded({ extended: true })); will be required when I will pass these type of data name=rahul&age=21&city=delhi
+app.use(express.urlencoded({ extended: true })); //will be required when I will pass these type of data name=rahul&age=21&city=delhi
 
 
 //to manage production level bugs, add proper logs ( WARN, DEBUG, ERROR, )
@@ -46,7 +46,9 @@ app.use('/contactus', contact_us);
 app.use('/image',imageRoute);
 app.use('/bookservice', bookService);
 app.use('/payment', paymentRoute);
-
+app.get('/health',(req, res)=>{
+  res.json({message:"This is health route"})
+})
 app.listen(PORT, (err) => {
   if (!err) console.log("Server started ");
   else console.log("there is an error in server", err);
