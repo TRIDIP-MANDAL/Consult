@@ -11,7 +11,7 @@ interface OtpData {
 interface OtpProp { 
     phone: string;
     cntryCode:CountryCode;
-    onVerified?: (verified: boolean) => void 
+    onVerified?: (verified: boolean, resetToken?: string) => void 
 }
 
 const MobOtpVerification: React.FC<OtpProp> = (props:OtpProp) => {
@@ -55,9 +55,9 @@ const MobOtpVerification: React.FC<OtpProp> = (props:OtpProp) => {
             return;
         }
         const response = await callApi("otp-mob/verify", "POST", { phone:phone, otp: otp.otp });
-        if (response.success) {
+        if (response && response.success) {
             setOtp((p) => ({ ...p, verified: true }));
-            onVerified(true);
+            onVerified(true, response.resetToken);
             setError("");
             setSuccess(response.message);
         } else {

@@ -8,6 +8,7 @@ interface ApiResponse {
     feedbacks?:FeedbackData[];
     myFeedback?:FeedbackData;
     hasMore?:boolean;
+    resetToken?:string;
 }
 
 // 1. Create a centralized Axios instance

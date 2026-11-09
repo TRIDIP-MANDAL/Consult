@@ -10,7 +10,7 @@ interface OtpData {
 
 interface OtpProp { 
     email: string; 
-    onVerified?: (verified: boolean) => void 
+    onVerified?: (verified: boolean, resetToken?: string) => void 
 }
 
 const OtpVerification: React.FC<OtpProp> = (props:OtpProp) => {
@@ -49,7 +49,7 @@ const OtpVerification: React.FC<OtpProp> = (props:OtpProp) => {
         const response = await callApi("otp/verifyOtp", "POST", { email, otp: otp.otp });
         if (response.success) {
             setOtp((p) => ({ ...p, verified: true }));
-            onVerified(true);
+            onVerified(true, response.resetToken);
             setError("");
             setSuccess(response.message);
         } else {
